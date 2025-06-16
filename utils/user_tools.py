@@ -2,11 +2,12 @@ import json
 import os
 import logging
 from pathlib import Path
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 from pages.login.cognito_authentication import CognitoAuthenticationPage
 from pages.login.org_selection import OrgSelectionPage
 
-USERS_FILE = Path(__file__).parent.parent / "users.json"
+logger = logging.getLogger(__name__)
+USERS_FILE = Path(os.getcwd()) / "users.json"
 
 
 class UserTools:
@@ -30,6 +31,7 @@ class UserTools:
                 user["username"], os.getenv("COGNITO_USER_PASSWORD")
             )
         else:
+            # CIS2 Simple Realm
             page.locator("//input[@data-vv-as='User Name']").fill(user["uuid"])
             page.locator("//input[@data-vv-as='Password']").fill(
                 os.getenv("USER_PASSWORD")
@@ -43,12 +45,20 @@ class UserTools:
         Retrieves the user information as a dict for the user provided.
 
         Args:
-            user (str): The user details required, in the format "Role Type - Organisation".
+            user (str): The user details required, using the record key from users.json.
+
+        Returns:
+            dict: A Python dictionary with the details of the user requested, if present.
         """
         with open(USERS_FILE, "r") as file:
             user_data = json.loads(file.read())
 
-        if not user in user_data:
-            raise Exception(f"User [{user}] is not present in users.json")
+        if user not in user_data:
+            raise UserToolsException(f"User [{user}] is not present in users.json")
 
+        logger.debug(f"Returning user: {user_data[user]}")
         return user_data[user]
+
+
+class UserToolsException(Exception):
+    pass
