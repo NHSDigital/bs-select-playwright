@@ -3,10 +3,14 @@ FROM python:3.13-slim
 WORKDIR /test
 
 # Install dependencies
+# Try posgres client install
+RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies
 COPY ./requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-RUN playwright install --with-deps
-RUN playwright install chrome
+RUN pip install --no-cache-dir -r requirements.txt && \
+	playwright install --with-deps && \
+	playwright install chrome
 
 RUN mkdir -p /tests/
 COPY ./tests/ ./tests/
