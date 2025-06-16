@@ -11,62 +11,67 @@ pytestmark = [pytest.mark.search_batches, pytest.mark.uiapi]
 
 API_URL = "/bss/selectedBatch/search"
 
+
 def test_invalid_national_user(api_national_user_session: BrowserContext) -> None:
     """
     API test to check an invaild user (National user) doesn't have access to the Search Batches, so returns a 403 error.
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0selectDateTime]": "desc",
-        "searchSpecification[gpPracticeCode]":"",
-        "searchSpecification[gpPracticeGroupName]":"",
-        "searchSpecification[outcode]":"",
-        "searchSpecification[outcodeGroupName]":"",
+        "searchSpecification[gpPracticeCode]": "",
+        "searchSpecification[gpPracticeGroupName]": "",
+        "searchSpecification[outcode]": "",
+        "searchSpecification[outcodeGroupName]": "",
         "searchSpecification[startDate]": "25-Jul-2016",
-        "searchSpecification[endDate]": "27-May-2025"
+        "searchSpecification[endDate]": "27-May-2025",
     }
-    response_data = ApiUtils(api_national_user_session, API_URL).get_request(data, False)
+    response_data = ApiUtils(api_national_user_session, API_URL).get_request(
+        data, False
+    )
     assert response_data == 403
+
 
 def test_invalid_helpdesk_user(api_helpdesk_session: BrowserContext) -> None:
     """
     API test to check an invaild user (Helpdesk user) doesn't have access to the Search Batches, so returns a 403 error.
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0selectDateTime]": "desc",
-        "searchSpecification[gpPracticeCode]":"",
-        "searchSpecification[gpPracticeGroupName]":"",
-        "searchSpecification[outcode]":"",
-        "searchSpecification[outcodeGroupName]":"",
+        "searchSpecification[gpPracticeCode]": "",
+        "searchSpecification[gpPracticeGroupName]": "",
+        "searchSpecification[outcode]": "",
+        "searchSpecification[outcodeGroupName]": "",
         "searchSpecification[startDate]": "25-Jul-2016",
-        "searchSpecification[endDate]": "27-May-2025"
+        "searchSpecification[endDate]": "27-May-2025",
     }
     response_data = ApiUtils(api_helpdesk_session, API_URL).get_request(data, False)
     assert response_data == 403
 
+
 def test_search_batches_all(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search on All entries on Search Batches 
+    """
+    API test to check search on All entries on Search Batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0selectDateTime]": "desc",
-        "searchSpecification[gpPracticeCode]":"",
-        "searchSpecification[gpPracticeGroupName]":"",
-        "searchSpecification[outcode]":"",
-        "searchSpecification[outcodeGroupName]":"",
+        "searchSpecification[gpPracticeCode]": "",
+        "searchSpecification[gpPracticeGroupName]": "",
+        "searchSpecification[outcode]": "",
+        "searchSpecification[outcodeGroupName]": "",
         "searchSpecification[startDate]": "25-Jul-2016",
-        "searchSpecification[endDate]": "27-May-2025"
+        "searchSpecification[endDate]": "27-May-2025",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1

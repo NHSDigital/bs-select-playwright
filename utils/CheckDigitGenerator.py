@@ -3,17 +3,17 @@ import random
 
 class CheckDigitGenerator:
     def generate_check_digit(self) -> dict:
-            return self.calculate("PMA")["batch_id"]
+        return self.calculate("PMA")["batch_id"]
 
     # This function calculates the check digit
     def check_digit(self, bso_code: str, sequence: str) -> str:
-            base = int(sequence)
-            for char in bso_code:
-                base += ord(char)
+        base = int(sequence)
+        for char in bso_code:
+            base += ord(char)
 
-            check_digit_sequence = "ACDEFGHJKLMNPQRTUWX"
-            check_digit_index = base % len(check_digit_sequence)
-            return check_digit_sequence[check_digit_index]
+        check_digit_sequence = "ACDEFGHJKLMNPQRTUWX"
+        check_digit_index = base % len(check_digit_sequence)
+        return check_digit_sequence[check_digit_index]
 
     # This function generates the batch ID
     def calculate(self, bso_code: str) -> dict:
@@ -25,14 +25,10 @@ class CheckDigitGenerator:
             return {
                 "sequence": random_sequence,
                 "check_digit": check,
-                "batch_id": batch_id
+                "batch_id": batch_id,
             }
         else:
-            return {
-                "sequence": "",
-                "check_digit": "",
-                "batch_id": ""
-            }
+            return {"sequence": "", "check_digit": "", "batch_id": ""}
 
     # This function validates a given batch ID
     def validate(self, bso_batch_id: str) -> str:

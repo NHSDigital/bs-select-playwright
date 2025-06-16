@@ -1,8 +1,10 @@
 import psycopg
 import pandas as pd
 
+
 class DbUtil:
     conn = None
+
     def __init__(self, **conn_params) -> None:
         self.conn = psycopg.connect(**conn_params)
 
@@ -10,7 +12,7 @@ class DbUtil:
         if self.conn:
             df = pd.read_sql_query(query, self.conn, params=params)
             return df
-        else: 
+        else:
             return None
 
     def insert(self, query: str, params: tuple = None):

@@ -4,12 +4,15 @@ import psycopg2
 import time
 import subprocess
 
+
 class DbRestore:
     def __init__(self):
         self.conn = None
         self.s3_bucket = os.getenv("S3_BUCKET_NAME")  # Name of the S3 bucket
         self.s3_backup_key = os.getenv("S3_BACKUP_KEY")  # Object key (file path in S3)
-        self.local_backup_path = "./tmp/db_backup.dump"  # Local path to store downloaded backup
+        self.local_backup_path = (
+            "./tmp/db_backup.dump"  # Local path to store downloaded backup
+        )
 
     def connect(self):
         self.conn = self.create_connection()
@@ -21,7 +24,7 @@ class DbRestore:
             port=os.getenv("PG_PORT"),
             user=os.getenv("PG_SUPERUSER") if super else os.getenv("PG_USER"),
             password=os.getenv("PG_SUPERPASS") if super else os.getenv("PG_PASS"),
-            dbname='postgres' if super else os.getenv("PG_DBNAME"),
+            dbname="postgres" if super else os.getenv("PG_DBNAME"),
         )
 
     def recreate_db(self):
@@ -42,7 +45,7 @@ class DbRestore:
         """Download the database backup from S3 to a local temporary file."""
 
         try:
-            session = boto3.Session(profile_name='bs-select-rw-user-730319765130')
+            session = boto3.Session(profile_name="bs-select-rw-user-730319765130")
             s3 = session.client("s3")
             s3.download_file(self.s3_bucket, self.s3_backup_key, self.local_backup_path)
         except Exception as e:
@@ -51,16 +54,24 @@ class DbRestore:
     def restore_backup(self):
         """Restore the database from the downloaded backup."""
         os.environ["PGPASSWORD"] = os.getenv("PG_PASS")
-        subprocess.run([
-            "pg_restore",
-            "--clean",
-            "-h", os.getenv('PG_HOST'),
-            "-p", os.getenv('PG_PORT'),
-            "-U", os.getenv('PG_USER'),
-            "-d", os.getenv('PG_DBNAME'),
-            "-j", os.getenv('J_VALUE'),
-            self.local_backup_path
-            ], check=False)
+        subprocess.run(
+            [
+                "pg_restore",
+                "--clean",
+                "-h",
+                os.getenv("PG_HOST"),
+                "-p",
+                os.getenv("PG_PORT"),
+                "-U",
+                os.getenv("PG_USER"),
+                "-d",
+                os.getenv("PG_DBNAME"),
+                "-j",
+                os.getenv("J_VALUE"),
+                self.local_backup_path,
+            ],
+            check=False,
+        )
 
     def kill_all_db_sessions(self):
         """Terminate all active sessions for the target database."""
@@ -69,7 +80,8 @@ class DbRestore:
         try:
             self.conn = self.create_connection(super=True)
             with self.conn.cursor() as cur:
-                cur.execute(f"""
+                cur.execute(
+                    f"""
                     SELECT pg_terminate_backend(pg_stat_activity.pid)
                     FROM pg_stat_activity
                     WHERE datname = '{dbname}' AND pid <> pg_backend_pid();"""
@@ -78,7 +90,9 @@ class DbRestore:
             print("Deleted all connections")
         except Exception as e:
             print(e)
-            print("Could not connect to DB. Check if other connections are present or if DB exists.")
+            print(
+                "Could not connect to DB. Check if other connections are present or if DB exists."
+            )
         finally:
             self.disconnect()
 

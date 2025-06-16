@@ -17,9 +17,11 @@ pytestmark = [pytest.mark.gppracticelist]
 
 # Fixtures
 
+
 @pytest.fixture(autouse=True)
 def log_in(user_tools: UserTools, page: Page) -> None:
     user_tools.user_login(page, "BSO User - BS1")
+
 
 @pytest.fixture
 def gplist_page(page: Page) -> GPListPage:

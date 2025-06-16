@@ -11,17 +11,18 @@ pytestmark = [pytest.mark.batch_list, pytest.mark.uiapi]
 
 API_URL = "/bss/batch/search"
 
+
 def test_batch_list_search_all(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Batch List on all batches 
+    """
+    API test to check search Batch List on all batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":"" 
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -32,18 +33,19 @@ def test_batch_list_search_all(api_bso_user_session: BrowserContext) -> None:
             assert len(batch["bsoBatchId"]) == 10
             assert batch["bsoCode"] == batch["bsoBatchId"][:3]
 
+
 def test_bso_search_national_all(api_national_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Batch List on all BSO's 
+    """
+    API test to check search Batch List on all BSO's
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[batchType]": "RISP_AGEX",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":"" 
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_national_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -53,33 +55,35 @@ def test_bso_search_national_all(api_national_user_session: BrowserContext) -> N
             assert len(batch["bsoBatchId"]) == 10
             assert batch["bsoCode"] == batch["bsoBatchId"][:3]
 
+
 def test_invalid_helpdesk_user(api_helpdesk_session: BrowserContext) -> None:
-    """ 
-    API test to check an invaild user doesn't have access to the BSO Contact List, so returns a 403 error. 
+    """
+    API test to check an invaild user doesn't have access to the BSO Contact List, so returns a 403 error.
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[code]": "BS1",
         "columnSortDirectionWithOrder[0code]": "asc",
-        "searchSpecification":""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_helpdesk_session, API_URL).get_request(data, False)
     assert response_data == 403
 
+
 def test_batch_list_search_batch_id(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Batch List on all batches 
+    """
+    API test to check search Batch List on all batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":"" 
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -90,18 +94,21 @@ def test_batch_list_search_batch_id(api_bso_user_session: BrowserContext) -> Non
             assert len(batch["bsoBatchId"]) == 10
             assert batch["bsoCode"] == batch["bsoBatchId"][:3]
 
-def test_batch_list_search_batch_type_risp_agex(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Batch Type on all RISP_AGEX batches 
+
+def test_batch_list_search_batch_type_risp_agex(
+    api_bso_user_session: BrowserContext,
+) -> None:
+    """
+    API test to check search Batch Type on all RISP_AGEX batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[batchType]": "RISP_AGEX",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":"" 
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -111,18 +118,21 @@ def test_batch_list_search_batch_type_risp_agex(api_bso_user_session: BrowserCon
             assert len(batch["bsoBatchId"]) == 10
             assert batch["bsoCode"] == batch["bsoBatchId"][:3]
 
-def test_batch_list_search_batch_type_ntdd(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Batch Type on all NTDD batches 
+
+def test_batch_list_search_batch_type_ntdd(
+    api_bso_user_session: BrowserContext,
+) -> None:
+    """
+    API test to check search Batch Type on all NTDD batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[batchType]": "NTDD",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":"" 
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -132,18 +142,21 @@ def test_batch_list_search_batch_type_ntdd(api_bso_user_session: BrowserContext)
             assert len(batch["bsoBatchId"]) == 10
             assert batch["bsoCode"] == batch["bsoBatchId"][:3]
 
-def test_batch_list_search_batch_type_routine_failsafe(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Batch Type on all NTDD batches 
+
+def test_batch_list_search_batch_type_routine_failsafe(
+    api_bso_user_session: BrowserContext,
+) -> None:
+    """
+    API test to check search Batch Type on all NTDD batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[batchType]": "FS",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":"" 
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -153,18 +166,19 @@ def test_batch_list_search_batch_type_routine_failsafe(api_bso_user_session: Bro
             assert len(batch["bsoBatchId"]) == 10
             assert batch["bsoCode"] == batch["bsoBatchId"][:3]
 
+
 def test_batch_list_search_failsafe_flag(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Failsafe Flag on all batches 
+    """
+    API test to check search Failsafe Flag on all batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[includeYoungerSubjects]": "NO",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":"" 
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -175,18 +189,19 @@ def test_batch_list_search_failsafe_flag(api_bso_user_session: BrowserContext) -
             assert len(batch["bsoBatchId"]) == 10
             assert batch["bsoCode"] == batch["bsoBatchId"][:3]
 
+
 def test_batch_list_search_batch_title(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search Batch Title for "Perform" on all batches 
+    """
+    API test to check search Batch Title for "Perform" on all batches
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[title]": "Perform",
         "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification":""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1

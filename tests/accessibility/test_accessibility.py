@@ -10,20 +10,16 @@ from utils.user_tools import UserTools
 
 LIST_OF_PAGES = [
     "home",
-
     # Subjects
     "subjects",
     "subjects/9300000001",
-
     # Batch Management
     "batch/list",
     "fsBatch/create",
     "rispAgexBatch/create",
     "ntddBatch/create",
-
     # Outcome List
     "outcome/list",
-
     # Parameters
     "gpPracticeGroup/list",
     "gpPracticeGroup/create",
@@ -32,18 +28,17 @@ LIST_OF_PAGES = [
     "rispDefaults",
     "bsoDefaults",
     "failsafeParameters",
-
     # BSO Mapping
     "gpPractice/list",
     "gpPractice/A12345",
     "assignedGpPractice/list",
     "outcode/list",
     "outcodeView/EX1",
-    
     # BSO Contact List
     "bso/list",
-    "bso/AGA"
+    "bso/AGA",
 ]
+
 
 @pytest.mark.specific_requirement
 @pytest.mark.accessibility

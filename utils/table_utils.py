@@ -4,10 +4,12 @@ from playwright.sync_api import Page, expect, Locator
 
 logger = logging.getLogger(__name__)
 
+
 class TableUtils:
     """
     A utility class providing functionality around tables in BS-Select.
     """
+
     def __init__(self, page: Page, table_locator: str) -> None:
         """
         Initializer for TableUtils.
@@ -58,7 +60,7 @@ class TableUtils:
             An int with the total row count.
         """
         return self.page.locator(f"{self.table_id} > tbody tr").count()
-    
+
     def pick_row(self, row_number: int) -> Locator:
         """
         This picks a selected row from table
@@ -78,7 +80,9 @@ class TableUtils:
         Returns:
             A playwright.sync_api.Locator with the row object.
         """
-        return self.page.locator(f"{self.table_id} > tbody tr").nth(randrange(0, self.get_row_count()))
+        return self.page.locator(f"{self.table_id} > tbody tr").nth(
+            randrange(0, self.get_row_count())
+        )
 
     def pick_random_row_number(self) -> int:
         """
@@ -88,7 +92,7 @@ class TableUtils:
             An int representing a random row on the table.
         """
         return randrange(0, self.get_row_count())
-    
+
     def get_row_data_with_headers(self, row_number: int) -> dict:
         """
         This picks a selected row from table
@@ -100,14 +104,18 @@ class TableUtils:
             A dict object with keys representing the headers, and values representing the row contents.
         """
         headers = self.get_table_headers()
-        row_data = self._format_inner_text(self.page.locator(f"{self.table_id} > tbody tr").nth(row_number).inner_text())
+        row_data = self._format_inner_text(
+            self.page.locator(f"{self.table_id} > tbody tr")
+            .nth(row_number)
+            .inner_text()
+        )
         results = {}
 
         for key in headers:
             results[headers[key]] = row_data[key]
-        
+
         return results
-    
+
     def get_full_table_with_headers(self) -> dict:
         """
         This returns the full table as a dict of rows, with each entry having a header key / value pair.
@@ -121,13 +129,15 @@ class TableUtils:
             full_results[row + 1] = self.get_row_data_with_headers(row)
         return full_results
 
-
     def wait_for_table_to_populate(self) -> None:
         """
         This checks that the following phrases are no longer present in the body of the table:
         - "Waiting for typing to finish..."
         - "Searching..."
         """
-        expect(self.page.locator(self.table_id)).not_to_contain_text("Waiting for typing to finish...")
-        expect(self.page.locator(self.table_id)).not_to_contain_text("Searching...", timeout=10000)
-    
+        expect(self.page.locator(self.table_id)).not_to_contain_text(
+            "Waiting for typing to finish..."
+        )
+        expect(self.page.locator(self.table_id)).not_to_contain_text(
+            "Searching...", timeout=10000
+        )

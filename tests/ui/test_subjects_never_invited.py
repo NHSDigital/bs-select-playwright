@@ -19,21 +19,29 @@ pytestmark = [pytest.mark.invited]
 
 # Fixtures
 
+
 @pytest.fixture(autouse=True)
 def log_in(user_tools: UserTools, page: Page) -> None:
     user_tools.user_login(page, "BSO User - BS1")
 
+
 @pytest.fixture
 def subjectsnotinvited_page(page: Page) -> SubjectsNeverInvitedPage:
-    MainMenuPage(page).select_menu_option("Monitoring Reports", "Subjects Never Invited For Screening")
+    MainMenuPage(page).select_menu_option(
+        "Monitoring Reports", "Subjects Never Invited For Screening"
+    )
     neverinvited_page = SubjectsNeverInvitedPage(page)
     neverinvited_page.verify_header()
     return neverinvited_page
 
+
 # Tests
 
-def test_subjects_never_invited_csv_download(page: Page, neverinvited_page: SubjectsNeverInvitedPage) -> None:
-    """ 
+
+def test_subjects_never_invited_csv_download(
+    page: Page, neverinvited_page: SubjectsNeverInvitedPage
+) -> None:
+    """
     Click the Download to CSV button to download the file
     """
     downloaded_file = neverinvited_page.download_csv()
@@ -42,5 +50,7 @@ def test_subjects_never_invited_csv_download(page: Page, neverinvited_page: Subj
     with open(downloaded_file) as file:
         csv_file = csv.DictReader(file)
         for lines in csv_file:
-            expect(warning_table.pick_row(row_number)).to_contain_text(NHSNumberTools().spaced_nhs_number(lines["NHS Number"]))
+            expect(warning_table.pick_row(row_number)).to_contain_text(
+                NHSNumberTools().spaced_nhs_number(lines["NHS Number"])
+            )
             row_number += 1

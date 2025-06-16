@@ -11,17 +11,18 @@ pytestmark = [pytest.mark.subjects_overdue, pytest.mark.uiapi]
 
 API_URL = "/bss/report/subjectsOverdueInvitation/search"
 
+
 def test_subjects_never_invited_default(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search on all entries on the Subjects Overdue Invitation report 
+    """
+    API test to check search on all entries on the Subjects Overdue Invitation report
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification": ""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -29,48 +30,53 @@ def test_subjects_never_invited_default(api_bso_user_session: BrowserContext) ->
     for code in response_data["results"]:
         assert code["bso"]["code"] == "BS1"
 
+
 def test_invalid_national_user(api_national_user_session: BrowserContext) -> None:
-    """ 
-    API test to check an invaild user (National user) doesn't have access to the Subjects Overdue Invitation report, so returns a 403 error. 
+    """
+    API test to check an invaild user (National user) doesn't have access to the Subjects Overdue Invitation report, so returns a 403 error.
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification": ""
+        "searchSpecification": "",
     }
-    response_data = ApiUtils(api_national_user_session, API_URL).get_request(data, False)
+    response_data = ApiUtils(api_national_user_session, API_URL).get_request(
+        data, False
+    )
     assert response_data == 403
 
+
 def test_invalid_helpdesk_user(api_helpdesk_session: BrowserContext) -> None:
-    """ 
-    API test to check an invaild user (Helpdesk user) doesn't have access to the Subjects Overdue Invitation report, so returns a 403 error. 
+    """
+    API test to check an invaild user (Helpdesk user) doesn't have access to the Subjects Overdue Invitation report, so returns a 403 error.
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification": ""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_helpdesk_session, API_URL).get_request(data, False)
     assert response_data == 403
 
+
 def test_subjects_overdue_nhs_number(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search on NHS Number on the Subjects Overdue Invitation report 
+    """
+    API test to check search on NHS Number on the Subjects Overdue Invitation report
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[nhsNumber]": "930 000 0025",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification": ""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -78,18 +84,19 @@ def test_subjects_overdue_nhs_number(api_bso_user_session: BrowserContext) -> No
     for nhs in response_data["results"]:
         assert len(nhs["nhsNumber"]) == 10
 
+
 def test_subjects_overdue_family_name(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search on Family Name on the Subjects Never Invited for Screening report 
+    """
+    API test to check search on Family Name on the Subjects Never Invited for Screening report
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[familyName]": "PERFORMANCE",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification": ""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -97,18 +104,21 @@ def test_subjects_overdue_family_name(api_bso_user_session: BrowserContext) -> N
     for name in response_data["results"]:
         assert str(name["familyName"]).startswith("PERFORMANCE")
 
-def test_subjects_overdue_first_given_name(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search on First Given Name "Janet" on the Subjects Never Invited for Screening report 
+
+def test_subjects_overdue_first_given_name(
+    api_bso_user_session: BrowserContext,
+) -> None:
+    """
+    API test to check search on First Given Name "Janet" on the Subjects Never Invited for Screening report
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[firstNames]": "Janet",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification":""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -116,18 +126,21 @@ def test_subjects_overdue_first_given_name(api_bso_user_session: BrowserContext)
     for name in response_data["results"]:
         assert str(name["firstNames"]).startswith("Janet")
 
-def test_subjects_overdue_gp_practice_code(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search on GP Practice Code "GP3" on the Subjects Overdue Invitation report 
+
+def test_subjects_overdue_gp_practice_code(
+    api_bso_user_session: BrowserContext,
+) -> None:
+    """
+    API test to check search on GP Practice Code "GP3" on the Subjects Overdue Invitation report
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[gpPracticeSummary.code]": "gp3",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification":""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
@@ -135,18 +148,21 @@ def test_subjects_overdue_gp_practice_code(api_bso_user_session: BrowserContext)
     for name in response_data["results"]:
         assert str(name["gpPracticeSummary"]["code"]).startswith("GP3")
 
-def test_subjects_overdue_months_since_invite(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check search on Months Since Invitation "40 or more" on the Subjects Overdue Invitation report 
+
+def test_subjects_overdue_months_since_invite(
+    api_bso_user_session: BrowserContext,
+) -> None:
+    """
+    API test to check search on Months Since Invitation "40 or more" on the Subjects Overdue Invitation report
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"10",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "10",
+        "searchText": "",
         "columnSearchText[monthsSinceInvitation]": "40",
         "columnSortDirectionWithOrder[0latestInvitationDate]": "asc",
-        "searchSpecification":""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1

@@ -3,7 +3,8 @@ from pathlib import Path
 from playwright.sync_api import Page, expect
 from pages.base_page import BasePage
 
-DOWNLOAD_PATH = Path(__file__).parent.parent / "test-results" 
+DOWNLOAD_PATH = Path(__file__).parent.parent / "test-results"
+
 
 class ReportPage(BasePage):
 

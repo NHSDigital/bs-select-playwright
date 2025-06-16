@@ -26,10 +26,14 @@ class UserTools:
         user = self.retrieve_user(user)
 
         if "cognito" in page.url:
-            CognitoAuthenticationPage(page).cognito_login(user["username"], os.getenv("COGNITO_USER_PASSWORD"))
+            CognitoAuthenticationPage(page).cognito_login(
+                user["username"], os.getenv("COGNITO_USER_PASSWORD")
+            )
         else:
             page.locator("//input[@data-vv-as='User Name']").fill(user["uuid"])
-            page.locator("//input[@data-vv-as='Password']").fill(os.getenv("USER_PASSWORD"))
+            page.locator("//input[@data-vv-as='Password']").fill(
+                os.getenv("USER_PASSWORD")
+            )
             page.locator("//button[@class='nhsuk-button']").click()
         OrgSelectionPage(page).org_selection(user["role_to_select"])
 
@@ -41,7 +45,7 @@ class UserTools:
         Args:
             user (str): The user details required, in the format "Role Type - Organisation".
         """
-        with open(USERS_FILE, 'r') as file:
+        with open(USERS_FILE, "r") as file:
             user_data = json.loads(file.read())
 
         if not user in user_data:

@@ -11,21 +11,22 @@ pytestmark = [pytest.mark.subject_search, pytest.mark.uiapi]
 
 API_URL = "/bss/subject/search"
 
+
 @pytest.mark.only
 def test_subject_search_all(api_bso_user_session: BrowserContext) -> None:
-    """ 
-    API test to check Subject Search 
+    """
+    API test to check Subject Search
     """
     data = {
-        "draw":"1",
-        "start":"0",
-        "length":"50",
-        "searchText":"",
+        "draw": "1",
+        "start": "0",
+        "length": "50",
+        "searchText": "",
         "columnSearchText[familyName]": "performance",
         "columnSearchText[bso.code]": "BS1",
         "columnSortDirectionWithOrder[0familyName]": "asc",
         "columnSortDirectionWithOrder[1firstNames]": "asc",
-        "searchSpecification":""
+        "searchSpecification": "",
     }
     response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
     assert response_data["draw"] == 1
