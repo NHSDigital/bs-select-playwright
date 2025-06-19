@@ -2,9 +2,7 @@
 Subjects Never Invited For Screening Tests: These tests cover the Subjects Never Invited For Screening report.
 """
 
-from random import randrange
 import pytest
-import time
 import csv
 from pages.main_menu import MainMenuPage
 from utils.nhs_number_tools import NHSNumberTools
@@ -12,7 +10,6 @@ from utils.user_tools import UserTools
 from utils.table_utils import TableUtils
 from playwright.sync_api import Page, expect
 from pages.monitoring_reports.subjects_never_invited import SubjectsNeverInvitedPage
-from utils.screenshot_tool import ScreenshotTool
 
 
 pytestmark = [pytest.mark.invited]

@@ -2,9 +2,7 @@
 SSPI Tests: These tests cover the SSPI warning reports.
 """
 
-from random import randrange
 import pytest
-import time
 import csv
 from pages.main_menu import MainMenuPage
 from utils.nhs_number_tools import NHSNumberTools

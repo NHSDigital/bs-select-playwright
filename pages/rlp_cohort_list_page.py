@@ -1,10 +1,7 @@
 from __future__ import annotations
-import random
 import re
-import string
 import playwright
 from playwright.sync_api import Page, expect
-import pytest
 
 
 class CohortListPage:

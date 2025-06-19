@@ -1,4 +1,4 @@
-import random
+import secrets
 
 
 class CheckDigitGenerator:
@@ -19,7 +19,7 @@ class CheckDigitGenerator:
     def calculate(self, bso_code: str) -> dict:
         bso_code = bso_code.strip().upper()
         if len(bso_code) == 3:
-            random_sequence = str(random.randint(100000, 999999))
+            random_sequence = str(secrets.randbelow(900000) + 100000)
             check = self.check_digit(bso_code, random_sequence)
             batch_id = f"{bso_code}{random_sequence}{check}"
             return {

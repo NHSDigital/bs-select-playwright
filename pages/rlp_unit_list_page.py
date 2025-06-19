@@ -225,7 +225,7 @@ class ScreeningUnitListPage:
         self.page.wait_for_timeout(4000)
         self.unit_paging_info.scroll_into_view_if_needed()
         paging_info_text = self.unit_paging_info.text_content()
-        re_search_result = re.search(".* (\d+) entries", paging_info_text)
+        re_search_result = re.search(".* (\d{1,5}) entries", paging_info_text)
         return int(re_search_result.group(1))
 
     def enter_amend_usual_number_of_appontments_text_box(

@@ -1,4 +1,5 @@
 import random
+import secrets
 import re
 import string
 import pytest
@@ -127,7 +128,7 @@ def test_amend_screeing_unit_days_and_notes(
         "amend_unit_name": amend_unit_name,
         "amend_unit_notes": amend_notes,
         **{
-            day: str(random.randint(0, 999))
+            day: str(secrets.randbelow(999))
             for day in ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
         },
     }
@@ -174,7 +175,7 @@ def test_negative_amend_screeing_unit_name(
         "thu": "",
         "notes": notes,
         **{
-            day: "".join(random.choice(string.ascii_letters) for _ in range(2))
+            day: "".join(secrets.choice(string.ascii_letters) for _ in range(2))
             for day in ["sun", "mon", "tue", "wed", "fri", "sat"]
         },
     }
@@ -216,7 +217,7 @@ def test_negative_amend_screeing_unit_name(
         "thu": "",
         "notes": notes,
         **{
-            day: "".join(random.choice(string.ascii_letters) for _ in range(2))
+            day: "".join(secrets.choice(string.ascii_letters) for _ in range(2))
             for day in ["sun", "mon", "tue", "wed", "fri", "sat"]
         },
     }

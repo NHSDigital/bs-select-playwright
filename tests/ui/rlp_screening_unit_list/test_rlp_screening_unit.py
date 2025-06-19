@@ -1,4 +1,5 @@
 import random
+import secrets
 import re
 import string
 import pytest
@@ -52,7 +53,7 @@ def test_screening_unit_creation(
         "unit_name": unit_name,
         "notes": notes,
         **{
-            day: str(random.randint(0, 999))
+            day: str(secrets.randbelow(999))
             for day in ["sun", "mon", "tue", "wed", "thu", "fri", "sat"]
         },
     }
@@ -156,7 +157,7 @@ def test_negative_non_integer_values_and_empty_unit_type(
         "unit_name": "",
         "thu": "",
         **{
-            day: "".join(random.choice(string.ascii_letters) for _ in range(2))
+            day: "".join(secrets.choice(string.ascii_letters) for _ in range(2))
             for day in ["sun", "mon", "tue", "wed", "fri", "sat"]
         },
     }

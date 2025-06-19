@@ -1,10 +1,7 @@
 from __future__ import annotations
-import random
 import re
-import string
 import playwright
 from playwright.sync_api import Page, expect
-import pytest
 
 
 class ScreeningLocationListPage:
@@ -79,7 +76,7 @@ class ScreeningLocationListPage:
         self.paging_info.scroll_into_view_if_needed()
         paging_info_text = self.paging_info.text_content()
         self.page.wait_for_timeout(5000)
-        re_search_result = re.search(".* (\d+) entries", paging_info_text)
+        re_search_result = re.search(".* (\d{1,5}) entries", paging_info_text)
         return int(re_search_result.group(1))
 
     def invoke_filtered_screening_location(self) -> None:

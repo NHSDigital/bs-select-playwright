@@ -1,5 +1,5 @@
 import logging
-from random import randrange
+from secrets import randbelow
 from playwright.sync_api import Page, expect, Locator
 
 logger = logging.getLogger(__name__)
@@ -81,7 +81,7 @@ class TableUtils:
             A playwright.sync_api.Locator with the row object.
         """
         return self.page.locator(f"{self.table_id} > tbody tr").nth(
-            randrange(0, self.get_row_count())
+            randbelow(self.get_row_count())
         )
 
     def pick_random_row_number(self) -> int:
@@ -91,7 +91,7 @@ class TableUtils:
         Returns:
             An int representing a random row on the table.
         """
-        return randrange(0, self.get_row_count())
+        return randbelow(self.get_row_count())
 
     def get_row_data_with_headers(self, row_number: int) -> dict:
         """

@@ -12,7 +12,7 @@ import os
 from pathlib import Path
 
 REQUIRED_KEYS = [
-    "COGNITO_USER_PASS",
+    "COGNITO_USER_PASSWORD",
     "DB_HOST",
     "DB_PORT",
     "DB_NAME",

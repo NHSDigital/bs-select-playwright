@@ -4,17 +4,17 @@ WORKDIR /test
 
 # Install dependencies
 # Try posgres client install
-RUN apt-get update && apt-get install -y libpq-dev && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get --no-install-recommends install -y libpq-dev && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies
 COPY ./requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt && \
   playwright install --with-deps && \
-  playwright install chrome
+  playwright install chrome && \
+  mkdir -p /tests/ && \
+  mkdir -p /utils/
 
-RUN mkdir -p /tests/
 COPY ./tests/ ./tests/
-RUN mkdir -p /utils/
 COPY ./utils/ ./utils/
 COPY ./pytest.ini ./pytest.ini
 COPY ./run_tests.sh ./run_tests.sh
