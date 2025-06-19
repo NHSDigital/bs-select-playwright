@@ -72,11 +72,11 @@ class ScreeningLocationListPage:
         self.page.wait_for_timeout(4000)
         return self
 
-    def extract_paging_info(self) -> ScreeningLocationListPage:
+    def extract_paging_info(self) -> int:
         self.paging_info.scroll_into_view_if_needed()
         paging_info_text = self.paging_info.text_content()
         self.page.wait_for_timeout(5000)
-        re_search_result = re.search(".* (\d{1,5}) entries", paging_info_text)
+        re_search_result = re.search(r"\b(\d{1,5}) entries\b", paging_info_text)
         return int(re_search_result.group(1))
 
     def invoke_filtered_screening_location(self) -> None:

@@ -133,7 +133,7 @@ def test_amend_screeing_unit_days_and_notes(
         },
     }
     rlp_screening_unit_list_page.enter_amend_screening_unit_name(amend_unit_name)
-    rlp_screening_unit_list_page.enter_amend_usual_number_of_appontments_text_box(
+    rlp_screening_unit_list_page.enter_amend_usual_number_of_appointments_text_box(
         unit_data
     )
     rlp_screening_unit_list_page.enter_amend_screening_unit_notes(amend_notes)

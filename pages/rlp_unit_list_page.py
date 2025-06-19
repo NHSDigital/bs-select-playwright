@@ -67,7 +67,6 @@ class ScreeningUnitListPage:
             f"//input[@id='statusAmendText' and @type='radio' and @value='{field_value}']"
         ).check()
         return self
-        # value="INACTIVE"
 
     def select_amend_unit_type_radio_btn(
         self, field_value: str
@@ -76,7 +75,6 @@ class ScreeningUnitListPage:
             f"//input[@id='unitTypeAmendText' and @type='radio' and @value='{field_value}']"
         ).check()
         return self
-        # value="STATIC"
 
     def select_unit_type_inactive_radio_btn(self) -> ScreeningUnitListPage:
         self.unit_type_inactive_radio_btn.check()
@@ -115,7 +113,7 @@ class ScreeningUnitListPage:
         self.no_matching_records_found_msg.is_visible()
         return self
 
-    def get_day_appointment_value(self) -> ScreeningUnitListPage:
+    def get_day_appointment_value(self) -> dict:
         days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         # Using dictionary comprehension to get values for all days
         return {
@@ -169,7 +167,7 @@ class ScreeningUnitListPage:
         self.status_dropdown.select_option(label="All")
         self.input_name_filter.fill(expected_notes)
         self.page.wait_for_timeout(3000)
-        note_values = self.page.wait_for_selector(f"//tr//td[4]").text_content()
+        note_values = self.page.wait_for_selector("//tr//td[4]").text_content()
         self.page.wait_for_timeout(3000)
         assert note_values == expected_notes
         return self
@@ -202,11 +200,9 @@ class ScreeningUnitListPage:
         if "notes" in unit_data:
             self.page.locator("textarea#notesText").fill(unit_data["notes"])
 
-    def amend_screening_unit(
-        self, unit_data: dict, unit_type: str = "MOBILE", unit_status: str = "ACTIVE"
-    ) -> None:
+    def amend_screening_unit(self, unit_data: dict) -> None:
         self.enter_amend_screening_unit_name(unit_data["unit_name"])
-        self.enter_amend_usual_number_of_appontments_text_box(unit_data)
+        self.enter_amend_usual_number_of_appointments_text_box(unit_data)
         self.enter_amend_screening_unit_notes(unit_data["notes"])
         self.click_amend_screening_unit_btn_on_pop_up_window()
 
@@ -225,10 +221,10 @@ class ScreeningUnitListPage:
         self.page.wait_for_timeout(4000)
         self.unit_paging_info.scroll_into_view_if_needed()
         paging_info_text = self.unit_paging_info.text_content()
-        re_search_result = re.search(".* (\d{1,5}) entries", paging_info_text)
+        re_search_result = re.search(r"\b(\d{1,5}) entries\b", paging_info_text)
         return int(re_search_result.group(1))
 
-    def enter_amend_usual_number_of_appontments_text_box(
+    def enter_amend_usual_number_of_appointments_text_box(
         self, unit_data: dict
     ) -> ScreeningUnitListPage:
         if "mon" in unit_data:
