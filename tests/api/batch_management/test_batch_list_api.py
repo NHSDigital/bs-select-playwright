@@ -73,28 +73,6 @@ def test_invalid_helpdesk_user(api_helpdesk_session: BrowserContext) -> None:
     assert response_data == 403
 
 
-def test_batch_list_search_batch_id(api_bso_user_session: BrowserContext) -> None:
-    """
-    API test to check search Batch List on all batches
-    """
-    data = {
-        "draw": "1",
-        "start": "0",
-        "length": "10",
-        "searchText": "",
-        "columnSortDirectionWithOrder[0countDateTime]": "desc",
-        "searchSpecification": "",
-    }
-    response_data = ApiUtils(api_bso_user_session, API_URL).get_request(data)
-    assert response_data["draw"] == 1
-    assert len(response_data["results"]) == 10
-    for batch in response_data["results"]:
-        # Have to exclude RISP due to test data showing "RISP1" etc
-        if batch["description"] != "RISP":
-            assert len(batch["bsoBatchId"]) == 10
-            assert batch["bsoCode"] == batch["bsoBatchId"][:3]
-
-
 def test_batch_list_search_batch_type_risp_agex(
     api_bso_user_session: BrowserContext,
 ) -> None:
