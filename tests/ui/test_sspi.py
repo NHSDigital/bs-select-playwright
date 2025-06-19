@@ -69,6 +69,10 @@ def test_sspi_update_warnings_action_csv_download(
             )
             row_number += 1
 
+            if row_number >= warning_table.get_row_count():
+                # Stop if we have processed all rows in the table visible on the UI
+                break
+
 
 def test_sspi_update_warnings_action_done(
     page: Page, action_page: SSPIUpdateWarningsActionPage
@@ -201,6 +205,10 @@ def test_sspi_update_warnings_information_csv_download(
                 NHSNumberTools().spaced_nhs_number(lines["NHS Number"])
             )
             row_number += 1
+
+            if row_number >= warning_table.get_row_count():
+                # Stop if we have processed all rows in the table visible on the UI
+                break
 
 
 def test_sspi_update_warnings_information_done(
