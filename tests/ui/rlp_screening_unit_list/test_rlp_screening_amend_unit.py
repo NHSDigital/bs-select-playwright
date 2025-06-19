@@ -182,10 +182,12 @@ def test_negative_amend_screeing_unit_name(
     rlp_screening_unit_list_page.amend_screening_unit(unit_data)
 
     errors = {
-        re.compile("[#$%<>&]").findall(unit_name): "Name contains invalid characters",
-        len(unit_name) < 3: "The Name you entered is too short",
-        unit_name == "Batman": "Name is already in use by another unit",
-        unit_name.strip() == "": "Unit Type must be populated",
+        bool(
+            re.search(r"[#$%<>&]", amend_unit_name)
+        ): "Name contains invalid characters",
+        len(amend_unit_name) < 3: "The Name you entered is too short",
+        amend_unit_name == "Batman": "Name is already in use by another unit",
+        amend_unit_name.strip() == "": "Unit Type must be populated",
         notes
         == "negative invalid char # % $ & test": "Notes contains invalid characters",
     }
