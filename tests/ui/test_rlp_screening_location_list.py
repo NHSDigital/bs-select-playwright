@@ -12,7 +12,7 @@ from utils.user_tools import UserTools
 
 #### Test_01
 #### Test_03
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 def test_paging_of_screening_location_list(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, db_util
 ) -> None:
@@ -31,7 +31,7 @@ def test_paging_of_screening_location_list(
 
 
 #### Test_04
-@pytest.mark.locationlist
+# @pytest.mark.locationlist1
 def test_add_screening_location(
     page: Page, rlp_location_list_page: ScreeningLocationListPage
 ) -> None:
@@ -39,7 +39,7 @@ def test_add_screening_location(
     Test to add location to the location list
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Adding new screening location
     location_name = f"Location_name-{datetime.now()}"
@@ -57,7 +57,7 @@ def test_add_screening_location(
 
 
 #### Test_04 Negative test
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 def test_cancel_screening_location(
     page: Page, rlp_location_list_page: ScreeningLocationListPage
 ) -> None:
@@ -66,7 +66,7 @@ def test_cancel_screening_location(
     both values should be the same
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Extracting page_info before cancellation
     before_cancellation = rlp_location_list_page.extract_paging_info()
@@ -82,7 +82,7 @@ def test_cancel_screening_location(
 
 
 #### Test_05
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 def test_default_screening_location_values(
     page: Page, rlp_location_list_page: ScreeningLocationListPage
 ) -> None:
@@ -90,7 +90,7 @@ def test_default_screening_location_values(
     Test to verify the default location field, field should be empty
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Expected default values should be empty
     rlp_location_list_page.click_add_screening_location_btn()
@@ -98,7 +98,7 @@ def test_default_screening_location_values(
 
 
 #### Test_06  valid_data
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_create_location_valid_data_positive(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, input_length
@@ -108,7 +108,7 @@ def test_create_location_valid_data_positive(
     asserting created value and the actual value
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     location_name = generate_random_string(input_length)
     rlp_location_list_page.click_add_screening_location_btn()
@@ -123,7 +123,7 @@ def test_create_location_valid_data_positive(
 
 
 #### Test_06 negative invalid_data
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 @pytest.mark.parametrize(
     "invalid_data, expected_message",
     [
@@ -147,7 +147,7 @@ def test_create_location_invalid_data_negative(
     and expecting the error values
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Enter invalid_data in the location name txt box
     rlp_location_list_page.click_add_screening_location_btn()
@@ -158,7 +158,7 @@ def test_create_location_invalid_data_negative(
 
 
 #### Test_07
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 def test_check_availability_of_locations_different_user_same_bso(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, context
 ) -> None:
@@ -166,7 +166,7 @@ def test_check_availability_of_locations_different_user_same_bso(
     under same bso, location was created by user_1 and user_2 from same bso can have access to the location
     """
     # Logged into BSS_SO1_User1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Adding new screening location
     location_name = f"location_name-{datetime.now()}"
@@ -175,7 +175,7 @@ def test_check_availability_of_locations_different_user_same_bso(
     rlp_location_list_page.click_add_screening_location_btn_on_popup()
     context.clear_cookies()
     # Logged into BSS_SO1_User2
-    UserTools().user_login(page, "BSO User2 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Searching for the screening_location created by User 1 while logged in as User 2
     rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
@@ -194,7 +194,7 @@ def test_check_availability_of_locations_different_user_same_bso(
 
 
 #### Test_08
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 def test_check_availability_of_locations_different_user_different_bso(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, context
 ) -> None:
@@ -203,7 +203,7 @@ def test_check_availability_of_locations_different_user_different_bso(
     user 2 from different bso try to search for the location created by user 1 will get a response as "No matching records found"
     """
     # Logged into BSS_SO1_User1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Adding new screening location
     location_name = f"Location_name-{datetime.now()}"
@@ -213,7 +213,7 @@ def test_check_availability_of_locations_different_user_different_bso(
     rlp_location_list_page.click_log_out_btn()
     context.clear_cookies()
     # Logged into BSS_SO2_User2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # BSO specific Locations are not available to other Users within other BSOs
     rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
@@ -229,7 +229,7 @@ def test_check_availability_of_locations_different_user_different_bso(
 
 
 #### Test coveres Test_09, Test_10 and Test_11(valid_data_set)
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_amend_screening_location(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, input_length
@@ -239,7 +239,7 @@ def test_amend_screening_location(
     asserting the amend_name vs actual amended value
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Adding new screening location
     location_name = f"location_name-{datetime.now()}"
@@ -265,7 +265,7 @@ def test_amend_screening_location(
 
 
 ## Test_11 negatie test with invalid_data
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 @pytest.mark.parametrize(
     "invalid_data, expected_message",
     [
@@ -289,7 +289,7 @@ def test_invalid_amend_screening_location(
     and expecting the error values
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Adding new screening location
     location_name = f"location_name-{datetime.now()}"
@@ -307,7 +307,7 @@ def test_invalid_amend_screening_location(
 
 
 ## Test_12
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 def test_amend_screening_location_availabale_for_other_user_within_same_bso(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, context
 ) -> None:
@@ -316,7 +316,7 @@ def test_amend_screening_location_availabale_for_other_user_within_same_bso(
     asserting the amended value vs actual amended value
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Adding new screening location
     location_name = f"Location_name-{datetime.now()}"
@@ -335,7 +335,7 @@ def test_amend_screening_location_availabale_for_other_user_within_same_bso(
     context.clear_cookies()
 
     # Logged into BSS_SO1_User2
-    UserTools().user_login(page, "BSO User2 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Searching for the screening_location created by User 1 while logged in as User 2
     rlp_location_list_page.enter_screening_location_filter_txtbox(amend_name)
@@ -346,7 +346,7 @@ def test_amend_screening_location_availabale_for_other_user_within_same_bso(
 
 
 ## Test_13
-@pytest.mark.locationlist
+# @pytest.mark.locationlist
 def test_location_linked_to_multiple_cohorts(
     page: Page, rlp_cohort_list_page: CohortListPage, context
 ) -> None:
@@ -354,12 +354,12 @@ def test_location_linked_to_multiple_cohorts(
     created 2 cohorts and 1 location, linked 2 cohorts to 1 location
     """
     # create unit for test data
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     ScreeningUnitListPage(page).create_unit("Batman")
     context.clear_cookies()
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     # create cohort inner function
