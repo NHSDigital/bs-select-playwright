@@ -18,21 +18,16 @@ class OrgSelectionPage(BasePage):
             self.verify_header()
             if role is not None:
                 logging.info(f"Selecting role: {role}")
-                org_selector = self.page.locator("#chosenOrgCode")
-                options = org_selector.locator("option")
-                option_count = options.count()
-                found = False
-                for i in range(option_count):
-                    text = options.nth(i).get_attribute("value")
-                    if role == text:
-                        found = True
-                        org_selector.select_option(role)
-                        break
 
-                if not found:
-                    raise AssertionError(f"Login failed: '{role}' not found on /orgChoice screen.")
-                org_selector.select_option(role)
-                self.page.get_by_role("button", name="Select Organisation").click()
+                options = self.page.locator("#chosenOrgCode option").all()
+                for option in options:
+                    if option.get_attribute("value") == role:
+                        self.page.locator("#chosenOrgCode").select_option(role)
+                        break
+                else:
+                    raise AssertionError(f"Role '{role}' not found on /orgChoice screen.")
+
+            self.page.get_by_role("button", name="Select Organisation").click()
 
     def verify_header(self) -> None:
         return super().verify_header(PAGE_HEADER)

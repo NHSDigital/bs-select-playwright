@@ -12,7 +12,6 @@ from utils.user_tools import UserTools
 
 #### Test_01
 #### Test_03
-# @pytest.mark.locationlist
 def test_paging_of_screening_location_list(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, db_util
 ) -> None:
@@ -31,7 +30,6 @@ def test_paging_of_screening_location_list(
 
 
 #### Test_04
-# @pytest.mark.locationlist1
 def test_add_screening_location(
     page: Page, rlp_location_list_page: ScreeningLocationListPage
 ) -> None:
@@ -47,7 +45,7 @@ def test_add_screening_location(
     rlp_location_list_page.enter_screening_location_name(location_name)
     rlp_location_list_page.click_add_screening_location_btn_on_popup()
     # Entering the newly added location name in the search box
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
     # Capturing the search value and stored it in the search_value
     search_value = page.locator("//tbody/tr/td[2]").text_content()
     page.wait_for_timeout(4000)
@@ -57,7 +55,6 @@ def test_add_screening_location(
 
 
 #### Test_04 Negative test
-# @pytest.mark.locationlist
 def test_cancel_screening_location(
     page: Page, rlp_location_list_page: ScreeningLocationListPage
 ) -> None:
@@ -77,12 +74,11 @@ def test_cancel_screening_location(
     rlp_location_list_page.click_cancel_add_screening_location_btn()
     # Extracting page_info after cancellation
     after_cancellation = rlp_location_list_page.extract_paging_info()
-    # Assering page number before and after the cancellation
+    # Asserting page number before and after the cancellation
     assert before_cancellation == after_cancellation
 
 
 #### Test_05
-# @pytest.mark.locationlist
 def test_default_screening_location_values(
     page: Page, rlp_location_list_page: ScreeningLocationListPage
 ) -> None:
@@ -98,7 +94,6 @@ def test_default_screening_location_values(
 
 
 #### Test_06  valid_data
-# @pytest.mark.locationlist
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_create_location_valid_data_positive(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, input_length
@@ -114,7 +109,7 @@ def test_create_location_valid_data_positive(
     rlp_location_list_page.click_add_screening_location_btn()
     rlp_location_list_page.enter_screening_location_name(location_name)
     rlp_location_list_page.click_add_screening_location_btn_on_popup()
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
     page.wait_for_timeout(4000)
     # Capturing the search value and stored it in the search_value
     search_value = page.locator("//tbody/tr/td[2]").text_content()
@@ -123,7 +118,6 @@ def test_create_location_valid_data_positive(
 
 
 #### Test_06 negative invalid_data
-# @pytest.mark.locationlist
 @pytest.mark.parametrize(
     "invalid_data, expected_message",
     [
@@ -158,7 +152,6 @@ def test_create_location_invalid_data_negative(
 
 
 #### Test_07
-# @pytest.mark.locationlist
 def test_check_availability_of_locations_different_user_same_bso(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, context
 ) -> None:
@@ -178,11 +171,11 @@ def test_check_availability_of_locations_different_user_same_bso(
     UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Searching for the screening_location created by User 1 while logged in as User 2
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
-    # storing the User_2 filterd location_name in filterd_name
-    filterd_name = rlp_location_list_page.value_of_filterd_location_name()
-    # assering the the location name created by User_1 and filterd by User_2
-    assert location_name == filterd_name
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
+    # storing the User_2 filtered location_name in filtered_name
+    filtered_name = rlp_location_list_page.value_of_filtered_location_name()
+    # asserting the the location name created by User_1 and filtered by User_2
+    assert location_name == filtered_name
     # User_2 is trying to create a location already created by User_1
     rlp_location_list_page.click_add_screening_location_btn()
     rlp_location_list_page.enter_screening_location_name(location_name)
@@ -194,7 +187,6 @@ def test_check_availability_of_locations_different_user_same_bso(
 
 
 #### Test_08
-# @pytest.mark.locationlist
 def test_check_availability_of_locations_different_user_different_bso(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, context
 ) -> None:
@@ -216,20 +208,19 @@ def test_check_availability_of_locations_different_user_different_bso(
     UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # BSO specific Locations are not available to other Users within other BSOs
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
     expect(page.get_by_text("No matching records found")).to_be_visible()
     rlp_location_list_page.click_add_screening_location_btn()
     rlp_location_list_page.enter_screening_location_name(location_name)
     rlp_location_list_page.click_add_screening_location_btn_on_popup()
-    # storing the User_2 created and filterd location_name in filterd_name
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
-    filterd_name = rlp_location_list_page.value_of_filterd_location_name()
-    # assering the the location name created and filterd by User_2
-    assert location_name == filterd_name
+    # storing the User_2 created and filtered location_name in filtered_name
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
+    filtered_name = rlp_location_list_page.value_of_filtered_location_name()
+    # asserting the the location name created and filtered by User_2
+    assert location_name == filtered_name
 
 
-#### Test coveres Test_09, Test_10 and Test_11(valid_data_set)
-# @pytest.mark.locationlist
+#### Test covers Test_09, Test_10 and Test_11(valid_data_set)
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_amend_screening_location(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, input_length
@@ -247,25 +238,24 @@ def test_amend_screening_location(
     rlp_location_list_page.enter_screening_location_name(location_name)
     rlp_location_list_page.click_add_screening_location_btn_on_popup()
     # Edit the newly added location
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
     rlp_location_list_page.invoke_filtered_screening_location()
     expect(
         page.locator("#amendButtonInAmendLocationPopupText")
     ).to_be_visible()  # Test 9 verification
-    # Amending the newly added location using generate_randon string method and storing in the "amend_name" and clicking amend_button on the pop_up window
+    # Amending the newly added location using generate_random string method and storing in the "amend_name" and clicking amend_button on the pop_up window
     amend_name = generate_random_string(input_length)
     rlp_location_list_page.enter_amend_screening_location_name(amend_name)
     rlp_location_list_page.click_amend_screening_location_btn()
     # entering Amend_name in the search box
-    rlp_location_list_page.enter_screening_location_filter_txtbox(amend_name)
-    # storing the filterd location value in the "filterd_amend_name"
-    filterd_amend_name = rlp_location_list_page.value_of_filterd_location_name()
-    # assering the amend_value and filterd_amend_value
-    assert amend_name == filterd_amend_name
+    rlp_location_list_page.enter_screening_location_filter_textbox(amend_name)
+    # storing the filtered location value in the "filtered_amend_name"
+    filtered_amend_name = rlp_location_list_page.value_of_filtered_location_name()
+    # asserting the amend_value and filtered_amend_value
+    assert amend_name == filtered_amend_name
 
 
-## Test_11 negatie test with invalid_data
-# @pytest.mark.locationlist
+## Test_11 negative test with invalid_data
 @pytest.mark.parametrize(
     "invalid_data, expected_message",
     [
@@ -296,8 +286,8 @@ def test_invalid_amend_screening_location(
     rlp_location_list_page.click_add_screening_location_btn()
     rlp_location_list_page.enter_screening_location_name(location_name)
     rlp_location_list_page.click_add_screening_location_btn_on_popup()
-    # Edit the pre exising location
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
+    # Edit the pre existing location
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
     rlp_location_list_page.invoke_filtered_screening_location()
     # Enter the invalid amend data
     rlp_location_list_page.enter_amend_screening_location_name(invalid_data)
@@ -307,8 +297,7 @@ def test_invalid_amend_screening_location(
 
 
 ## Test_12
-# @pytest.mark.locationlist
-def test_amend_screening_location_availabale_for_other_user_within_same_bso(
+def test_amend_screening_location_available_for_other_user_within_same_bso(
     page: Page, rlp_location_list_page: ScreeningLocationListPage, context
 ) -> None:
     """
@@ -324,10 +313,10 @@ def test_amend_screening_location_availabale_for_other_user_within_same_bso(
     rlp_location_list_page.enter_screening_location_name(location_name)
     rlp_location_list_page.click_add_screening_location_btn_on_popup()
     # Edit the newly added location
-    rlp_location_list_page.enter_screening_location_filter_txtbox(location_name)
+    rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
     rlp_location_list_page.invoke_filtered_screening_location()
 
-    # Amending the newly added location using generate_randon string method and storing in the "amend_name" and clicking amend_button on the pop_up window
+    # Amending the newly added location using generate_random string method and storing in the "amend_name" and clicking amend_button on the pop_up window
     amend_name = f"amend_location-{datetime.now()}"
     rlp_location_list_page.enter_amend_screening_location_name(amend_name)
     rlp_location_list_page.click_amend_screening_location_btn()
@@ -338,15 +327,14 @@ def test_amend_screening_location_availabale_for_other_user_within_same_bso(
     UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Searching for the screening_location created by User 1 while logged in as User 2
-    rlp_location_list_page.enter_screening_location_filter_txtbox(amend_name)
-    # storing the User_2 filterd location_name in filterd_name
-    filterd_name = rlp_location_list_page.value_of_filterd_location_name()
-    # assering the the location name created by User_1 and filterd by User_2
-    assert amend_name == filterd_name
+    rlp_location_list_page.enter_screening_location_filter_textbox(amend_name)
+    # storing the User_2 filtered location_name in filtered_name
+    filtered_name = rlp_location_list_page.value_of_filtered_location_name()
+    # asserting the the location name created by User_1 and filtered by User_2
+    assert amend_name == filtered_name
 
 
 ## Test_13
-# @pytest.mark.locationlist
 def test_location_linked_to_multiple_cohorts(
     page: Page, rlp_cohort_list_page: CohortListPage, context
 ) -> None:
@@ -383,5 +371,5 @@ def test_location_linked_to_multiple_cohorts(
     # filtering name and location
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.enter_screening_location_filter(location_name)
-    filterd_names = page.locator("//tr//td[2]").all_text_contents()
-    assert input_names == filterd_names
+    filtered_names = page.locator("//tr//td[2]").all_text_contents()
+    assert input_names == filtered_names
