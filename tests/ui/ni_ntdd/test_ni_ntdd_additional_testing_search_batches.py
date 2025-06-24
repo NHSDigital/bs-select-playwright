@@ -21,13 +21,13 @@ def test_ntdd_counted_selected_visible_for_gp_practice_in_any_bso(page : Page, n
     bso_batch_id = "PMA806229T"
     batch_title = "Search Batches NTDD Selected Gp Practice"
     ni_ri_sp_batch_page.search_by_bso_batch_id_and_batch_title(bso_batch_id, batch_title)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_17.1.1.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_17_1_1_1")
     MainMenuPage(page).select_menu_option("Failsafe Reports", "Search Batches")
     ni_ri_sp_batch_page.assert_page_header("Search Batches")
     ni_ri_sp_batch_page.select_gp_practice_in_any_bso_radio_btn("N00007")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_17.1.1.2")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_17_1_1_2")
 
 
 # TC-17.1.2
@@ -42,13 +42,13 @@ def test_ntdd_counted_selected_visible_for_gp_practice_group_in_this_bso(page : 
     bso_batch_id = "PMA316521Q"
     batch_title = "SearchBatch NTDD GpPractice Groups"
     ni_ri_sp_batch_page.search_by_bso_batch_id_and_batch_title(bso_batch_id, batch_title)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_17.1.2.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_17_1_2_1")
     MainMenuPage(page).select_menu_option("Failsafe Reports", "Search Batches")
     ni_ri_sp_batch_page.assert_page_header("Search Batches")
     ni_ri_sp_batch_page.select_gp_practice_group_in_this_bso_radio_btn("GP PRACTICE GROUP 1")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_17.1.2.2")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_17_1_2_2")
 
 
 # TC-18.1.1
@@ -63,13 +63,13 @@ def test_ntdd_counted_selected_visible_for_outcode_in_any_bso(page : Page, ni_ri
     bso_batch_id = "PMA761960U"
     batch_title = "Search Batch Selected Outcode"
     ni_ri_sp_batch_page.search_by_bso_batch_id_and_batch_title(bso_batch_id, batch_title)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_18.1.1.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_18_1_1_1")
     MainMenuPage(page).select_menu_option("Failsafe Reports", "Search Batches")
     ni_ri_sp_batch_page.assert_page_header("Search Batches")
     ni_ri_sp_batch_page.select_outcode_in_any_bso_radio_btn("M12")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_18.1.1.2")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_18_1_1_2")
 
 
 # TC-18.1.2
@@ -84,10 +84,10 @@ def test_ntdd_counted_selected_visible_for_outcode_group_in_this_bso(page : Page
     bso_batch_id = "PMA210997T"
     batch_title = "SearchBatch NTDD Outcode groups"
     ni_ri_sp_batch_page.search_by_bso_batch_id_and_batch_title(bso_batch_id, batch_title)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_18.1.2.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_18_1_2_1")
     MainMenuPage(page).select_menu_option("Failsafe Reports", "Search Batches")
     ni_ri_sp_batch_page.assert_page_header("Search Batches")
     ni_ri_sp_batch_page.select_outcode_group_in_this_bso_radio_btn("OUTCODE GROUP 2")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_18.1.2.2")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_18_1_2_2")
