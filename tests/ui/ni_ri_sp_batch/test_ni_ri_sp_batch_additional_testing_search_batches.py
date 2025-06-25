@@ -24,7 +24,7 @@ def test_risp_batch_by_yob_counted_selected_visible_for_all_batches_in_this_bso(
     batch_title = "Search Batches Test 1"
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_11.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_11_1")
 
 # TC-12
 def test_risp_batch_by_yob_counted_selected_not_visible_for_all_batches_in_this_bso(page : Page, ni_ri_sp_batch_page : NiRiSpBatchPage) -> None:
@@ -51,10 +51,10 @@ def test_risp_batch_by_yob_counted_selected_not_visible_for_all_batches_in_this_
     MainMenuPage(page).select_menu_option("Failsafe Reports ", "Search Batches")
     ni_ri_sp_batch_page.assert_page_header("Search Batches")
     ni_ri_sp_batch_page.select_all_batches_in_this_bso_radio_btn()
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_12.2")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_12_2")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(check_digit, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(check_digit, should_exist=False)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_12.3")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_12_3")
 
 # TC-13
 def test_risp_batch_by_yob_counted_selected_visible_for_gp_practice_in_any_bso(page : Page, ni_ri_sp_batch_page : NiRiSpBatchPage) -> None:
@@ -74,7 +74,7 @@ def test_risp_batch_by_yob_counted_selected_visible_for_gp_practice_in_any_bso(p
     ni_ri_sp_batch_page.select_gp_practice_in_any_bso_radio_btn("N00005")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_13.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_13_1")
 
 # TC-14
 def test_risp_batch_by_yob_counted_selected_visible_for_gp_practice_group_in_this_bso(page : Page, ni_ri_sp_batch_page : NiRiSpBatchPage) -> None:
@@ -94,7 +94,7 @@ def test_risp_batch_by_yob_counted_selected_visible_for_gp_practice_group_in_thi
     ni_ri_sp_batch_page.select_gp_practice_group_in_this_bso_radio_btn("GP PRACTICE GROUP 1")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_14.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_14_1")
 
 # TC-15
 def test_risp_batch_by_yob_counted_selected_visible_for_outcode_in_any_bso(page : Page, ni_ri_sp_batch_page : NiRiSpBatchPage) -> None:
@@ -114,7 +114,7 @@ def test_risp_batch_by_yob_counted_selected_visible_for_outcode_in_any_bso(page 
     ni_ri_sp_batch_page.select_outcode_in_any_bso_radio_btn("M14")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_15.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_15_1")
 
 # TC-16
 def test_risp_batch_by_yob_counted_selected_visible_for_outcode_group_in_this_bso(page : Page, ni_ri_sp_batch_page : NiRiSpBatchPage) -> None:
@@ -134,4 +134,4 @@ def test_risp_batch_by_yob_counted_selected_visible_for_outcode_group_in_this_bs
     ni_ri_sp_batch_page.select_outcode_group_in_this_bso_radio_btn("OUTCODE GROUP 2")
     ni_ri_sp_batch_page.click_on_search_btn_in_search_batches(bso_batch_id, batch_title)
     ni_ri_sp_batch_page.assert_bso_batch_id(bso_batch_id, should_exist=True)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_16.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_16_1")

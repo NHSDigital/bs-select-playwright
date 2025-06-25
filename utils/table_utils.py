@@ -143,7 +143,7 @@ class TableUtils:
             "Searching...", timeout=10000
         )
 
-    def get_all_table_data(self, column_index) -> list[str]:
+    def get_all_table_data(self, column_index: int) -> list[str]:
         """Get all data from a column across all pages"""
         all_data = []
 

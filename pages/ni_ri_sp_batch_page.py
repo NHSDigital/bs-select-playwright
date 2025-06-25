@@ -186,7 +186,7 @@ class NiRiSpBatchPage:
         error_locator = self.page.locator("#globalErrorMessages li")
         expect(error_locator).to_contain_text(expected_error)
 
-    def assert_entered_bso_batch_id_and_filterd_row_value(
+    def assert_entered_bso_batch_id_and_filtered_row_value(
         self, bso_batch_id: str
     ) -> NiRiSpBatchPage:
         self.bso_batch_id_filter_text_box.fill(bso_batch_id)
@@ -286,10 +286,8 @@ class NiRiSpBatchPage:
     def verify_table_sort(self, column_header, sort_type, table: TableUtils, column_index, ascending) -> None:
         sort_order = "ascending" if ascending else "descending"
         table.go_to_first_page()
-        print('in first page')
         self.page.click(f'//th[text()="{column_header}"]')
         self.page.wait_for_timeout(2000)
-
         ScreenshotTool(self.page).take_screenshot(f"additional_testing_TC_5_{column_header}_{sort_order}")
         all_data = table.get_all_table_data(column_index)
         # Normalize values if column is "Batch Title"
@@ -345,5 +343,4 @@ class NiRiSpBatchPage:
             assert expected_id in values, f"{expected_id} not found in BSO Batch ID column"
         else:
             assert expected_id not in values, f"{expected_id} *was found* in BSO Batch ID column, but it should not be."
-            print(values)
             assert "No matching records found" in values
