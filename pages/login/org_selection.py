@@ -13,12 +13,19 @@ class OrgSelectionPage(BasePage):
         self.page = page
 
     def org_selection(self, role: str = None) -> None:
-        expect(self.page.get_by_text("Breast Screening Select")).to_be_visible()
+        self.page.wait_for_selector("h1.bss-page-title")
         if self.page.url.endswith("/bss/orgChoice"):
             self.verify_header()
             if role is not None:
                 logging.info(f"Selecting role: {role}")
-                self.page.locator("#chosenOrgCode").select_option(role)
+                options = self.page.locator("#chosenOrgCode option").all()
+                for option in options:
+                    if option.get_attribute("value") == role:
+                        self.page.locator("#chosenOrgCode").select_option(role)
+                        break
+                else:
+                    raise AssertionError(f"Role '{role}' not found on /orgChoice screen.")
+
             self.page.get_by_role("button", name="Select Organisation").click()
 
     def verify_header(self) -> None:
