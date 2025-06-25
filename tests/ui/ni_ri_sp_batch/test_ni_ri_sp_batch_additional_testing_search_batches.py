@@ -47,7 +47,7 @@ def test_risp_batch_by_yob_counted_selected_not_visible_for_all_batches_in_this_
     MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
     ni_ri_sp_batch_page.assert_page_header("Batch List")
     ni_ri_sp_batch_page.search_by_bso_batch_id_and_batch_title(check_digit, batch_title)
-    ScreenshotTool(page).take_screenshot("additional_testing_TC_12.1")
+    ScreenshotTool(page).take_screenshot("additional_testing_TC_12_1")
     MainMenuPage(page).select_menu_option("Failsafe Reports ", "Search Batches")
     ni_ri_sp_batch_page.assert_page_header("Search Batches")
     ni_ri_sp_batch_page.select_all_batches_in_this_bso_radio_btn()

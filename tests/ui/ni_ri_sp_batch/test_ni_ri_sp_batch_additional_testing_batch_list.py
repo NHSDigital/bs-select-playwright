@@ -31,7 +31,7 @@ def test_count_display_for_ri_sp_batch_with_blank_selected_date_selected_and_rej
     ni_ri_sp_batch_page.assert_page_header("Amend RI/SP Batch by Year of Birth")
     MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
     ni_ri_sp_batch_page.assert_page_header("Batch List")
-    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filterd_row_value(check_digit)
+    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filtered_row_value(check_digit)
     ni_ri_sp_batch_page.assert_select_date_cell_value("")
     ni_ri_sp_batch_page.assert_selected_cell_value("")
     ni_ri_sp_batch_page.assert_rejected_cell_value("")
