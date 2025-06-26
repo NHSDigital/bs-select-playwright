@@ -2,8 +2,8 @@
 name: Attach PR to JIRA Ticket
 
 on:
-  pull_request:
-    types: [opened, edited, reopened, synchronize]
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
 
 jobs:
   attach-to-jira:
