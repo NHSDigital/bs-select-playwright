@@ -11,13 +11,20 @@ jira_token = os.environ["JIRA_TOKEN"]
 pr_url = os.environ["PR_URL"]
 branch_name = os.environ["BRANCH_NAME"]
 
-# Create a JIRA instance with bearer token
-jira = JIRA(jira_server, token_auth=jira_token)
 
-jira_ticket_id = re.search(r'bss2-\d+', branch_name, re.IGNORECASE).group(0) if re.search(r'bss2-\d+', branch_name, re.IGNORECASE) else None
+jira_ticket_id = (
+    re.search(r"bss2-\d+", branch_name, re.IGNORECASE).group(0)
+    if re.search(r"bss2-\d+", branch_name, re.IGNORECASE)
+    else None
+)
 if not jira_ticket_id:
     print("No JIRA ticket ID found in the branch name.")
     exit(1)
+
+print(f"JIRA Ticket ID: {jira_ticket_id}")
+
+# Create a JIRA instance with bearer token
+jira = JIRA(jira_server, token_auth=jira_token)
 
 try:
     # Fetch the issue using the JIRA ticket ID
@@ -35,11 +42,10 @@ try:
         print("Pull request comment already exists.")
     else:
         print("Adding new pull request comment.")
-        comment = f'Pull request linked: {pr_url}'
+        comment = f"Pull request linked: {pr_url}"
         jira.add_comment(issue, comment)
 except JIRAError as e:
     if e.status_code == 404:
         print(f"Issue {jira_ticket_id} not found.")
     else:
         print(f"An error occurred: {e.text}")
-
