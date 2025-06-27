@@ -6,7 +6,7 @@ import re
 
 
 # Replace these variables with your own
-jira_server = os.environ["JIRA_SERVER"]
+jira_server = "https://nhsd-jira.digital.nhs.uk/"
 jira_token = os.environ["JIRA_TOKEN"]
 pr_url = os.environ["PR_URL"]
 branch_name = os.environ["BRANCH_NAME"]
