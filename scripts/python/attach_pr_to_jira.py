@@ -10,6 +10,7 @@ jira_server = os.environ["JIRA_SERVER"]
 jira_token = os.environ["JIRA_TOKEN"]
 pr_url = os.environ["PR_URL"]
 branch_name = os.environ["BRANCH_NAME"]
+branch_url = os.environ["BRANCH_URL"]
 
 
 jira_ticket_id = (
@@ -42,7 +43,9 @@ try:
         print("Pull request comment already exists.")
     else:
         print("Adding new pull request comment.")
-        comment = f"Pull request linked: {pr_url}"
+        comment = (
+            f"Pull request linked: {pr_url} for branch {branch_name} ({branch_url})"
+        )
         jira.add_comment(issue, comment)
 except JIRAError as e:
     if e.status_code == 404:
