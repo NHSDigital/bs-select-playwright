@@ -8,13 +8,10 @@ import pytest
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-
 from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
-
-# from utils.db_util import DbUtil
+from utils.db_util import DbUtil
 import logging
 from playwright.sync_api import sync_playwright
-
 # from utils.db_restore import DbRestore
 from utils.user_tools import UserTools
 
@@ -73,15 +70,15 @@ def ni_ri_sp_batch_page(page: Page) -> NiRiSpBatchPage:
     return NiRiSpBatchPage(page)
 
 
-# ## Fixture for ci-infra
-# @pytest.fixture
-# def db_util():
-#     db = DbUtil(host = os.getenv("CI_INFRA_DB_HOST"),
-#                 port=os.getenv("CI_INFRA_DB_PORT"),
-#                 dbname=os.getenv("CI_INFRA_DBNAME"),
-#                 user=os.getenv("CI_INFRA_DB_USER"),
-#                 password=os.getenv("CI_INFRA_DB_PASSWORD"))
-#     return db
+## Fixture for ci-infra
+@pytest.fixture
+def db_util():
+    db = DbUtil(host = os.getenv("CI_INFRA_DB_HOST"),
+                port=os.getenv("CI_INFRA_DB_PORT"),
+                dbname=os.getenv("CI_INFRA_DBNAME"),
+                user=os.getenv("CI_INFRA_DB_USER"),
+                password=os.getenv("CI_INFRA_DB_PASSWORD"))
+    return db
 
 # ## Fixture is for VM local database
 # @pytest.fixture
