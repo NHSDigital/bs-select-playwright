@@ -3,6 +3,9 @@ import boto3
 import psycopg2
 import time
 import subprocess
+from pathlib import Path
+import logging
+
 
 
 class DbRestore:
@@ -39,20 +42,24 @@ class DbRestore:
             try:
                 self.conn.close()
             except Exception as e:
-                print(f"NO connection found to disconnect from! - {e}")
+                logging.info(f"NO connection found to disconnect from! - {e}")
 
-    def download_backup_from_s3(self):
+    def download_backup_from_s3(self, profile_name: str):
         """Download the database backup from S3 to a local temporary file."""
 
         try:
-            session = boto3.Session(profile_name="bs-select-rw-user-730319765130")
+            logging.info(f"Downloading backup from S3 bucket: {self.s3_bucket}, key: {self.s3_backup_key} with profile: {profile_name}")
+            session = boto3.Session(profile_name=profile_name)
             s3 = session.client("s3")
+            Path(os.path.dirname(self.local_backup_path)).mkdir(parents=True, exist_ok=True)
             s3.download_file(self.s3_bucket, self.s3_backup_key, self.local_backup_path)
+            logging.info("Backup downloaded successfully.")
         except Exception as e:
             raise
 
     def restore_backup(self):
         """Restore the database from the downloaded backup."""
+        logging.info("Restoring database from backup...")
         os.environ["PGPASSWORD"] = os.getenv("PG_PASS")
         subprocess.run(
             [
@@ -87,10 +94,10 @@ class DbRestore:
                     WHERE datname = '{dbname}' AND pid <> pg_backend_pid();"""
                 )
                 self.conn.commit()
-            print("Deleted all connections")
+            logging.info("Deleted all connections")
         except Exception as e:
-            print(e)
-            print(
+            logging.info(e)
+            logging.info(
                 "Could not connect to DB. Check if other connections are present or if DB exists."
             )
         finally:
@@ -100,7 +107,11 @@ class DbRestore:
         # self.connect()
         # self.recreate_db()
         # self.disconnect()
+        logging.info("Downloading backup from S3...")
+        self.download_backup_from_s3(profile_name=os.getenv("AWS_PROFILE"))
+        logging.info("Starting database restore...")
         start_time = time.time()
         self.restore_backup()
         end_time = time.time()
         elapsed = end_time - start_time
+        logging.info(f"Database restored in {elapsed:.2f} seconds.")

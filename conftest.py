@@ -12,7 +12,7 @@ from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
 from utils.db_util import DbUtil
 import logging
 from playwright.sync_api import sync_playwright
-# from utils.db_restore import DbRestore
+from utils.db_restore import DbRestore
 from utils.user_tools import UserTools
 
 logger = logging.getLogger(__name__)
@@ -90,9 +90,10 @@ def db_util():
 #                 password=os.getenv("LOCAL_DB_PASSWORD"))
 #     return db
 
-# # @pytest.fixture(scope="session", autouse=True)
-# def db_restore():
-#     DbRestore().full_db_restore()
+@pytest.fixture(scope="session")
+def db_restore():
+    logging.info(f"PG_HOST: {os.getenv('PG_HOST')}")
+    DbRestore().full_db_restore()
 
 # This variable is used for JSON reporting only
 ENVIRONMENT_DATA = None
