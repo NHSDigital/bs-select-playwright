@@ -44,7 +44,7 @@ try:
     else:
         print("Adding new pull request comment.")
         comment = (
-            f"Pull request linked: {pr_url} for branch {branch_name} ({branch_url})"
+            f"Pull request linked: {pr_url} for branch {branch_name} ({branch_url}) from GitHub Actions"
         )
         jira.add_comment(issue, comment)
 except JIRAError as e:
