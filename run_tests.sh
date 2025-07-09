@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 BASE_URL=${1:-${BASE_URL}}
 MARKERS_TO_USE=${2:=${MARKERS_TO_USE}}
