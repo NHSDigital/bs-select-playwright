@@ -1,8 +1,6 @@
 #!/bin/bash
 
-BASE_URL=${1:-${BASE_URL}}
-MARKERS_TO_USE=${2:=${MARKERS_TO_USE}}
-MARKERS_TO_USE="${MARKERS_TO_USE//-/ }"
-export COGNITO_USER_PASSWORD=${3:=${COGNITO_USER_PASSWORD}}
+MARKERS_TO_USE="${2//-/ }"
+export COGNITO_USER_PASSWORD=$3
 
-pytest --tracing retain-on-failure --base-url $BASE_URL -m "$MARKERS_TO_USE"
+pytest --tracing retain-on-failure --base-url $1 -m "$MARKERS_TO_USE"
