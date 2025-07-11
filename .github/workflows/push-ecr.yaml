@@ -27,8 +27,7 @@ jobs:
       - id: lowercase
         name: set lower case registry
         run: |
-          echo "repository=${GITHUB_REPOSITORY@L}" >> $GITHUB_OUTPUT
-          echo "image=${IMAGE_NAME@L}" >> $GITHUB_OUTPUT
+          echo "IMAGE_NAME_LC=${IMAGE_NAME@L}" >> $GITHUB_ENV
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -42,8 +41,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{env.REGISTRY}}/${{steps.lowercase.image}}:latest .
+          docker build -t ${{env.REGISTRY}}/${{IMAGE_NAME_LC}}:latest .
 
       - name: Push Docker image
         run: |
-          docker push ${{env.REGISTRY}}/${{steps.lowercase.image}}:latest
+          docker push ${{env.REGISTRY}}/${{IMAGE_NAME_LC}}:latest
