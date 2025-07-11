@@ -36,7 +36,7 @@ jobs:
            
       - name: Build Docker And Push image
         run: |          
-          IMAGE_NAME="${IMAGE_NAME,,}"
+          IMAGE_NAME="${env.IMAGE_NAME,,}"
           docker build -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
           docker push ${{env.REGISTRY}}/$IMAGE_NAME:latest
 
