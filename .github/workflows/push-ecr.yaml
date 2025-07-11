@@ -6,7 +6,9 @@ on:
       - 'feature/**'
       - 'main'
 
+
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -22,6 +24,11 @@ jobs:
       id-token: write
       #
     steps:
+      - id: lowercase
+        name: set lower case registry
+        run: |
+          echo "image=${env.IMAGE_NAME,,}" >>$GITHUB_OUTPUT
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -35,8 +42,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{env.REGISTRY}}/${{ github.repository }}:bs-select-playwright-test .
+          docker build -t ${{env.REGISTRY}}/${{steps.lowercase.image}}:latest .
 
       - name: Push Docker image
         run: |
-          docker push ${{env.REGISTRY}}/${{ github.repository }}:bs-select-playwright-test
+          docker push ${{env.REGISTRY}}/${{steps.lowercase.image}}:latest
