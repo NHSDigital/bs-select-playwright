@@ -38,8 +38,9 @@ jobs:
         name: set lower case registry
         run: echo "IMAGE_NAME_LC=playwright" >> $GITHUB_ENV
 
-      - name: Build Docker image
-        run: |
-          docker build -t ${{env.REGISTRY}}/${{IMAGE_NAME_LC}}:latest .
+      - name: Use environemnt variable
+        run: echo "The value of IMAGE_NAME is $IMAGE_NAME_LC"
+
+      
 
     
