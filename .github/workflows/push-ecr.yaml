@@ -1,0 +1,42 @@
+name: Push Docker Image to GitHub Container Registry
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'main'
+
+# Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+      #
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{env.REGISTRY}}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{env.REGISTRY}}/${{ github.repository }}:bs-select-playwright-test .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{env.REGISTRY}}/${{ github.repository }}:bs-select-playwright-test
