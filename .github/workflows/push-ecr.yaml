@@ -35,8 +35,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
            
       - name: Build Docker And Push image
-        run: |          
-          IMAGE_NAME=env.IMAGE_NAME
+        run: |         
           IMAGE_NAME="${IMAGE_NAME,,}"
           echo "IMAGE_NAME is $IMAGE_NAME"
           docker build -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
