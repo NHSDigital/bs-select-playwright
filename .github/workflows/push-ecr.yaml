@@ -36,7 +36,7 @@ jobs:
 
       - id: lowercase
         name: set lower case registry
-        run: echo "IMAGE_NAME_LC=$IMAGE_NAME" >> $GITHUB_ENV
+        run: echo "IMAGE_NAME_LC=$IMAGE_NAME@L" >> $GITHUB_ENV
 
       - name: Use environemnt variable
         run: echo "The value of IMAGE_NAME_LC is $IMAGE_NAME_LC"
