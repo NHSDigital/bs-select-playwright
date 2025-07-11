@@ -36,18 +36,16 @@ jobs:
 
       - id: lowercase
         name: set lower case registry
-        run: echo "IMAGE_NAME_LC=$IMAGE_NAME@L" >> $GITHUB_ENV
+        run: IMAGE_NAME=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
 
-      - name: Use environemnt variable
-        run: echo "The value of IMAGE_NAME_LC is $IMAGE_NAME_LC"
-
+      
       - name: Build Docker image
         run: |
-          docker build -t ${{env.REGISTRY}}/$IMAGE_NAME_LC:latest .
+          docker build -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
 
       - name: Push Docker image
         run: |
-          docker push ${{env.REGISTRY}}/$IMAGE_NAME_LC:latest
+          docker push ${{env.REGISTRY}}/$IMAGE_NAME:latest
 
       
 
