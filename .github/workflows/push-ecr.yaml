@@ -27,7 +27,7 @@ jobs:
       - id: lowercase
         name: set lower case registry
         run: |
-          echo "IMAGE_NAME_LC=${IMAGE_NAME@L}" >> $GITHUB_ENV
+          echo "IMAGE_NAME_LC=${IMAGE_NAME@L}" >> ${GITHUB_ENV}
       - name: Checkout repository
         uses: actions/checkout@v3
 
