@@ -33,14 +33,14 @@ jobs:
           registry: ${{env.REGISTRY}}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-           
+
       - name: Build Docker And Push image
-        run: |         
+        run: |
           IMAGE_NAME="${IMAGE_NAME,,}"
           echo "IMAGE_NAME is $IMAGE_NAME"
-          docker build -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
+          docker build -fbuildBase.dockerfile -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
           docker push ${{env.REGISTRY}}/$IMAGE_NAME:latest
 
-      
 
-    
+
+
