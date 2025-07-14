@@ -14,6 +14,7 @@ class CeasedUnceasedPage(ReportPage):
     TABLE_FIRST_FAMILY_NAME=f"{TABLE_FIRST_ROW} > td:nth-child(7)"
     TABLE_FIRST_FIRST_NAME=f"{TABLE_FIRST_ROW} > td:nth-child(8)"
     API_REQUEST="**/bss/report/ceasing/search**"
+    SEARCH_BUTTON = " Search"
 
     def __init__(self, page: Page) -> None:
         ReportPage.__init__(self, page)
@@ -35,7 +36,7 @@ class CeasedUnceasedPage(ReportPage):
             self.press_search()
 
     def press_search(self) -> None:
-        self.page.get_by_role("button", name=" Search").click()
+        self.page.get_by_role("button", name=self.SEARCH_BUTTON).click()
 
     def both_date(self) -> None:
         self.page.get_by_label("Both").check()
@@ -43,7 +44,7 @@ class CeasedUnceasedPage(ReportPage):
         self.page.get_by_label("Ceased/Unceased From").fill("01/01/2015")
         self.page.get_by_label("Ceased/Unceased Until").click()
         self.page.get_by_role("cell", name="14").click()
-        self.page.get_by_role("button", name=" Search").click()
+        self.page.get_by_role("button", name=self.SEARCH_BUTTON).click()
 
     def ceased_only_date(self) -> None:
         self.page.get_by_label("Ceased Subjects", exact=True).check()
@@ -51,7 +52,7 @@ class CeasedUnceasedPage(ReportPage):
         self.page.get_by_label("Ceased From").fill("01/01/2015")
         self.page.get_by_label("Ceased Until").click()
         self.page.get_by_role("cell", name="14").click()
-        self.page.get_by_role("button", name=" Search").click()
+        self.page.get_by_role("button", name=self.SEARCH_BUTTON).click()
 
     def unceased_only_date(self) -> None:
         self.page.get_by_label("Unceased Subjects").check()
@@ -59,7 +60,7 @@ class CeasedUnceasedPage(ReportPage):
         self.page.get_by_label("Unceased From").fill("01/01/2015")
         self.page.get_by_label("Unceased Until").click()
         self.page.get_by_role("cell", name="14").click()
-        self.page.get_by_role("button", name=" Search").click()
+        self.page.get_by_role("button", name=self.SEARCH_BUTTON).click()
 
     def set_done_drop_down(self, value: str) -> None:
         self.page.locator("#actionList").select_option(value)
