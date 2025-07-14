@@ -68,11 +68,6 @@ class CeasedUnceasedPage(ReportPage):
         self.page.locator(self.ACTION_LIST).select_option(value)
         self.page.wait_for_timeout(5000)
 
-    def enter_nhs_number(self, selected_nhs: str) -> None:
-        self.page.locator("#nhsNumberFilter").get_by_role("textbox").fill(selected_nhs)
-        with self.page.expect_response(self.API_REQUEST) as response:
-            pass
-
     def sort_date_added_to_BSO(self) -> None:
         self.page.locator(self.ACTION_LIST).select_option("")
         self.page.get_by_label("Date Added To BSO: activate").click()
@@ -83,21 +78,6 @@ class CeasedUnceasedPage(ReportPage):
         self.page.get_by_label("Born: activate to sort column").click()
         self.page.wait_for_timeout(5000)
 
-    def table_filtered_by_age(self, selected_age: str) -> None:
-        self.page.locator("#ageTodayList").select_option(selected_age)
-        with self.page.expect_response(self.API_REQUEST) as response:
-            pass
-
-    def enter_family_name(self, selected_family_name: str) -> None:
-        self.page.locator("#familyNameFilter").get_by_role("textbox").fill(selected_family_name)
-        with self.page.expect_response(self.API_REQUEST) as response:
-            pass
-
-    def enter_first_name(self, selected_first_name: str) -> None:
-        self.page.locator("#firstGivenNameFilter").get_by_role("textbox").fill(selected_first_name)
-        with self.page.expect_response(self.API_REQUEST) as response:
-            pass
-
     def sort_date_ceased(self) -> None:
         self.page.locator(self.ACTION_LIST).select_option("")
         self.page.get_by_label("Date Ceased: activate to sort").click()
@@ -107,8 +87,3 @@ class CeasedUnceasedPage(ReportPage):
         self.page.locator(self.ACTION_LIST).select_option("")
         self.page.get_by_label("Date Unceased: activate to").click()
         self.page.wait_for_timeout(5000)
-
-    def reason_selected(self, selected_reason: str) -> None:
-        self.page.locator("#reasonList").select_option(selected_reason)
-        with self.page.expect_response(self.API_REQUEST) as response:
-            pass
