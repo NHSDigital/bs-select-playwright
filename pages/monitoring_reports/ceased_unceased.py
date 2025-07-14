@@ -15,6 +15,8 @@ class CeasedUnceasedPage(ReportPage):
     TABLE_FIRST_FIRST_NAME=f"{TABLE_FIRST_ROW} > td:nth-child(8)"
     API_REQUEST="**/bss/report/ceasing/search**"
     SEARCH_BUTTON = " Search"
+    DATE = "01/01/2015"
+    ACTION_LIST = "#actionList"
 
     def __init__(self, page: Page) -> None:
         ReportPage.__init__(self, page)
@@ -41,7 +43,7 @@ class CeasedUnceasedPage(ReportPage):
     def both_date(self) -> None:
         self.page.get_by_label("Both").check()
         self.page.get_by_label("Ceased/Unceased From").click()
-        self.page.get_by_label("Ceased/Unceased From").fill("01/01/2015")
+        self.page.get_by_label("Ceased/Unceased From").fill(self.DATE)
         self.page.get_by_label("Ceased/Unceased Until").click()
         self.page.get_by_role("cell", name="14").click()
         self.page.get_by_role("button", name=self.SEARCH_BUTTON).click()
@@ -49,7 +51,7 @@ class CeasedUnceasedPage(ReportPage):
     def ceased_only_date(self) -> None:
         self.page.get_by_label("Ceased Subjects", exact=True).check()
         self.page.get_by_label("Ceased From").click()
-        self.page.get_by_label("Ceased From").fill("01/01/2015")
+        self.page.get_by_label("Ceased From").fill(self.DATE)
         self.page.get_by_label("Ceased Until").click()
         self.page.get_by_role("cell", name="14").click()
         self.page.get_by_role("button", name=self.SEARCH_BUTTON).click()
@@ -57,13 +59,13 @@ class CeasedUnceasedPage(ReportPage):
     def unceased_only_date(self) -> None:
         self.page.get_by_label("Unceased Subjects").check()
         self.page.get_by_label("Unceased From").click()
-        self.page.get_by_label("Unceased From").fill("01/01/2015")
+        self.page.get_by_label("Unceased From").fill(self.DATE)
         self.page.get_by_label("Unceased Until").click()
         self.page.get_by_role("cell", name="14").click()
         self.page.get_by_role("button", name=self.SEARCH_BUTTON).click()
 
     def set_done_drop_down(self, value: str) -> None:
-        self.page.locator("#actionList").select_option(value)
+        self.page.locator(self.ACTION_LIST).select_option(value)
         self.page.wait_for_timeout(5000)
 
     def enter_nhs_number(self, selected_nhs: str) -> None:
@@ -72,12 +74,12 @@ class CeasedUnceasedPage(ReportPage):
             pass
 
     def sort_date_added_to_BSO(self) -> None:
-        self.page.locator("#actionList").select_option("")
+        self.page.locator(self.ACTION_LIST).select_option("")
         self.page.get_by_label("Date Added To BSO: activate").click()
         self.page.wait_for_timeout(5000)
 
     def sort_born(self) -> None:
-        self.page.locator("#actionList").select_option("")
+        self.page.locator(self.ACTION_LIST).select_option("")
         self.page.get_by_label("Born: activate to sort column").click()
         self.page.wait_for_timeout(5000)
 
@@ -97,12 +99,12 @@ class CeasedUnceasedPage(ReportPage):
             pass
 
     def sort_date_ceased(self) -> None:
-        self.page.locator("#actionList").select_option("")
+        self.page.locator(self.ACTION_LIST).select_option("")
         self.page.get_by_label("Date Ceased: activate to sort").click()
         self.page.wait_for_timeout(5000)
 
     def sort_date_unceased(self) -> None:
-        self.page.locator("#actionList").select_option("")
+        self.page.locator(self.ACTION_LIST).select_option("")
         self.page.get_by_label("Date Unceased: activate to").click()
         self.page.wait_for_timeout(5000)
 

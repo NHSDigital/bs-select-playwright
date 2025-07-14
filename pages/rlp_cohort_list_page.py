@@ -5,6 +5,8 @@ from playwright.sync_api import Page, expect
 
 
 class CohortListPage:
+    CANCEL_BUTTON = "a#cancelButton"
+    ENTRIES_SHOWN = "Showing (\d+) to (\d+) of (\d+) entries"
 
     def __init__(self, page: Page) -> None:
         self.page = page
@@ -22,7 +24,7 @@ class CohortListPage:
         self.gp_practice_name_field = page.locator("th#nameFilter > input")
         self.gp_code_field = page.locator("th#codeFilter > input")
         self.add_gp_practices_to_include = page.locator("//button[text()='Add']")
-        self.cancel_creating_screening_cohort = page.locator("a#cancelButton")
+        self.cancel_creating_screening_cohort = page.locator(self.CANCEL_BUTTON)
         self.expected_attendance_rate = page.locator("input#uptakePercentage")
         self.done_btn_gp_practices_incluse_popup = page.locator(
             "button#cancelButtonInAmendCohortPopup"
@@ -38,7 +40,7 @@ class CohortListPage:
         self.remove_btn_included_gp_practices = page.locator("button#deleteBtn_301")
         self.filtered_cohort_name = page.locator("//tbody/tr/td[2]")
         self.filtered_cohort_pencil_icon = page.locator("tbody tr td .glyphicon-pencil")
-        self.amend_cohort_cancel_button = page.locator("a#cancelButton")
+        self.amend_cohort_cancel_button = page.locator(self.CANCEL_BUTTON)
         self.amend_screening_cohort_name_txtbox = page.locator("input#description")
         self.amend_attendance_rate_txtbox = page.locator("input#uptakePercentage")
         self.amend_screening_location_dropdown = page.locator("select#defaultLocation")
@@ -58,7 +60,7 @@ class CohortListPage:
         self.create_screening_cohort_by_outcode_btn = page.locator(
             "button#addCohortByOutcodeButton"
         )
-        self.cancel_cohort_by_outcode_btn = page.locator("a#cancelButton")
+        self.cancel_cohort_by_outcode_btn = page.locator(self.CANCEL_BUTTON)
         self.save_cohort_by_outcode_btn = page.locator("button#saveButton")
         self.select_outcodes_btn = page.locator("button#selectElementsButton")
         self.outcode_filter = page.locator("#nameFilter > input")
@@ -303,9 +305,7 @@ class CohortListPage:
         self.cohort_paging_info.scroll_into_view_if_needed()
         paging_info_text = self.cohort_paging_info.text_content()
         self.page.wait_for_timeout(3000)
-        re_search_result = re.search(
-            "Showing (\d+) to (\d+) of (\d+) entries", paging_info_text
-        )
+        re_search_result = re.search(self.ENTRIES_SHOWN, paging_info_text)
         return int(re_search_result.group(3))
 
     def screening_cohorts_count_in_db(self, db_util) -> int:
@@ -321,9 +321,7 @@ class CohortListPage:
         self.location_paging_info.scroll_into_view_if_needed()
         paging_info_text = self.location_paging_info.text_content()
         self.page.wait_for_timeout(5000)
-        re_search_result = re.search(
-            "Showing (\d+) to (\d+) of (\d+) entries", paging_info_text
-        )
+        re_search_result = re.search(self.ENTRIES_SHOWN, paging_info_text)
         return int(re_search_result.group(3))
 
     def extract_paging_unit_list_count(self) -> int:
@@ -331,9 +329,7 @@ class CohortListPage:
         self.unit_paging_info.scroll_into_view_if_needed()
         paging_info_text = self.unit_paging_info.text_content()
         self.page.wait_for_timeout(5000)
-        re_search_result = re.search(
-            "Showing (\d+) to (\d+) of (\d+) entries", paging_info_text
-        )
+        re_search_result = re.search(self.ENTRIES_SHOWN, paging_info_text)
         return int(re_search_result.group(3))
 
     def extract_paging_unit_list_count_active_only(self) -> int:
@@ -341,9 +337,7 @@ class CohortListPage:
         self.unit_paging_info.scroll_into_view_if_needed()
         paging_info_text = self.unit_paging_info.text_content()
         self.page.wait_for_timeout(5000)
-        re_search_result = re.search(
-            "Showing (\d+) to (\d+) of (\d+) entries", paging_info_text
-        )
+        re_search_result = re.search(self.ENTRIES_SHOWN, paging_info_text)
         return int(re_search_result.group(3))
 
     # Method to directly attempt to create the unit
