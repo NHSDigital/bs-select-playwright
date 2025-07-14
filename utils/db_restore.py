@@ -97,9 +97,6 @@ class DbRestore:
             self.disconnect()
 
     def full_db_restore(self):
-        # self.connect()
-        # self.recreate_db()
-        # self.disconnect()
         start_time = time.time()
         self.restore_backup()
         end_time = time.time()
