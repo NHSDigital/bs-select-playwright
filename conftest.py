@@ -70,11 +70,13 @@ def ni_ri_sp_batch_page(page: Page) -> NiRiSpBatchPage:
     return NiRiSpBatchPage(page)
 
 # This variable is used for JSON reporting only
-ENVIRONMENT_DATA = None
+ENVIRONMENT_DATA = {}
 
 
 @pytest.fixture(autouse=True, scope="session")
 def environment_info(metadata: object, base_url: str) -> None:
+    APPLICATION_DETAILS = "Application Details"
+    DATABASE_DETAILS = "Database Details"
 
     def filter_result(results: dict, key: str) -> str:
         """This is for tidying up the response for the HTML report"""
@@ -99,11 +101,11 @@ def environment_info(metadata: object, base_url: str) -> None:
                     },
                     ignore_https_errors=True,
                 )
-                metadata["Application Details"] = filter_result(
-                    result.json(), "Application Details"
+                metadata[APPLICATION_DETAILS] = filter_result(
+                    result.json(), APPLICATION_DETAILS
                 )
-                metadata["Database Details"] = filter_result(
-                    result.json(), "Database Details"
+                metadata[DATABASE_DETAILS] = filter_result(
+                    result.json(), DATABASE_DETAILS
                 )
                 global ENVIRONMENT_DATA
                 ENVIRONMENT_DATA = result.json()
@@ -113,8 +115,8 @@ def environment_info(metadata: object, base_url: str) -> None:
         except Exception as ex:
             logger.warning("Not been able to capture environment data for this run.")
             logger.warning(f"Exception: {ex}")
-            metadata["Application Details"] = "Unable to retrieve"
-            metadata["Database Details"] = "Unable to retrieve"
+            metadata[APPLICATION_DETAILS] = "Unable to retrieve"
+            metadata[DATABASE_DETAILS] = "Unable to retrieve"
 
 
 # --- JSON Report Generation ---
