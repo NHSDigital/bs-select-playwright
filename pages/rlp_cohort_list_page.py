@@ -345,7 +345,7 @@ class CohortListPage:
         self.page.get_by_role("button", name="Add Screening Unit").click()
         self.page.locator("//input[@id='unitNameText']").fill(unit_name)
         self.page.wait_for_selector(
-            f"//input[@id='unitTypeText' and @type='radio' and @value='MOBILE']"
+            "//input[@id='unitTypeText' and @type='radio' and @value='MOBILE']"
         ).check()
         self.page.locator("#addButtonInAddUnitPopup").click()
         # Check for the error message indicating a duplicate unit
@@ -366,6 +366,6 @@ class CohortListPage:
         self.page.get_by_role("button", name="Add Screening Unit").click()
         self.page.locator("//input[@id='unitNameText']").fill(unit_name)
         self.page.wait_for_selector(
-            f"//input[@id='unitTypeText' and @type='radio' and @value='MOBILE']"
+            "//input[@id='unitTypeText' and @type='radio' and @value='MOBILE']"
         ).check()
         self.page.locator("#addButtonInAddUnitPopup").click()
