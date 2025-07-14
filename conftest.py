@@ -90,10 +90,10 @@ def db_util():
 #                 password=os.getenv("LOCAL_DB_PASSWORD"))
 #     return db
 
-@pytest.fixture(scope="session")
-def db_restore():
-    logging.info(f"PG_HOST: {os.getenv('PG_HOST')}")
-    DbRestore().full_db_restore()
+# @pytest.fixture(scope="session")
+# def db_restore():
+#     logging.info(f"PG_HOST: {os.getenv('PG_HOST')}")
+#     DbRestore().full_db_restore()
 
 # This variable is used for JSON reporting only
 ENVIRONMENT_DATA = None
