@@ -12,7 +12,7 @@ pytestmark = [pytest.mark.gp_practice_list, pytest.mark.uiapi]
 API_URL = "/bss/gpPractice/search"
 
 
-def test_gp_practice_search_BS1(api_bso_user_session: BrowserContext) -> None:
+def test_gp_practice_search_bs1(api_bso_user_session: BrowserContext) -> None:
     """
     API test to check search on BSO Code BS1
     """
@@ -32,7 +32,7 @@ def test_gp_practice_search_BS1(api_bso_user_session: BrowserContext) -> None:
         assert bso["bso"]["code"] == "BS1"
 
 
-def test_gp_practice_search_national_BS1(
+def test_gp_practice_search_national_bs1(
     api_national_user_session: BrowserContext,
 ) -> None:
     """
@@ -71,7 +71,7 @@ def test_invalid_user(api_helpdesk_session: BrowserContext) -> None:
     assert response_data == 403
 
 
-def test_gp_practice_search_A12345(api_bso_user_session: BrowserContext) -> None:
+def test_gp_practice_search_a12345(api_bso_user_session: BrowserContext) -> None:
     """
     API test to check search on GP Practice A12345
     """
@@ -94,7 +94,7 @@ def test_gp_practice_search_A12345(api_bso_user_session: BrowserContext) -> None
     assert response_data["results"][0]["code"] == "A12345"
 
 
-def test_gp_practice_search_A82(api_bso_user_session: BrowserContext) -> None:
+def test_gp_practice_search_a82(api_bso_user_session: BrowserContext) -> None:
     """
     API test to check GP Practice search on A82
     """

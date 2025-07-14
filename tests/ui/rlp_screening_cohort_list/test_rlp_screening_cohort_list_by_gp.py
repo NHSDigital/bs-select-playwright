@@ -48,7 +48,7 @@ def test_check_and_create_location_test_data_for_outcode(
 ## Test_01
 ## Test_02
 @pytest.mark.cohortgp
-def test_only_default_BSO_Cohort_visible(
+def test_only_default_bso_cohort_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
     """
@@ -408,7 +408,7 @@ def test_click_save_without_filling_all_mandatory_fields(
 
 #### Test_13
 @pytest.mark.cohortgp
-def test_another_user_logs_into_BS_select(
+def test_another_user_logs_into_bs_select(
     page: Page, rlp_cohort_list_page: CohortListPage, context
 ):
     """Other Users are not able to create Cohort with same details of other existing Cohort within the same BSO, failing validation"""

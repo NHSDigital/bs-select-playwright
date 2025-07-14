@@ -70,7 +70,7 @@ def test_invalid_helpdesk_user(api_helpdesk_session: BrowserContext) -> None:
     assert response_data == 403
 
 
-def test_gp_practice_group_list_search_BS1(
+def test_gp_practice_group_list_search_bs1(
     api_bso_user_session: BrowserContext,
 ) -> None:
     """
