@@ -70,7 +70,6 @@ class DbRestore:
             [
                 "psql", # for text dump file psql is used, for binary dump file pg_restore is used
                 "-q",
-                # "--clean",
                 "-h",
                 os.getenv("PG_HOST"),
                 "-p",
@@ -79,8 +78,6 @@ class DbRestore:
                 os.getenv("PG_USER"),
                 "-d",
                 os.getenv("PG_DBNAME"),
-                # "-j",
-                # os.getenv("J_VALUE"),
                 "-f",
                 self.local_backup_path,
             ],
@@ -114,11 +111,11 @@ class DbRestore:
 
     def full_db_restore(self):
         logging.info("Killing all active database sessions...")
-        # self.kill_all_db_sessions()
-        # self.recreate_db()
-        # self.disconnect()
-        # logging.info("Downloading backup from S3...")
-        # self.download_backup_from_s3(profile_name=os.getenv("AWS_PROFILE"))
+        self.kill_all_db_sessions()
+        self.recreate_db()
+        self.disconnect()
+        logging.info("Downloading backup from S3...")
+        self.download_backup_from_s3(profile_name=os.getenv("AWS_PROFILE"))
         logging.info("Starting database restore...")
         start_time = time.time()
         self.restore_backup()

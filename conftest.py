@@ -84,21 +84,6 @@ def db_util():
                 password=os.getenv("CI_INFRA_DB_PASSWORD"))
     return db
 
-# ## Fixture is for VM local database
-# @pytest.fixture
-# def db_util_local():
-#     db = DbUtil(host = os.getenv("LOCAL_DB_HOST"),
-#                 port=os.getenv("LOCAL_DB_PORT"),
-#                 dbname=os.getenv("LOCAL_DBNAME"),
-#                 user=os.getenv("LOCAL_DB_USER"),
-#                 password=os.getenv("LOCAL_DB_PASSWORD"))
-#     return db
-
-# @pytest.fixture(scope="session")
-# def db_restore():
-#     logging.info(f"PG_HOST: {os.getenv('PG_HOST')}")
-#     DbRestore().full_db_restore()
-
 # This variable is used for JSON reporting only
 ENVIRONMENT_DATA = None
 
