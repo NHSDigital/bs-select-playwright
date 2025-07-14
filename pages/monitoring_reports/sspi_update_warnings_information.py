@@ -6,9 +6,7 @@ from pages.monitoring_reports.sspi_update_warnings_base import (
 
 
 class SSPIUpdateWarningsInformationPage(SSPIUpdateWarningsBasePage):
-
     # Selectable Options
-
     HEADER = "SSPI Update Warnings - Information"
     AGE_OPTIONS = ["All", "Under 80", "80 and over"]
     REASONI_OPTIONS = ["Removal", "Subject joined BSO", "Subject left BSO"]
@@ -33,5 +31,4 @@ class SSPIUpdateWarningsInformationPage(SSPIUpdateWarningsBasePage):
 
     def __init__(self, page: Page) -> None:
         SSPIUpdateWarningsBasePage.__init__(self, page)
-        self.HEADER = "SSPI Update Warnings - Information"
         self.API_REQUEST = "**/bss/report/sspiUpdateWarnings/information/search**"

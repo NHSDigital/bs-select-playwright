@@ -4,9 +4,7 @@ from pages.report_page import ReportPage
 
 
 class CeasedUnceasedPage(ReportPage):
-
     # Selectable Options
-
     HEADER = "Ceased/Unceased Subject List"
     AGE_OPTIONS=["All", "In BSO Age Range"]
     REASON_OPTIONS=["All", "Informed Choice", "Bilateral Mastectomy", "Mental Capacity Act", "Personal Welfare"],
@@ -20,9 +18,6 @@ class CeasedUnceasedPage(ReportPage):
     def __init__(self, page: Page) -> None:
         ReportPage.__init__(self, page)
         self.page = page
-
-    def verify_header(self) -> None:
-        super().verify_header(self.HEADER)
 
     def search_both(self, run_search: bool = True) -> None:
         self.page.get_by_label("Both").check()

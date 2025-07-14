@@ -6,9 +6,8 @@ from pages.monitoring_reports.sspi_update_warnings_base import (
 
 
 class SSPIUpdateWarningsActionPage(SSPIUpdateWarningsBasePage):
-
     # Selectable Options
-
+    HEADER = "SSPI Update Warnings - Action"
     AGE_OPTIONS = ["All", "Under 80", "80 and over"]
     REASON_OPTIONS = [
         "Date of birth changed",
@@ -50,11 +49,7 @@ class SSPIUpdateWarningsActionPage(SSPIUpdateWarningsBasePage):
     def __init__(self, page: Page) -> None:
         SSPIUpdateWarningsBasePage.__init__(self, page)
         self.API_REQUEST = "**/bss/report/sspiUpdateWarnings/action/search**"
-        self.HEADER = "SSPI Update Warnings - Action"
         # self.page = page
-
-    # def verify_header(self) -> None:
-    #     super().verify_header(self.HEADER)
 
     # def set_done_drop_down(self, value: str) -> None:
     #     self.page.locator("#actionList").select_option(value)
