@@ -178,7 +178,7 @@ class CohortListPage:
         return self
 
     def click_add_btn_gp_practices_to_include(self) -> CohortListPage:
-        self.page.wait_for_timeout(1000)  # Wait for the page to load
+        expect(self.add_gp_practices_to_include).to_be_visible()
         self.add_gp_practices_to_include.scroll_into_view_if_needed()
         self.add_gp_practices_to_include.click()
         return self

@@ -305,6 +305,7 @@ def create_cohort_and_add_gp_practices(
     rlp_cohort_list_page.click_create_screening_cohort_save_btn()
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
+    expect(page.locator("//table[@id='practicesToIncludeList']")).to_be_visible()
     included_gp_practices = page.locator("//table[@id='practicesToIncludeList']//tr//td[2]").count()
     assert included_gp_practices == expected_count
 
@@ -328,10 +329,10 @@ def test_amend_added_gp_practices_are_visible(
     ), "A00002 was not found in the included GP practices."
     assert (
         "A00003" in gp_practice_codes
-    ), "A00002 was not found in the included GP practices."
+    ), "A00003 was not found in the included GP practices."
     assert (
         "A00005" in gp_practice_codes
-    ), "A00003 was not found in the included GP practices."
+    ), "A00005 was not found in the included GP practices."
 
 
 #### Test_21
@@ -368,5 +369,3 @@ def test_amend_remove_gp_practices(
         "//table[@id='practicesToIncludeList']//tr//td[2]"
     ).count()
     assert removed_included_gp_practices == 0
-
-
