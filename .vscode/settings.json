@@ -36,5 +36,17 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
-  }
+  },
+  "cSpell.ignoreWords": [
+    "Aldi",
+    "Caldecott",
+    "Hadley",
+    "Poundland",
+    "cancelButton",
+    "dblclick",
+    "glyphicon",
+    "organisations",
+    "outcodes",
+    "txtbox"
+  ]
 }

@@ -22,9 +22,10 @@ class CohortListPage:
         self.gp_practice_name_field = page.locator("th#nameFilter > input")
         self.gp_code_field = page.locator("th#codeFilter > input")
         self.add_gp_practices_to_include = page.locator("//button[text()='Add']")
-        self.cancel_creating_screening_cohort = page.locator("a#cancelButton")
+        CANCEL_BUTTON_SELECTOR = "a#cancelButton"
+        self.cancel_creating_screening_cohort = page.locator(CANCEL_BUTTON_SELECTOR)
         self.expected_attendance_rate = page.locator("input#uptakePercentage")
-        self.done_btn_gp_practices_incluse_popup = page.locator(
+        self.done_btn_gp_practices_include_popup = page.locator(
             "button#cancelButtonInAmendCohortPopup"
         )
         self.screening_cohort_name_filter = page.locator("th#descriptionFilter > input")
@@ -38,7 +39,7 @@ class CohortListPage:
         self.remove_btn_included_gp_practices = page.locator("button#deleteBtn_301")
         self.filtered_cohort_name = page.locator("//tbody/tr/td[2]")
         self.filtered_cohort_pencil_icon = page.locator("tbody tr td .glyphicon-pencil")
-        self.amend_cohort_cancel_button = page.locator("a#cancelButton")
+        self.amend_cohort_cancel_button = page.locator(CANCEL_BUTTON_SELECTOR)
         self.amend_screening_cohort_name_txtbox = page.locator("input#description")
         self.amend_attendance_rate_txtbox = page.locator("input#uptakePercentage")
         self.amend_screening_location_dropdown = page.locator("select#defaultLocation")
@@ -58,7 +59,7 @@ class CohortListPage:
         self.create_screening_cohort_by_outcode_btn = page.locator(
             "button#addCohortByOutcodeButton"
         )
-        self.cancel_cohort_by_outcode_btn = page.locator("a#cancelButton")
+        self.cancel_cohort_by_outcode_btn = page.locator(CANCEL_BUTTON_SELECTOR)
         self.save_cohort_by_outcode_btn = page.locator("button#saveButton")
         self.select_outcodes_btn = page.locator("button#selectElementsButton")
         self.outcode_filter = page.locator("#nameFilter > input")
@@ -177,6 +178,8 @@ class CohortListPage:
         return self
 
     def click_add_btn_gp_practices_to_include(self) -> CohortListPage:
+        self.page.wait_for_timeout(1000)  # Wait for the page to load
+        self.add_gp_practices_to_include.scroll_into_view_if_needed()
         self.add_gp_practices_to_include.click()
         return self
 
@@ -262,9 +265,9 @@ class CohortListPage:
         return self
 
     def value_of_filtered_cohort_name(self):
-        filterd_value = self.filtered_cohort_name.text_content()
+        filtered_value = self.filtered_cohort_name.text_content()
         self.page.wait_for_timeout(4000)
-        return filterd_value
+        return filtered_value
 
     def value_of_filtered_attendance(self):
         filtered_value = self.amend_attendance_rate_txtbox.input_value()
@@ -272,7 +275,7 @@ class CohortListPage:
         return filtered_value
 
     def click_done_btn_gp_practices_include_popup(self) -> CohortListPage:
-        self.done_btn_gp_practices_incluse_popup.click()
+        self.done_btn_gp_practices_include_popup.click()
         return self
 
     def enter_screening_cohort_name_filter(self, cohort_name: str) -> CohortListPage:

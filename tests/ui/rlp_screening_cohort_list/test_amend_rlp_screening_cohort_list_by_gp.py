@@ -25,7 +25,7 @@ def test_check_and_create_unit_test_data(
 
 
 #### Test_15
-def test_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
+def test_try_amend_cohort_by_dbl_click_and_invoke_pencil_icon(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
     """User invokes the Edit Cohort functionality by Double click list entry and Invoke Pencil Icon"""
@@ -33,7 +33,7 @@ def test_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
     UserTools().user_login(page, "BSO User1 - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
-    # creating cohort using method with hardcoded attendence and screening unit values
+    # creating cohort using method with hardcoded attendance and screening unit values
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
@@ -73,8 +73,8 @@ def test_amend_cohort_name_with_valid_data(
     rlp_cohort_list_page.enter_amend_screening_cohort_name(amend_cohort_name)
     rlp_cohort_list_page.click_amend_save_btn()
     rlp_cohort_list_page.enter_screening_cohort_name_filter(amend_cohort_name)
-    filterd_amend_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
-    assert amend_cohort_name == filterd_amend_name
+    filtered_amend_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
+    assert amend_cohort_name == filtered_amend_name
 
 
 ## Test_16 negative field data validation
@@ -231,113 +231,6 @@ def test_amend_cohort_unit_list(
     expect(page.get_by_text("Batman")).to_be_visible()
 
 
-#### Test_20
-def test_amend_added_gp_practices_are_visible(
-    page: Page, rlp_cohort_list_page: CohortListPage
-) -> None:
-    """Amend test - User Selects another GP Practice from the 'All available GP Practices' List by invoking the 'Add' PB"""
-    # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
-
-    cohort_name = f"cohort_name-{datetime.now()}"
-    location_name = "Aldi - Caldecott County Retail Park"
-    rlp_cohort_list_page.create_cohort(cohort_name, location_name)
-
-    rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    rlp_cohort_list_page.dbl_click_on_filtered_cohort()
-    page.wait_for_timeout(3000)
-    # including gp practice
-    rlp_cohort_list_page.click_select_gp_practices_btn()
-    rlp_cohort_list_page.enter_gp_code_field("A00002")
-    rlp_cohort_list_page.click_add_btn_gp_practices_to_include()
-    rlp_cohort_list_page.click_done_btn_gp_practices_include_popup()
-    rlp_cohort_list_page.click_select_gp_practices_btn()
-    rlp_cohort_list_page.enter_gp_code_field("A00003")
-    rlp_cohort_list_page.click_add_btn_gp_practices_to_include()
-    rlp_cohort_list_page.click_done_btn_gp_practices_include_popup()
-    rlp_cohort_list_page.click_create_screening_cohort_save_btn()
-    rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    rlp_cohort_list_page.dbl_click_on_filtered_cohort()
-    included_gp_practices = page.locator(
-        "//table[@id='practicesToIncludeList']//tr//td[2]"
-    ).count()
-    assert included_gp_practices == 3
-    # Locate all GP practice codes in the table
-    gp_practice_codes = page.locator(
-        "//div[@id='practicesToIncludeList_wrapper']//tr//td[2]"
-    ).all_inner_texts()
-    # Assert that "A00002" and "A00003" are in the list of GP practice codes
-    assert (
-        "A00002" in gp_practice_codes
-    ), "A00002 was not found in the included GP practices."
-    assert (
-        "A00003" in gp_practice_codes
-    ), "A00002 was not found in the included GP practices."
-    assert (
-        "A00005" in gp_practice_codes
-    ), "A00003 was not found in the included GP practices."
-
-
-#### Test_21
-def test_amend_remove_gp_practices(
-    page: Page, rlp_cohort_list_page: CohortListPage
-) -> None:
-    """
-    The 'Amend Screening Cohort' screen is displayed for the correct Cohort
-    Cohort has GP Practices selected in the 'Included GP Practices List'
-    User then selects to Remove GP Practices by invoking the 'Remove' button
-    """
-    # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
-
-    cohort_name = f"cohort_name-{datetime.now()}"
-    location_name = "Aldi - Caldecott County Retail Park"
-    rlp_cohort_list_page.create_cohort(cohort_name, location_name)
-
-    rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    rlp_cohort_list_page.dbl_click_on_filtered_cohort()
-    page.wait_for_timeout(3000)
-    # including gp practice
-    rlp_cohort_list_page.click_select_gp_practices_btn()
-    rlp_cohort_list_page.enter_gp_code_field("A00002")
-    rlp_cohort_list_page.click_add_btn_gp_practices_to_include()
-    rlp_cohort_list_page.click_done_btn_gp_practices_include_popup()
-    rlp_cohort_list_page.click_select_gp_practices_btn()
-    rlp_cohort_list_page.enter_gp_code_field("A00003")
-    rlp_cohort_list_page.click_add_btn_gp_practices_to_include()
-    rlp_cohort_list_page.click_done_btn_gp_practices_include_popup()
-    rlp_cohort_list_page.click_create_screening_cohort_save_btn()
-    rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    rlp_cohort_list_page.dbl_click_on_filtered_cohort()
-    included_gp_practices = page.locator(
-        "//table[@id='practicesToIncludeList']//tr//td[2]"
-    ).count()
-    assert included_gp_practices == 3
-
-    # removing one included gp practice
-    rlp_cohort_list_page.click_remove_button_by_gp_code("A00002")
-    removed_included_gp_practices = page.locator(
-        "//table[@id='practicesToIncludeList']//tr//td[2]"
-    ).count()
-    assert removed_included_gp_practices == 2
-
-    # removing one included gp practice
-    rlp_cohort_list_page.click_remove_button_by_gp_code("A00003")
-    removed_included_gp_practices = page.locator(
-        "//table[@id='practicesToIncludeList']//tr//td[2]"
-    ).count()
-    assert removed_included_gp_practices == 1
-
-    # removing last of the included gp practice
-    rlp_cohort_list_page.click_remove_button_by_gp_code("A00005")
-    removed_included_gp_practices = page.locator(
-        "//table[@id='practicesToIncludeList']//tr//td[2]"
-    ).count()
-    assert removed_included_gp_practices == 0
-
-
 #### Test_22
 def test_amend_cancel_adding_gp_practices(
     page: Page, rlp_cohort_list_page: CohortListPage
@@ -373,7 +266,7 @@ def test_amend_cohort_name_available_for_user2(
     UserTools().user_login(page, "BSO User1 - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
-    # creating cohort using method with hardcoded attendence
+    # creating cohort using method with hardcoded attendance
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
     unit_name = "Batman"
@@ -393,3 +286,87 @@ def test_amend_cohort_name_available_for_user2(
     rlp_cohort_list_page.enter_screening_cohort_name_filter(amend_cohort_name)
     filtered_amend_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
     assert amend_cohort_name == filtered_amend_name
+
+
+def create_cohort_and_add_gp_practices(
+    page, rlp_cohort_list_page, cohort_name, location_name, gp_codes, expected_count
+):
+    UserTools().user_login(page, "BSO User1 - BS1")
+    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    rlp_cohort_list_page.create_cohort(cohort_name, location_name)
+    rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
+    rlp_cohort_list_page.dbl_click_on_filtered_cohort()
+    page.wait_for_timeout(3000)
+    for gp_code in gp_codes:
+        rlp_cohort_list_page.click_select_gp_practices_btn()
+        rlp_cohort_list_page.enter_gp_code_field(gp_code)
+        rlp_cohort_list_page.click_add_btn_gp_practices_to_include()
+        rlp_cohort_list_page.click_done_btn_gp_practices_include_popup()
+    rlp_cohort_list_page.click_create_screening_cohort_save_btn()
+    rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
+    rlp_cohort_list_page.dbl_click_on_filtered_cohort()
+    included_gp_practices = page.locator("//table[@id='practicesToIncludeList']//tr//td[2]").count()
+    assert included_gp_practices == expected_count
+
+
+#### Test_20
+def test_amend_added_gp_practices_are_visible(
+    page: Page, rlp_cohort_list_page: CohortListPage
+) -> None:
+    """Amend test - User Selects another GP Practice from the 'All available GP Practices' List by invoking the 'Add' PB"""
+    # Logged into BSS_SO1
+    cohort_name = f"cohort_name-{datetime.now()}"
+    location_name = "Aldi - Caldecott County Retail Park"
+    create_cohort_and_add_gp_practices(page, rlp_cohort_list_page, cohort_name, location_name, ["A00002", "A00003"], 3)
+    # Locate all GP practice codes in the table
+    gp_practice_codes = page.locator(
+        "//div[@id='practicesToIncludeList_wrapper']//tr//td[2]"
+    ).all_inner_texts()
+    # Assert that "A00002" and "A00003" are in the list of GP practice codes
+    assert (
+        "A00002" in gp_practice_codes
+    ), "A00002 was not found in the included GP practices."
+    assert (
+        "A00003" in gp_practice_codes
+    ), "A00002 was not found in the included GP practices."
+    assert (
+        "A00005" in gp_practice_codes
+    ), "A00003 was not found in the included GP practices."
+
+
+#### Test_21
+def test_amend_remove_gp_practices(
+    page: Page, rlp_cohort_list_page: CohortListPage
+) -> None:
+    """
+    The 'Amend Screening Cohort' screen is displayed for the correct Cohort
+    Cohort has GP Practices selected in the 'Included GP Practices List'
+    User then selects to Remove GP Practices by invoking the 'Remove' button
+    """
+    # Logged into BSS_SO1
+    cohort_name = f"cohort_name-{datetime.now()}"
+    location_name = "Aldi - Caldecott County Retail Park"
+    create_cohort_and_add_gp_practices(page, rlp_cohort_list_page, cohort_name, location_name, ["A00002", "A00003"], 3)
+
+    # removing one included gp practice
+    rlp_cohort_list_page.click_remove_button_by_gp_code("A00002")
+    removed_included_gp_practices = page.locator(
+        "//table[@id='practicesToIncludeList']//tr//td[2]"
+    ).count()
+    assert removed_included_gp_practices == 2
+
+    # removing one included gp practice
+    rlp_cohort_list_page.click_remove_button_by_gp_code("A00003")
+    removed_included_gp_practices = page.locator(
+        "//table[@id='practicesToIncludeList']//tr//td[2]"
+    ).count()
+    assert removed_included_gp_practices == 1
+
+    # removing last of the included gp practice
+    rlp_cohort_list_page.click_remove_button_by_gp_code("A00005")
+    removed_included_gp_practices = page.locator(
+        "//table[@id='practicesToIncludeList']//tr//td[2]"
+    ).count()
+    assert removed_included_gp_practices == 0
+
+
