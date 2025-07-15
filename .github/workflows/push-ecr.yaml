@@ -36,11 +36,23 @@ jobs:
 
 
       - name: Build Docker And Push image
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
         run: |
+          if [ "$BRANCH_NAME" = "main" ]; then
+            IMAGE_TAG="latest"
+          else
+            # Extract the ticket from the branch name
+            TICKET=$(echo "$BRANCH_NAME" | grep -oiE '[a-z]+[0-9]+-[0-9]+')
+            IMAGE_TAG="${TICKET}_current"
+          fi
+          IMAGE_TAG="${IMAGE_TAG,,}"  # Convert to lower case
+
+          # Convert IMAGE_NAME to lower case
           IMAGE_NAME="${IMAGE_NAME,,}"
           echo "IMAGE_NAME is $IMAGE_NAME"
-          docker build -f buildBase.dockerfile -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
-          docker push ${{env.REGISTRY}}/$IMAGE_NAME:latest
+          docker build -f buildBase.dockerfile -t ${{env.REGISTRY}}/$IMAGE_NAME:$IMAGE_TAG .
+          docker push ${{env.REGISTRY}}/$IMAGE_NAME:$IMAGE_TAG
 
 
 
