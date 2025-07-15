@@ -34,12 +34,37 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker And Push image
-        run: |
-          IMAGE_NAME="${IMAGE_NAME,,}"
-          echo "IMAGE_NAME is $IMAGE_NAME"
-          docker build -f buildBase.dockerfile -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
-          docker push ${{env.REGISTRY}}/$IMAGE_NAME:latest
+      # This step uses [docker/metadata-action](https://github.com/docker/metadata-action#about) to extract tags and labels that will be applied to the specified image. The `id` "meta" allows the output of this step to be referenced in a subsequent step. The `images` value provides the base name for the tags and labels.
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+
+      # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see [Using artifact attestations to establish provenance for builds](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+      # - name: Build Docker And Push image
+      #   run: |
+      #     IMAGE_NAME="${IMAGE_NAME,,}"
+      #     echo "IMAGE_NAME is $IMAGE_NAME"
+      #     docker build -f buildBase.dockerfile -t ${{env.REGISTRY}}/$IMAGE_NAME:latest .
+      #     docker push ${{env.REGISTRY}}/$IMAGE_NAME:latest
 
 
 
