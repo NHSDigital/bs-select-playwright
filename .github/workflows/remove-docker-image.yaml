@@ -25,6 +25,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{secrets.TEXAS_NONPROD_ACCOUNT_ID}}:role/bs-select-jenkins-assume-role
+          aws-region: eu-west-2
+          output-credentials: true
+
       - name: Login to ECR
         uses: docker/login-action@v3
         with:
