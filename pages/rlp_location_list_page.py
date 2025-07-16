@@ -83,7 +83,7 @@ class ScreeningLocationListPage:
         self.page.wait_for_timeout(4000)
         self.filtered_location.dblclick()
 
-    def enter_amend_screening_location_name_fn(self) -> ScreeningLocationListPage:
+    def enter_amend_screening_location_name_fn(self) -> str:
         existing_value = self.amend_screening_location_name.input_value()
         new_name = f"{existing_value}+ Amend"
         self.amend_screening_location_name.fill(new_name)

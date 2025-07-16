@@ -110,7 +110,7 @@ def test_ceased_both_nhs_number(page: Page, ceased_page: CeasedUnceasedPage) -> 
     ScreenshotTool(page).take_screenshot("ceased_both_nhs_number")
 
 
-def test_ceased_both_date_added_to_BSO(
+def test_ceased_both_date_added_to_bso(
     page: Page, ceased_page: CeasedUnceasedPage
 ) -> None:
     """
