@@ -53,6 +53,7 @@ def test_count_display_for_ntdd_with_blank_selected_date_selected_and_rejected_f
 
 
 # TC-7, TC-8
+@pytest.mark.rory
 def test_count_display_for_ntdd_with_selected_date_selected_and_rejected_fields(
     page: Page, ni_ri_sp_batch_page: NiRiSpBatchPage, login_and_create_ntdd_batch: dict
 ) -> None:
