@@ -1,6 +1,9 @@
 name: Remove Docker Image
 
 on:
+  push:
+    branches:
+      - 'feature/**'
   workflow_dispatch:
 
   # pull_request:
