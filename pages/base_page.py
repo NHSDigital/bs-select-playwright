@@ -3,12 +3,16 @@ from playwright.sync_api import Page, expect
 
 
 class BasePage:
+    HEADER: str
 
     def __init__(self, page: Page) -> None:
         self.page = page
         self.menu_bar = self.page.locator("#bss-menu-bar")
 
-    def verify_header(self, header: str) -> None:
+    def verify_header(self) -> None:
+        header = getattr(self, "HEADER", None)
+        if header is None:
+            raise ValueError(f"{self.__class__.__name__} must provide a header.")
         expect(self.page.get_by_role("heading")).to_contain_text(header)
 
     def select_menu_option(self, menu_option: str, sub_menu_option: str = "") -> None:

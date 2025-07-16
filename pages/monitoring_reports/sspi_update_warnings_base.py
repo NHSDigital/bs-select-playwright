@@ -9,10 +9,6 @@ class SSPIUpdateWarningsBasePage(ReportPage):
         ReportPage.__init__(self, page)
         self.action_list = page.locator("#actionList")
         self.API_REQUEST = ""  # This is set by specific action or information page
-        self.HEADER = ""  # This is set by specific action or information page
-
-    def verify_header(self) -> None:
-        super().verify_header(self.HEADER)
 
     def set_done_drop_down(self, value: str) -> None:
         self.action_list.select_option(value)
