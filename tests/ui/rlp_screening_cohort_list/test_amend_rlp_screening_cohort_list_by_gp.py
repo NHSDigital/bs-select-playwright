@@ -13,7 +13,6 @@ from utils.user_tools import UserTools
 
 
 # test to create the unit test data
-@pytest.mark.amendcohortgp
 def test_check_and_create_unit_test_data(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -27,7 +26,6 @@ def test_check_and_create_unit_test_data(
 
 
 #### Test_15
-@pytest.mark.amendcohortgp
 def test_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -56,7 +54,6 @@ def test_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
 
 #### Test_16 positive data validation
 @pytest.mark.parametrize("input_length", [3, 100])
-@pytest.mark.amendcohortgp
 def test_amend_cohort_name_with_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, input_length
 ) -> None:
@@ -82,7 +79,6 @@ def test_amend_cohort_name_with_valid_data(
 
 
 ## Test_16 negative field data validation
-@pytest.mark.amendcohortgp
 @pytest.mark.parametrize(
     "amend_name, expected_message",
     [
@@ -115,7 +111,6 @@ def test_amend_screening_cohort_with_invalid_data(
 
 
 #### Test_17 positive field data validation for amend Expected Attendance Rate
-@pytest.mark.amendcohortgp
 @pytest.mark.parametrize("input_value", ["0.0", "100.0"])
 def test_amend_expected_attendance_rate_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, input_value
@@ -140,7 +135,6 @@ def test_amend_expected_attendance_rate_valid_data(
 
 
 #### Test_17 negative test for amend Expected Attendance Rate field
-@pytest.mark.amendcohortgp
 @pytest.mark.parametrize(
     "amend_attendance_rate, expected_message",
     [
@@ -171,7 +165,6 @@ def test_amend_expected_attendance_rate_invalid_data(
 
 
 #### Test_18
-@pytest.mark.amendcohortgp
 def test_amend_cohort_location(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -207,7 +200,6 @@ def test_amend_cohort_location(
 
 
 #### Test_19
-@pytest.mark.amendcohortgp
 def test_amend_cohort_unit_list(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -241,7 +233,6 @@ def test_amend_cohort_unit_list(
 
 
 #### Test_20
-@pytest.mark.amendcohortgp
 def test_amend_added_gp_practices_are_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -290,7 +281,6 @@ def test_amend_added_gp_practices_are_visible(
 
 
 #### Test_21
-@pytest.mark.amendcohortgp
 def test_amend_remove_gp_practices(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -350,7 +340,6 @@ def test_amend_remove_gp_practices(
 
 
 #### Test_22
-@pytest.mark.amendcohortgp
 def test_amend_cancel_adding_gp_practices(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -377,7 +366,6 @@ def test_amend_cancel_adding_gp_practices(
 
 
 #### Test_23
-@pytest.mark.amendcohortgp
 def test_amend_cohort_name_avilable_for_user2(
     page: Page, rlp_cohort_list_page: CohortListPage, context
 ) -> None:
