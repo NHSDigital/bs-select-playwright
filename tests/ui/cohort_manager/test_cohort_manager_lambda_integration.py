@@ -709,7 +709,7 @@ def test_where_nhs_num_does_not_exists_superseded_nhs_num_exists(
 
 
 # TC-15, 16, 17
-def test_death_date_and_reason_for_reamoval_populated_using_dummy_GP_practice_code_pi_changes_gp_practice_code_is_Null_with_reason_for_removal(
+def test_death_date_and_reason_for_removal_populated_using_dummy_gp_practice_code_pi_changes_gp_practice_code_is_null_with_reason_for_removal(
     db_util: DbUtil,
 ) -> None:
     """

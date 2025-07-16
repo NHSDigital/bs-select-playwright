@@ -1,7 +1,6 @@
 import playwright
 import pytest
 
-# from conftest import db_util
 from pages.main_menu import MainMenuPage
 from pages.rlp_cohort_list_page import CohortListPage
 from playwright.sync_api import expect, Page, Playwright
