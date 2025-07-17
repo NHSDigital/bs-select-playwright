@@ -8,6 +8,8 @@ import logging
 import os
 from pathlib import Path
 import typing
+from collections.abc import MutableMapping
+from typing import Any
 
 import pytest
 from dotenv import load_dotenv
@@ -70,7 +72,7 @@ def ni_ri_sp_batch_page(page: Page) -> NiRiSpBatchPage:
     return NiRiSpBatchPage(page)
 
 # This variable is used for JSON reporting only
-ENVIRONMENT_DATA = {}
+ENVIRONMENT_DATA = None
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -129,7 +131,7 @@ def pytest_json_runtest_metadata(item: object) -> dict:
 
 
 @pytest.hookimpl(optionalhook=True)
-def pytest_json_modifyreport(json_report: object) -> None:
+def pytest_json_modifyreport(json_report: MutableMapping[str, Any]) -> None:
     # Add env data to json report if present
     if ENVIRONMENT_DATA != None:
         json_report["environment_data"] = ENVIRONMENT_DATA
