@@ -338,10 +338,8 @@ def test_where_nhs_num_exists_superseded_nhs_num_does_not_exists(
     message_id = "ffffffff-ffff-ffff-ffff-ffffffffff11"
     request_id = "33ccaa03-9e8e-4aad-a14d-f25d697dcb3a"
 
-    assert subject_count_by_nhs_number(db_util, nhs_number_before,
-                                       "subjects") == 1, "expected 1 subject record for nhs_number_before"
-    assert subject_count_by_nhs_number(db_util, superseded_nhs_number,
-                                       "subjects") == 0, "expected 0 subject record for superseded_nhs_number"
+    assert subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 1
+    assert subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects") == 0
     prev_subject_audit_count = subject_count_by_nhs_number(
         db_util, superseded_nhs_number, "audit_subjects"
     )
