@@ -1,10 +1,8 @@
-name: Build Docker Image on Feature Branch
+name: Build Docker Image
 
 on:
-  push:
-    branches:
-      - 'feature/**'
-      - 'main'
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -35,7 +33,7 @@ jobs:
 
       - name: Build, tag, and push Docker image
         env:
-          BRANCH_NAME: ${{ github.ref_name }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         run: |
           if [ "$BRANCH_NAME" = "main" ]; then
             IMAGE_TAG="latest"
