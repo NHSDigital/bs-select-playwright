@@ -478,7 +478,7 @@ def test_outcode_search_feature_using_cohort_type(
     rlp_cohort_list_page.select_cohort_type_dropdown(search_term)
     filtered_values = page.locator("//tbody/tr/td[6]").all_text_contents()
     # Assert that each value contains "cohort"
-    if search_term is "All":
+    if search_term == "All":
         ui_row_count_after = rlp_cohort_list_page.extract_cohort_paging_info()
         assert ui_row_count_before == ui_row_count_after
     else:
