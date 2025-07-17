@@ -46,4 +46,6 @@ jobs:
           IMAGE_TAG="${TICKET}_current"
           IMAGE_TAG="${IMAGE_TAG,,}"  # Convert to lower case
 
-          docker rmi ${{env.ECR_REPOSITORY}}/${{env.IMAGE_NAME}}:$IMAGE_TAG || echo "Image not found"
+          aws ecr list-images --repository-name ${{env.IMAGE_NAME}} --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
+
+          # docker rmi ${{env.ECR_REPOSITORY}}/${{env.IMAGE_NAME}}:$IMAGE_TAG || echo "Image not found"
