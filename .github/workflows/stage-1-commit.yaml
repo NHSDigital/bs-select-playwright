@@ -1,7 +1,6 @@
 name: "Commit stage"
 
 on:
-  workflow_dispatch:
   workflow_call:
     inputs:
       build_datetime:
