@@ -46,5 +46,5 @@ jobs:
           IMAGE_TAG="${TICKET}_current"
           IMAGE_TAG="${IMAGE_TAG,,}"  # Convert to lower case
          
-          aws ecr list-images --registry-id 461183108257 --repository-name ${{env.IMAGE_NAME}} --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table --registry-id $REGISTRY || echo "No images found in ECR"
+          aws ecr list-images --registry-id "461183108257" --repository-name ${{env.IMAGE_NAME}} --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table --registry-id $REGISTRY || echo "No images found in ECR"
 
