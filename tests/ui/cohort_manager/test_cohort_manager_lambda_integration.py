@@ -788,7 +788,7 @@ def test_death_date_and_reason_for_removal_populated_using_dummy_gp_practice_cod
     )
     assert (
         fetch_subject_column_value(db_util, nhs_number_16, "gp_practice_id") == 100032
-    )  # todo add UI assertions
+    )
     assert (
         fetch_subject_column_value(db_util, nhs_number_17, "removal_reason")
         == "REMOVAL"
