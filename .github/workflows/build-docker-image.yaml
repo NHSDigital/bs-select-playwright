@@ -16,9 +16,6 @@ jobs:
       id-token: write  # Required for OIDC authentication
 
     steps:
-      - name: Dump workflow_run payload
-        run: echo "${{ toJSON(github.event.workflow_run) }}"
-
       - name: Checkout code
         uses: actions/checkout@v4
 
