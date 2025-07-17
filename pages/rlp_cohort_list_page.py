@@ -22,8 +22,8 @@ class CohortListPage:
         self.gp_practice_name_field = page.locator("th#nameFilter > input")
         self.gp_code_field = page.locator("th#codeFilter > input")
         self.add_gp_practices_to_include = page.locator("//button[text()='Add']")
-        CANCEL_BUTTON_SELECTOR = "a#cancelButton"
-        self.cancel_creating_screening_cohort = page.locator(CANCEL_BUTTON_SELECTOR)
+        cancel_button_selector = "a#cancelButton"
+        self.cancel_creating_screening_cohort = page.locator(cancel_button_selector)
         self.expected_attendance_rate = page.locator("input#uptakePercentage")
         self.done_btn_gp_practices_include_popup = page.locator(
             "button#cancelButtonInAmendCohortPopup"
@@ -39,7 +39,7 @@ class CohortListPage:
         self.remove_btn_included_gp_practices = page.locator("button#deleteBtn_301")
         self.filtered_cohort_name = page.locator("//tbody/tr/td[2]")
         self.filtered_cohort_pencil_icon = page.locator("tbody tr td .glyphicon-pencil")
-        self.amend_cohort_cancel_button = page.locator(CANCEL_BUTTON_SELECTOR)
+        self.amend_cohort_cancel_button = page.locator(cancel_button_selector)
         self.amend_screening_cohort_name_txtbox = page.locator("input#description")
         self.amend_attendance_rate_txtbox = page.locator("input#uptakePercentage")
         self.amend_screening_location_dropdown = page.locator("select#defaultLocation")
@@ -59,7 +59,7 @@ class CohortListPage:
         self.create_screening_cohort_by_outcode_btn = page.locator(
             "button#addCohortByOutcodeButton"
         )
-        self.cancel_cohort_by_outcode_btn = page.locator(CANCEL_BUTTON_SELECTOR)
+        self.cancel_cohort_by_outcode_btn = page.locator(cancel_button_selector)
         self.save_cohort_by_outcode_btn = page.locator("button#saveButton")
         self.select_outcodes_btn = page.locator("button#selectElementsButton")
         self.outcode_filter = page.locator("#nameFilter > input")

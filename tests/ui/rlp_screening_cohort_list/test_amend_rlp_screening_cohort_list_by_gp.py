@@ -38,11 +38,11 @@ def test_try_amend_cohort_by_dbl_click_and_invoke_pencil_icon(
     location_name = "Poundland Car Park - Alberta Retail Park"
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
 
-    # Filter the newly created cohort and double clicking on the cohort to amend(testing double click)
+    # Filter the newly created cohort and double_clicking on the cohort to amend(testing double click)
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
     expect(page.get_by_text("Amend Screening Cohort")).to_be_visible()
-    # cancelling the amend
+    # cancelling amend
     rlp_cohort_list_page.click_amend_cohort_cancel_button()
 
     # Filter the newly created cohort and clicking on the cohort pencil to amend(testing pencil icon)
