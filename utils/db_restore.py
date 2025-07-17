@@ -49,7 +49,7 @@ class DbRestore:
             except Exception as e:
                 logging.info(f"NO connection found to disconnect from! - {e}")
 
-    def download_backup_from_s3(self, profile_name: str):
+    def download_backup_from_s3(self):
         """Download the database backup from S3 to a local temporary file."""
         session = boto3.Session(profile_name="bs-select-rw-user-730319765130")
         s3 = session.client("s3")
@@ -108,7 +108,7 @@ class DbRestore:
         self.recreate_db()
         self.disconnect()
         logging.info("Downloading backup from S3...")
-        self.download_backup_from_s3(profile_name=os.getenv("AWS_PROFILE"))
+        self.download_backup_from_s3()
         logging.info("Starting database restore...")
         start_time = time.time()
         self.restore_backup()
