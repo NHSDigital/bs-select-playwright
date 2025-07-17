@@ -47,7 +47,10 @@ jobs:
           IMAGE_TAG="${IMAGE_TAG,,}"  # Convert to lower case
 
           REGISTRY="${{ secrets.TEXAS_MANAGEMENT_ACCOUNT_ID }}"
-          aws ecr list-images --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
+          aws ecr list-images --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} \
+           --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
 
-          aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG} || echo "No images found to delete"
+          aws ecr untag-resource
+            --resource-arn ${{env.ECR_REPOSITORY}}/${{env.IMAGE_NAME}} \
+            --tag-keys ${IMAGE_TAG} || echo "No tags found for the image"
 
