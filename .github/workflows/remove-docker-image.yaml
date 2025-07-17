@@ -49,3 +49,5 @@ jobs:
           REGISTRY="${{ secrets.TEXAS_MANAGEMENT_ACCOUNT_ID }}"
           aws ecr list-images --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
 
+          aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG} || echo "No images found to delete"
+
