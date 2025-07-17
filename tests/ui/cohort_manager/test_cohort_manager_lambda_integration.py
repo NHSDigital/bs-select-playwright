@@ -924,9 +924,7 @@ def get_latest_records_by_nhs_number(db_conn, nhs_number, limit) -> DataFrame | 
 def wait_for_assertion(assert_func, timeout=90, interval=3):
     end_time = time.time() + timeout
 
-    counter = 0
     while time.time() < end_time:
-        counter += 1
         if assert_func():
             return
         time.sleep(interval)
