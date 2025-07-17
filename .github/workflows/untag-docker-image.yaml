@@ -1,4 +1,4 @@
-name: Remove Docker Image
+name: Untag Docker Image
 
 on:
   push:
@@ -50,7 +50,7 @@ jobs:
           aws ecr list-images --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} \
            --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
 
-          aws ecr untag-resource
+          aws ecr untag-resource \
             --resource-arn ${{env.ECR_REPOSITORY}}/${{env.IMAGE_NAME}} \
             --tag-keys ${IMAGE_TAG} || echo "No tags found for the image"
 
