@@ -47,6 +47,6 @@ jobs:
           IMAGE_TAG="${IMAGE_TAG,,}"  # Convert to lower case
 
           REGISTRY="${{ env.ECR_REPOSITORY }}"
-          aws ecr list-images --registry-id ${{secrets.TEXAS_MANAGEMENT_ACCOUNT_ID}} --repository-name ${{env.IMAGE_NAME}} --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table --registry-id $REGISTRY || echo "No images found in ECR"
+          aws ecr list-images --registry-id 461183108257 --repository-name ${{env.IMAGE_NAME}} --filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table --registry-id $REGISTRY || echo "No images found in ECR"
 
           # docker rmi ${{env.ECR_REPOSITORY}}/${{env.IMAGE_NAME}}:$IMAGE_TAG || echo "Image not found"
