@@ -259,4 +259,4 @@ def test_user2_from_same_bso_can_access_the_user1_amended_data(
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     rlp_unit_list_page.filter_unit_by_name(amend_unit_name)
     ScreenshotTool(page).take_screenshot("rlp_unit_amend_tc_31")
-    assert page.wait_for_selector(f"//tr//td[4]").text_content() == amend_unit_name
+    assert page.wait_for_selector("//tr//td[4]").text_content() == amend_unit_name

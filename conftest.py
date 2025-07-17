@@ -4,29 +4,30 @@ This file is used to define fixtures that can be used across multiple test files
 It is also used to define hooks that can be used to modify the behavior of pytest.
 """
 
-import pytest
+import logging
 import os
-import typing
-from dotenv import load_dotenv
 from pathlib import Path
+import typing
+
+import pytest
+from dotenv import load_dotenv
 from _pytest.python import Function
 from pytest_html.report_data import ReportData
+from playwright.sync_api import Page, sync_playwright
 
+from pages.main_menu import MainMenuPage
 from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
+
 from utils.db_util import DbUtil
-import logging
-from playwright.sync_api import sync_playwright
 from utils.db_restore import DbRestore
 from utils.user_tools import UserTools
 
-logger = logging.getLogger(__name__)
-from playwright.sync_api import Page
 from pages.rlp_cohort_list_page import CohortListPage
 from pages.rlp_location_list_page import ScreeningLocationListPage
 from pages.rlp_unit_list_page import ScreeningUnitListPage
-from pages.main_menu import MainMenuPage
+from utils.user_tools import UserTools
 
-
+logger = logging.getLogger(__name__)
 LOCAL_ENV_PATH = Path(os.getcwd()) / "local.env"
 
 
@@ -85,11 +86,13 @@ def db_util():
     return db
 
 # This variable is used for JSON reporting only
-ENVIRONMENT_DATA = None
+ENVIRONMENT_DATA = {}
 
 
 @pytest.fixture(autouse=True, scope="session")
 def environment_info(metadata: object, base_url: str) -> None:
+    APPLICATION_DETAILS = "Application Details"
+    DATABASE_DETAILS = "Database Details"
 
     def filter_result(results: dict, key: str) -> str:
         """This is for tidying up the response for the HTML report"""
@@ -114,11 +117,11 @@ def environment_info(metadata: object, base_url: str) -> None:
                     },
                     ignore_https_errors=True,
                 )
-                metadata["Application Details"] = filter_result(
-                    result.json(), "Application Details"
+                metadata[APPLICATION_DETAILS] = filter_result(
+                    result.json(), APPLICATION_DETAILS
                 )
-                metadata["Database Details"] = filter_result(
-                    result.json(), "Database Details"
+                metadata[DATABASE_DETAILS] = filter_result(
+                    result.json(), DATABASE_DETAILS
                 )
                 global ENVIRONMENT_DATA
                 ENVIRONMENT_DATA = result.json()
@@ -128,8 +131,8 @@ def environment_info(metadata: object, base_url: str) -> None:
         except Exception as ex:
             logger.warning("Not been able to capture environment data for this run.")
             logger.warning(f"Exception: {ex}")
-            metadata["Application Details"] = "Unable to retrieve"
-            metadata["Database Details"] = "Unable to retrieve"
+            metadata[APPLICATION_DETAILS] = "Unable to retrieve"
+            metadata[DATABASE_DETAILS] = "Unable to retrieve"
 
 
 # --- JSON Report Generation ---

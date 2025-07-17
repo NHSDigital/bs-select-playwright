@@ -51,16 +51,9 @@ class DbRestore:
 
     def download_backup_from_s3(self, profile_name: str):
         """Download the database backup from S3 to a local temporary file."""
-
-        try:
-            logging.info(f"Downloading backup from S3 bucket: {self.s3_bucket}, key: {self.s3_backup_key} with profile: {profile_name}")
-            session = boto3.Session(profile_name=profile_name)
-            s3 = session.client("s3")
-            Path(os.path.dirname(self.local_backup_path)).mkdir(parents=True, exist_ok=True)
-            s3.download_file(self.s3_bucket, self.s3_backup_key, self.local_backup_path)
-            logging.info("Backup downloaded successfully.")
-        except Exception as e:
-            raise
+        session = boto3.Session(profile_name="bs-select-rw-user-730319765130")
+        s3 = session.client("s3")
+        s3.download_file(self.s3_bucket, self.s3_backup_key, self.local_backup_path)
 
     def restore_backup(self):
         """Restore the database from the downloaded backup."""

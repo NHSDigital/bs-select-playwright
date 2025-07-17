@@ -3,10 +3,8 @@ from playwright.sync_api import Page, expect
 from pages.base_page import BasePage
 
 
-PAGE_HEADER = "Choose Organisation"
-
-
 class OrgSelectionPage(BasePage):
+    HEADER = "Choose Organisation"
 
     def __init__(self, page: Page) -> None:
         BasePage.__init__(self, page)
@@ -29,6 +27,3 @@ class OrgSelectionPage(BasePage):
                     )
 
             self.page.get_by_role("button", name="Select Organisation").click()
-
-    def verify_header(self, header: str = PAGE_HEADER) -> None:
-        return super().verify_header(header)
