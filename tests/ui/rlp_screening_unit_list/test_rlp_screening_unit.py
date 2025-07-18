@@ -13,7 +13,6 @@ from pages.main_menu import MainMenuPage
 
 
 ## Scenario_01 ## Test_01, Test_3.1.4 ##
-@pytest.mark.rlpunit
 def test_all_data_loaded(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, db_util
 ) -> None:
@@ -28,7 +27,6 @@ def test_all_data_loaded(
 
 
 ## Scenario_02 ## Test 4.1.4, 7.1.1, 7.1.2, 8.1.1, 8.1.2, 9.1.1, 10.1.2, 10.1.3 ##
-@pytest.mark.rlpunit
 @pytest.mark.parametrize("unit_type", ["MOBILE", "STATIC"])
 @pytest.mark.parametrize("unit_status", ["ACTIVE", "INACTIVE"])
 def test_screening_unit_creation(
@@ -67,7 +65,6 @@ def test_screening_unit_creation(
 
 
 ## Scenario 2 ### Test 4.2.3 - Negative ##
-@pytest.mark.rlpunit
 def test_screening_unit_cancellation(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, db_util
 ) -> None:
@@ -93,7 +90,6 @@ def test_screening_unit_cancellation(
 
 
 ## Scenario 2 ## Test 5, 7.1.3, 8.1.3, 9.1.2 ##
-@pytest.mark.rlpunit1
 def test_defaults_are_set_correctly(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage
 ) -> None:
@@ -122,7 +118,6 @@ def test_defaults_are_set_correctly(
 
 
 ## Scenario 2 ## Test 6.1.1, 6.1.2, 6.1.3, 6.1.4 ##
-@pytest.mark.rlpunit
 @pytest.mark.parametrize("input_length", [3, 50])
 def test_validate_add_new_unit_list_name_field(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, input_length
@@ -145,7 +140,6 @@ def test_validate_add_new_unit_list_name_field(
 
 
 ## Scenario 1&2 ## Test 7.2.1, 9.2.1, 9.2.2 ##
-@pytest.mark.rlpunit
 def test_negative_non_integer_values_and_empty_unit_type(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage
 ) -> None:
@@ -175,7 +169,6 @@ def test_negative_non_integer_values_and_empty_unit_type(
 
 
 ## Scenario 3 ## negative-Test 6.2.1, 6.2.2, 6.2.3, 6.2.4, 6.2.5, 14.2.1, 15.2.1 ##
-@pytest.mark.rlpunit
 @pytest.mark.parametrize("invalid_name", ["$#%&", "CA", "Batman", "    "])
 def test_negative_non_integer_values_and_empty_unit_type(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, invalid_name
@@ -203,7 +196,6 @@ def test_negative_non_integer_values_and_empty_unit_type(
 
 
 ## Scenario 1 ##Test 10.2.1 ##
-@pytest.mark.rlpunit
 def test_notes_shows_err_msg_for_invalid_chars(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage
 ) -> None:
@@ -225,7 +217,6 @@ def test_notes_shows_err_msg_for_invalid_chars(
 
 
 ## Scenario 2 ## Test 14.1.1, 14.1.2, 14.1.3, 14.1.4, 14.1.5, 10.1.1, 15.1.1, 15.1.2, 15.1.3, 15.1.4 ##
-@pytest.mark.rlpunit
 def test_add_screeing_unit_with_defaults(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage
 ) -> None:
@@ -245,7 +236,6 @@ def test_add_screeing_unit_with_defaults(
 
 
 ## Test_11 ##
-@pytest.mark.rlpunit
 def test_another_user_from_another_bso_creates_the_unit(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, context
 ) -> None:
@@ -269,7 +259,6 @@ def test_another_user_from_another_bso_creates_the_unit(
 
 
 ## Test_12 ##
-@pytest.mark.rlpunit
 def test_user2_from_same_bso_can_access_the_user1_data(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, context
 ) -> None:

@@ -22,7 +22,6 @@ logging.getLogger("botocore").setLevel(logging.WARNING)
 
 ################ CM Lambda Positive tests ####################
 # TC-9
-@pytest.mark.cm1
 def test_status_204(db_util: DbUtil) -> None:
     """
     trigger_lambda_with_python and assert the status of 204
@@ -33,7 +32,6 @@ def test_status_204(db_util: DbUtil) -> None:
 
 
 # TC-2,  this test covers TC-4 as well
-@pytest.mark.cm2
 def test_validate_max_field_length_in_db_pi_changes(db_util: DbUtil) -> None:
     """
     Test to validate cohort_manager max field length in db pi_changes table
@@ -139,7 +137,6 @@ def test_validate_max_field_length_in_db_pi_changes(db_util: DbUtil) -> None:
 
 
 # TC-3
-@pytest.mark.cm3
 def test_validate_greater_than_max_field_length_of_nhs_number_in_db_pi_changes(
     db_util: DbUtil,
 ) -> None:
@@ -182,7 +179,6 @@ def test_validate_greater_than_max_field_length_of_family_name_in_db_pi_changes(
 
 
 # TC-8 test covers TC-6 & TC-7
-@pytest.mark.tc8
 def test_to_add_and_update_participant_in_the_pi_changes(db_util: DbUtil) -> None:
     """
     Test to add and update the participant and assert the added and updaded values
@@ -331,7 +327,6 @@ def test_to_add_and_update_participant_in_the_pi_changes(db_util: DbUtil) -> Non
 
 
 # TC-11
-@pytest.mark.tc11
 def test_where_nhs_num_exists_superseded_nhs_num_does_not_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
@@ -424,7 +419,6 @@ def test_where_nhs_num_exists_superseded_nhs_num_does_not_exists(
 
 
 # TC-12
-# @pytest.mark.tc12
 def test_where_nhs_num_and_superseded_nhs_num_both_does_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
@@ -533,7 +527,6 @@ def test_where_nhs_num_and_superseded_nhs_num_both_does_exists(
 
 
 # TC-13
-@pytest.mark.tc13
 def test_where_nhs_num_and_superseded_nhs_num_both_does_not_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
@@ -625,7 +618,6 @@ def test_where_nhs_num_and_superseded_nhs_num_both_does_not_exists(
 
 
 # TC-14
-# @pytest.mark.tc14
 def test_where_nhs_num_does_not_exists_superseded_nhs_num_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
@@ -717,7 +709,6 @@ def test_where_nhs_num_does_not_exists_superseded_nhs_num_exists(
 
 
 # TC-15, 16, 17
-@pytest.mark.tc15
 def test_death_date_and_reason_for_removal_populated_using_dummy_gp_practice_code_pi_changes_gp_practice_code_is_null_with_reason_for_removal(
     db_util: DbUtil,
 ) -> None:

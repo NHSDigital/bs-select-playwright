@@ -14,7 +14,6 @@ from pages.main_menu import MainMenuPage
 
 
 ## Scenario 4 - 16.1.3, 18.1.1, 18.1.4, 21.1.2 ##
-@pytest.mark.rlpunit
 def test_amend_screeing_unit_name_verify_the_paging_count(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, db_util
 ) -> None:
@@ -47,7 +46,6 @@ def test_amend_screeing_unit_name_verify_the_paging_count(
 
 
 ## Scenario 4 - 18.1.2, 18.1.3, 19.1.1, 20.1.2 ##
-@pytest.mark.rlpunit
 @pytest.mark.parametrize("input_length", [3, 50])
 def test_amend_screeing_unit_name_using_min_max_char_length(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, input_length
@@ -80,7 +78,6 @@ def test_amend_screeing_unit_name_using_min_max_char_length(
 
 
 ## Scenario 4 - 16.2.3 ##
-@pytest.mark.rlpunit
 def test_cancel_amend_screeing_unit(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, db_util
 ) -> None:
@@ -110,7 +107,6 @@ def test_cancel_amend_screeing_unit(
 
 
 ## Scenario 4, 21.1.1, 24.1.2, 24.1.3, 29.1.5 ##
-@pytest.mark.rlpunit
 def test_amend_screeing_unit_days_and_notes(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage
 ) -> None:
@@ -154,7 +150,6 @@ def test_amend_screeing_unit_days_and_notes(
 
 
 ## Scenario 4 - 18.2.1, 18.2.2, 18.2.4, 18.2.5, 21.2.1, 21.2.2, 24.2.1, 30.2.1, 30.2.3 ##
-@pytest.mark.rlpunit
 @pytest.mark.parametrize("amend_unit_name", ["#$%&", "CA", "   ", "Batman"])
 def test_negative_amend_screeing_unit_name(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, amend_unit_name
@@ -199,7 +194,6 @@ def test_negative_amend_screeing_unit_name(
 
 
 ## Scenario 4 - 21.2.1, 21.2.2, 24.2.1, 28.2.1, 30.2.2 ##
-@pytest.mark.rlpunit
 def test_negative_amend_screeing_unit_name(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage
 ) -> None:
@@ -241,7 +235,6 @@ def test_negative_amend_screeing_unit_name(
 
 
 ## Test_31 ##
-@pytest.mark.rlpunit
 def test_user2_from_same_bso_can_access_the_user1_amended_data(
     page: Page, rlp_screening_unit_list_page: ScreeningUnitListPage, context
 ) -> None:
