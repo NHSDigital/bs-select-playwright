@@ -1,12 +1,9 @@
 import json
 import logging
 import time
-
-import pytest
 import boto3
 from pandas import DataFrame
 from playwright.sync_api import expect, Page
-
 from tests.ui.cohort_manager.cohort_manager_util import (
     fetch_subject_column_value,
     subject_count_by_nhs_number,

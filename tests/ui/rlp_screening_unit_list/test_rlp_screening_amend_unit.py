@@ -1,4 +1,3 @@
-import random
 import secrets
 import re
 import string
@@ -7,11 +6,9 @@ from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
 from pages.rlp_unit_list_page import ScreeningUnitListPage
 from utils.test_helpers import generate_random_string
-from utils import test_helpers
 from utils.screenshot_tool import ScreenshotTool
 from utils.user_tools import UserTools
 from pages.main_menu import MainMenuPage
-from utils.db_util import DbUtil
 
 
 ## Scenario 4 - 16.1.3, 18.1.1, 18.1.4, 21.1.2 ##
@@ -195,7 +192,7 @@ def test_negative_amend_screening_unit_name(
 
 
 ## Scenario 4 - 21.2.1, 21.2.2, 24.2.1, 28.2.1, 30.2.2 ##
-def test_negative_amend_screening_unit_name(
+def test_negative_amend_screening_unit_weekly_slot(
     page: Page, rlp_unit_list_page: ScreeningUnitListPage
 ) -> None:
     """

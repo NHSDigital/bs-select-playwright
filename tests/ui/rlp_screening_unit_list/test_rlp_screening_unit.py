@@ -1,4 +1,3 @@
-import random
 import secrets
 import re
 import string
@@ -10,7 +9,6 @@ from utils import test_helpers
 from utils.screenshot_tool import ScreenshotTool
 from utils.user_tools import UserTools
 from pages.main_menu import MainMenuPage
-from utils.db_util import DbUtil
 
 
 ## Scenario_01 ## Test_01, Test_3.1.4 ##

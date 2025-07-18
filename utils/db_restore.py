@@ -3,7 +3,6 @@ import boto3
 import psycopg2
 import time
 import subprocess
-from pathlib import Path
 import logging
 logger = logging.getLogger(__name__)
 

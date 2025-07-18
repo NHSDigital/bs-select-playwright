@@ -8,7 +8,6 @@ from pages.rlp_unit_list_page import ScreeningUnitListPage
 from utils.test_helpers import generate_random_string
 from utils.screenshot_tool import ScreenshotTool
 from utils.user_tools import UserTools
-from utils.db_util import DbUtil
 
 
 #### Test_01
