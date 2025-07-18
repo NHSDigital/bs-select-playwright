@@ -13,11 +13,7 @@ from pages.bso_mapping.gp_practice_list import GPListPage
 from utils.screenshot_tool import ScreenshotTool
 
 
-pytestmark = [pytest.mark.gppracticelist]
-
 # Fixtures
-
-
 @pytest.fixture(autouse=True)
 def log_in(user_tools: UserTools, page: Page) -> None:
     user_tools.user_login(page, "BSO User - BS1")
