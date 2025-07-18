@@ -44,7 +44,6 @@ def test_check_and_create_location_test_data_for_outcode(
 
 
 #### Test_45
-@pytest.mark.cohortoutcode
 def test_to_verify_gp_practice_and_outcode_buttons_are_enable(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -64,7 +63,6 @@ def test_to_verify_gp_practice_and_outcode_buttons_are_enable(
 
 
 ## Test_24
-@pytest.mark.cohortoutcode
 def test_for_outcode_defaults_are_set_and_displayed_correctly(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -94,7 +92,6 @@ def test_for_outcode_defaults_are_set_and_displayed_correctly(
 
 
 # Test_25
-@pytest.mark.cohortoutcode
 def test_for_outcode_cancel_function(page: Page, rlp_cohort_list_page: CohortListPage):
     """
     User is able to cancel Cohort without saving and able to retuen to cohort home page
@@ -110,7 +107,6 @@ def test_for_outcode_cancel_function(page: Page, rlp_cohort_list_page: CohortLis
 
 
 ## Test_26
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_create_screening_cohort_outcode_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, input_length
@@ -144,7 +140,6 @@ def test_create_screening_cohort_outcode_valid_data(
 
 
 # creating cohort for below test
-@pytest.mark.cohortoutcode
 def test_create_screening_cohort_outcode_test_data(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -166,7 +161,6 @@ def test_create_screening_cohort_outcode_test_data(
 
 
 ## Test_26 negative test
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize(
     "cohort_name, expected_message",
     [
@@ -199,7 +193,6 @@ def test_try_to_create_screening_cohort_outcode_with_invalid_data(
 
 
 ## Test_27
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize("attendance_rate", [0, 100])
 def test_outcode_expected_attendance_rate_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, attendance_rate
@@ -223,7 +216,6 @@ def test_outcode_expected_attendance_rate_valid_data(
 
 
 ## Test_27 negative test for Expected Attendance Rate field
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize(
     "attendance_rate, expected_message",
     [
@@ -250,7 +242,6 @@ def test_outcode_expected_attendance_rate_invalid_data(
 
 
 ## Test_28
-@pytest.mark.cohortoutcode
 def test_outcode_default_location_dropdown(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -272,7 +263,6 @@ def test_outcode_default_location_dropdown(
 
 
 ## Test_29
-@pytest.mark.cohortoutcode
 def test_outcode_default_unit_dropdown(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -294,7 +284,6 @@ def test_outcode_default_unit_dropdown(
 
 
 ## Test_30
-@pytest.mark.cohortoutcode
 def test_outcode_added_gp_practices_are_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -326,7 +315,6 @@ def test_outcode_added_gp_practices_are_visible(
 
 
 ## Test_31
-@pytest.mark.cohortoutcode
 def test_selects_to_remove_outcodes(page: Page, rlp_cohort_list_page: CohortListPage):
     """User selects to Remove Outcodes - Removes 1 Outcode, Removes 2 Outcode, Removes all Outcodes"""
     # Logged into BSS_SO2 user2
@@ -373,7 +361,6 @@ def test_selects_to_remove_outcodes(page: Page, rlp_cohort_list_page: CohortList
 
 
 ## Test_32
-@pytest.mark.cohortoutcode
 def test_outcode_click_save_without_filling_all_mandatory_fields(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -396,7 +383,6 @@ def test_outcode_click_save_without_filling_all_mandatory_fields(
 
 
 #### Test_44.1.1
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize("search_term", ["Cohort", "had"])
 def test_outcode_search_feature_using_description(
     page: Page, rlp_cohort_list_page: CohortListPage, search_term: str
@@ -418,7 +404,6 @@ def test_outcode_search_feature_using_description(
 
 
 #### Test_44.1.2
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize("search_term", ["Pound", "Park"])
 def test_outcode_search_feature_using_location(
     page: Page, rlp_cohort_list_page: CohortListPage, search_term: str
@@ -440,7 +425,6 @@ def test_outcode_search_feature_using_location(
 
 
 #### Test_44.1.3
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize("search_term", ["Bat", "Cap"])
 def test_outcode_search_feature_using_unit_name(
     page: Page, rlp_cohort_list_page: CohortListPage, search_term: str
@@ -462,7 +446,6 @@ def test_outcode_search_feature_using_unit_name(
 
 
 #### Test_44.1.4
-@pytest.mark.cohortoutcode
 @pytest.mark.parametrize("search_term", ["All", "Outcode", "Default"])
 def test_outcode_search_feature_using_cohort_type(
     page: Page, rlp_cohort_list_page: CohortListPage, search_term: str
@@ -489,7 +472,6 @@ def test_outcode_search_feature_using_cohort_type(
 
 
 ## Test_47
-@pytest.mark.cohortoutcode
 def test_gp_practice_exist_outcode_does_not_exist(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -514,7 +496,6 @@ def test_gp_practice_exist_outcode_does_not_exist(
 
 
 #### Test_48
-@pytest.mark.cohortoutcode
 def test_gp_practice_does_not_exist_outcode_exist(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
