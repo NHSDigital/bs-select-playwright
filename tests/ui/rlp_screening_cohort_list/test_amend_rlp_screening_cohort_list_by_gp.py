@@ -226,8 +226,8 @@ def test_amend_cohort_unit_list(
     rlp_cohort_list_page.click_amend_save_btn()
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     expect(page.get_by_text("Batman")).to_be_visible()
-    
-  
+
+
 #### Test_20
 def test_amend_added_gp_practices_are_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
@@ -286,7 +286,7 @@ def test_amend_remove_gp_practices(
     removed_included_gp_practices = page.locator(
         "//table[@id='practicesToIncludeList']//tr//td[2]"
     ).count()
-    assert removed_included_gp_practices == 0 
+    assert removed_included_gp_practices == 0
 
 
 #### Test_22
@@ -366,5 +366,3 @@ def create_cohort_and_add_gp_practices(
     expect(page.locator("//table[@id='practicesToIncludeList']")).to_be_visible()
     included_gp_practices = page.locator("//table[@id='practicesToIncludeList']//tr//td[2]").count()
     assert included_gp_practices == expected_count
-
-
