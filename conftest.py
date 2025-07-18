@@ -17,6 +17,11 @@ from playwright.sync_api import Page, sync_playwright
 
 from pages.main_menu import MainMenuPage
 from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
+
+from utils.db_util import DbUtil
+from utils.db_restore import DbRestore
+from utils.user_tools import UserTools
+
 from pages.rlp_cohort_list_page import CohortListPage
 from pages.rlp_location_list_page import ScreeningLocationListPage
 from pages.rlp_unit_list_page import ScreeningUnitListPage
@@ -68,6 +73,17 @@ def rlp_unit_list_page(page: Page) -> ScreeningUnitListPage:
 @pytest.fixture
 def ni_ri_sp_batch_page(page: Page) -> NiRiSpBatchPage:
     return NiRiSpBatchPage(page)
+
+
+## Fixture for ci-infra
+@pytest.fixture
+def db_util():
+    db = DbUtil(host = os.getenv("CI_INFRA_DB_HOST"),
+                port=os.getenv("CI_INFRA_DB_PORT"),
+                dbname=os.getenv("CI_INFRA_DBNAME"),
+                user=os.getenv("CI_INFRA_DB_USER"),
+                password=os.getenv("CI_INFRA_DB_PASSWORD"))
+    return db
 
 # This variable is used for JSON reporting only
 ENVIRONMENT_DATA = {}

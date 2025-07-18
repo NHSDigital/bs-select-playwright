@@ -1,14 +1,10 @@
-import playwright
 import pytest
-
 from pages.main_menu import MainMenuPage
 from pages.rlp_cohort_list_page import CohortListPage
 from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
 from pages.rlp_location_list_page import ScreeningLocationListPage
-from pages.rlp_unit_list_page import ScreeningUnitListPage
 from utils.test_helpers import generate_random_string
-from utils import test_helpers
 from utils.user_tools import UserTools
 
 
@@ -210,7 +206,7 @@ def test_expected_attendance_rate_valid_data(
     rlp_cohort_list_page.select_default_screening_unit_dropdown("Batman")
     rlp_cohort_list_page.click_create_screening_cohort_save_btn()
 
-    # filtering name and storing in filterd_name
+    # filtering name and storing in filtered_name
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
     assert float(page.locator("input#uptakePercentage").input_value()) == input_value
@@ -257,7 +253,7 @@ def test_default_location_dropdown(page: Page, rlp_cohort_list_page: CohortListP
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
-    # extracting the drop down location count
+    # extracting the drop-down location count
     rlp_cohort_list_page.select_default_screening_location_dropdown(None)
     dropdown_count = rlp_cohort_list_page.number_of_location_dropdown_count()
 
@@ -277,7 +273,7 @@ def test_default_unit_dropdown(page: Page, rlp_cohort_list_page: CohortListPage)
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
-    # extracting the drop down location count
+    # extracting the drop-down location count
     rlp_cohort_list_page.select_default_screening_unit_dropdown(None)
     dropdown_count = rlp_cohort_list_page.number_of_unit_dropdown_count()
 
@@ -399,7 +395,7 @@ def test_another_user_logs_into_bs_select(
     # Logged into BSS_SO1
     UserTools().user_login(page, "BSO User1 - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
-    # creating cohort using method with hardcoded attendence and screening unit
+    # creating cohort using method with hardcoded attendance and screening unit
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
@@ -408,11 +404,11 @@ def test_another_user_logs_into_bs_select(
     # Logged into BSS_SO1_User2
     UserTools().user_login(page, "BSO User2 - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
-    # User2 is filtering the cohort by name which is creatd by User1
+    # User2 is filtering the cohort by name which is created by User1
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    filterd_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
-    assert cohort_name == filterd_name
-    # User2 tries to create cohort with same detailes test should fail
+    filtered_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
+    assert cohort_name == filtered_name
+    # User2 tries to create cohort with same details test should fail
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
     expect(
         page.get_by_text("Screening Cohort Name is already in use by another cohort")

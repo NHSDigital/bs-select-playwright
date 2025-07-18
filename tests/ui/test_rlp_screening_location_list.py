@@ -47,8 +47,8 @@ def test_add_screening_location(
     # Entering the newly added location name in the search box
     rlp_location_list_page.enter_screening_location_filter_textbox(location_name)
     # Capturing the search value and stored it in the search_value
+    page.wait_for_selector("//tbody/tr/td[2]")
     search_value = page.locator("//tbody/tr/td[2]").text_content()
-    page.wait_for_timeout(4000)
     ScreenshotTool(page).take_screenshot("rlp_unit_tc_4")
     # asserting the location_name and search_value
     assert location_name == search_value

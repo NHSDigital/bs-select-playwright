@@ -1,4 +1,3 @@
-import playwright
 import pytest
 
 from pages.main_menu import MainMenuPage
@@ -6,9 +5,7 @@ from pages.rlp_cohort_list_page import CohortListPage
 from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
 from pages.rlp_location_list_page import ScreeningLocationListPage
-from pages.rlp_unit_list_page import ScreeningUnitListPage
 from utils.test_helpers import generate_random_string
-from utils import test_helpers
 from utils.user_tools import UserTools
 
 

@@ -1,7 +1,5 @@
-import playwright
-import pytest
 from pages.main_menu import MainMenuPage
-from playwright.sync_api import expect, Page, Playwright
+from playwright.sync_api import Page
 from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
 from utils.user_tools import UserTools
 from utils.screenshot_tool import ScreenshotTool
