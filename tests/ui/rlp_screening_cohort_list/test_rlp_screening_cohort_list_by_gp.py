@@ -13,7 +13,6 @@ from utils.user_tools import UserTools
 
 
 # test to create the unit test data
-@pytest.mark.cohortgp
 def test_check_and_create_unit_test_data(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -27,7 +26,6 @@ def test_check_and_create_unit_test_data(
 
 
 # test to create the location data
-@pytest.mark.cohortgp
 def test_check_and_create_location_test_data_for_outcode(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -47,7 +45,6 @@ def test_check_and_create_location_test_data_for_outcode(
 
 ## Test_01
 ## Test_02
-@pytest.mark.cohortgp
 def test_only_default_bso_cohort_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -67,7 +64,6 @@ def test_only_default_bso_cohort_visible(
 
 
 ## Test_03
-@pytest.mark.cohortgp
 def test_paging_of_cohort_list(
     page: Page, rlp_cohort_list_page: CohortListPage, db_util
 ) -> None:
@@ -84,7 +80,6 @@ def test_paging_of_cohort_list(
 
 
 ## Test_04
-@pytest.mark.cohortgp
 def test_defaults_are_set_and_displayed_correctly(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -115,7 +110,6 @@ def test_defaults_are_set_and_displayed_correctly(
 
 
 ## Test_05
-@pytest.mark.cohortgp
 def test_invoke_cancel_btn_return_to_screening_cohort_list(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -136,7 +130,6 @@ def test_invoke_cancel_btn_return_to_screening_cohort_list(
 
 
 ## Test_06
-@pytest.mark.cohortgp
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_create_screening_cohort_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, input_length
@@ -162,7 +155,6 @@ def test_create_screening_cohort_valid_data(
 
 
 ## Test_06 negative field data validation
-@pytest.mark.cohortgp
 @pytest.mark.parametrize(
     "cohort_name, expected_message",
     [
@@ -197,7 +189,6 @@ def test_try_to_create_screening_cohort_with_invalid_data(
 
 
 ## Test_07 positive field data validation for Expected Attendance Rate
-@pytest.mark.cohortgp
 @pytest.mark.parametrize("input_value", [0, 100])
 def test_expected_attendance_rate_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, input_value
@@ -226,7 +217,6 @@ def test_expected_attendance_rate_valid_data(
 
 
 #### Test_07 negative test for Expected Attendance Rate field
-@pytest.mark.cohortgp
 @pytest.mark.parametrize(
     "attendance_rate, expected_message",
     [
@@ -258,7 +248,6 @@ def test_expected_attendance_rate_invalid_data(
 
 
 #### Test_08
-@pytest.mark.cohortgp
 def test_default_location_dropdown(page: Page, rlp_cohort_list_page: CohortListPage):
     """
     The correct list of Locations available to this user in this BSO, are displayed correctly
@@ -279,7 +268,6 @@ def test_default_location_dropdown(page: Page, rlp_cohort_list_page: CohortListP
 
 
 #### Test_09
-@pytest.mark.cohortgp
 def test_default_unit_dropdown(page: Page, rlp_cohort_list_page: CohortListPage):
     """
     The correct list of units available to this user in this BSO, are displayed correctly
@@ -301,7 +289,6 @@ def test_default_unit_dropdown(page: Page, rlp_cohort_list_page: CohortListPage)
 
 
 #### Test_10.1.2, 10.2.1
-@pytest.mark.cohortgp
 def test_added_gp_practices_are_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -333,7 +320,6 @@ def test_added_gp_practices_are_visible(
 
 
 #### Test_11
-@pytest.mark.cohortgp
 def test_gp_practices_removed_from_included_gp_practices(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -383,7 +369,6 @@ def test_gp_practices_removed_from_included_gp_practices(
 
 
 #### Test_12
-@pytest.mark.cohortgp
 def test_click_save_without_filling_all_mandatory_fields(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -407,7 +392,6 @@ def test_click_save_without_filling_all_mandatory_fields(
 
 
 #### Test_13
-@pytest.mark.cohortgp
 def test_another_user_logs_into_bs_select(
     page: Page, rlp_cohort_list_page: CohortListPage, context
 ):
@@ -436,7 +420,6 @@ def test_another_user_logs_into_bs_select(
 
 
 ## Test_47
-@pytest.mark.cohortgp
 def test_gp_practice_exist_outcode_does_not_exist(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -461,7 +444,6 @@ def test_gp_practice_exist_outcode_does_not_exist(
 
 
 #### Test_48
-@pytest.mark.cohortgp
 def test_gp_practice_does_not_exist_outcode_exist(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
