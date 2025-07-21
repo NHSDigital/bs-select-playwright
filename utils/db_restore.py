@@ -3,7 +3,8 @@ import boto3
 import psycopg2
 import time
 import subprocess
-
+import logging
+logger = logging.getLogger(__name__)
 
 class DbRestore:
     def __init__(self):
@@ -14,8 +15,8 @@ class DbRestore:
             "./tmp/db_backup.dump"  # Local path to store downloaded backup
         )
 
-    def connect(self):
-        self.conn = self.create_connection()
+    def connect(self, super: bool = False):
+        self.conn = self.create_connection(super=super)  # Connect as superuser to 'postgres'
         self.conn.autocommit = True
 
     def create_connection(self, super: bool = False):
@@ -29,9 +30,15 @@ class DbRestore:
 
     def recreate_db(self):
         db_name = os.getenv("PG_DBNAME")
+        self.connect(super=True)  # Connect as superuser to 'postgres'
         with self.conn.cursor() as cur:
+            cur.execute(f'ALTER DATABASE "{db_name}" OWNER TO {os.getenv("PG_SUPERUSER")};')
+            logging.info(f"Dropping and recreating database: {db_name}")
             cur.execute(f'DROP DATABASE IF EXISTS "{db_name}"')
             cur.execute(f'CREATE DATABASE "{db_name}"')
+            cur.execute('CREATE SCHEMA IF NOT EXISTS bss')
+            cur.execute(f'ALTER DATABASE "{db_name}" OWNER TO {os.getenv("PG_USER")};')
+            logging.info(f"Database {db_name} recreated successfully.")
 
     def disconnect(self):
         """Close the database connection."""
@@ -39,7 +46,7 @@ class DbRestore:
             try:
                 self.conn.close()
             except Exception as e:
-                print(f"NO connection found to disconnect from! - {e}")
+                logging.info(f"NO connection found to disconnect from! - {e}")
 
     def download_backup_from_s3(self):
         """Download the database backup from S3 to a local temporary file."""
@@ -49,11 +56,12 @@ class DbRestore:
 
     def restore_backup(self):
         """Restore the database from the downloaded backup."""
+        logging.info("Restoring database from backup...")
         os.environ["PGPASSWORD"] = os.getenv("PG_PASS")
         subprocess.run(
             [
-                "pg_restore",
-                "--clean",
+                "psql", # for text dump file psql is used, for binary dump file pg_restore is used
+                "-q",
                 "-h",
                 os.getenv("PG_HOST"),
                 "-p",
@@ -62,8 +70,7 @@ class DbRestore:
                 os.getenv("PG_USER"),
                 "-d",
                 os.getenv("PG_DBNAME"),
-                "-j",
-                os.getenv("J_VALUE"),
+                "-f",
                 self.local_backup_path,
             ],
             check=False,
@@ -72,22 +79,38 @@ class DbRestore:
     def kill_all_db_sessions(self):
         """Terminate all active sessions for the target database."""
         dbname = os.getenv("PG_DBNAME")
-
+        # Always connect to 'postgres' or another database, NOT the target db
+        self.disconnect()
+        self.connect(super=True)
         try:
-            self.conn = self.create_connection(super=True)
             with self.conn.cursor() as cur:
                 cur.execute(
                     f"""
                     SELECT pg_terminate_backend(pg_stat_activity.pid)
                     FROM pg_stat_activity
-                    WHERE datname = '{dbname}' AND pid <> pg_backend_pid();"""
+                    WHERE datname = '{dbname}' AND pid <> pg_backend_pid();
+                    """
                 )
                 self.conn.commit()
-            print("Deleted all connections")
+            logging.info("Deleted all connections")
         except Exception as e:
-            print(e)
-            print(
+            logging.info(e)
+            logging.info(
                 "Could not connect to DB. Check if other connections are present or if DB exists."
             )
         finally:
             self.disconnect()
+
+    def full_db_restore(self):
+        logging.info("Killing all active database sessions...")
+        self.kill_all_db_sessions()
+        self.recreate_db()
+        self.disconnect()
+        logging.info("Downloading backup from S3...")
+        self.download_backup_from_s3()
+        logging.info("Starting database restore...")
+        start_time = time.time()
+        self.restore_backup()
+        end_time = time.time()
+        elapsed = end_time - start_time
+        logging.info(f"Database restored in {elapsed:.2f} seconds.")

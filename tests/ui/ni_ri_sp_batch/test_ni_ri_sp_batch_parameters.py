@@ -1,12 +1,10 @@
-from itertools import count
-import pytest
+from playwright.sync_api import Page
 from pages.main_menu import MainMenuPage
-from playwright.sync_api import expect, Page, Playwright
 from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
 from utils import test_helpers
 from utils.CheckDigitGenerator import CheckDigitGenerator
-from utils.user_tools import UserTools
 from utils.screenshot_tool import ScreenshotTool
+from utils.user_tools import UserTools
 
 
 # TC-1
@@ -34,7 +32,7 @@ def test_create_ri_sp_batch_using_selected_gp_practice_codes_and_all_outcodes(
     ni_ri_sp_batch_page.assert_page_header("Amend RI/SP Batch by Year of Birth")
     MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
     ni_ri_sp_batch_page.assert_page_header("Batch List")
-    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filterd_row_value(check_digit)
+    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filtered_row_value(check_digit)
     ScreenshotTool(page).take_screenshot("batch_parameters_TC_1.1")
 
 
@@ -60,7 +58,7 @@ def test_create_ri_sp_batch_using_selected_gp_practice_groups_and_all_outcodes(
     ni_ri_sp_batch_page.assert_page_header("Amend RI/SP Batch by Year of Birth")
     MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
     ni_ri_sp_batch_page.assert_page_header("Batch List")
-    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filterd_row_value(check_digit)
+    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filtered_row_value(check_digit)
     ScreenshotTool(page).take_screenshot("batch_parameters_TC_2.1")
 
 
@@ -89,7 +87,7 @@ def test_create_ri_sp_batch_using_all_gp_practices_and_selected_outcodes(
     ni_ri_sp_batch_page.assert_page_header("Amend RI/SP Batch by Year of Birth")
     MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
     ni_ri_sp_batch_page.assert_page_header("Batch List")
-    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filterd_row_value(check_digit)
+    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filtered_row_value(check_digit)
     ScreenshotTool(page).take_screenshot("batch_parameters_TC_3.1")
 
 
@@ -115,7 +113,7 @@ def test_create_ri_sp_batch_using_include_all_gp_practices_and_selected_outcode_
     ni_ri_sp_batch_page.assert_page_header("Amend RI/SP Batch by Year of Birth")
     MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
     ni_ri_sp_batch_page.assert_page_header("Batch List")
-    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filterd_row_value(check_digit)
+    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filtered_row_value(check_digit)
     ScreenshotTool(page).take_screenshot("batch_parameters_TC_4.1")
 
 
@@ -148,5 +146,5 @@ def test_create_ri_sp_batch_using_selected_out_codes_and_selected_gp_practices(
     ni_ri_sp_batch_page.assert_page_header("Amend RI/SP Batch by Year of Birth")
     MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
     ni_ri_sp_batch_page.assert_page_header("Batch List")
-    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filterd_row_value(check_digit)
+    ni_ri_sp_batch_page.assert_entered_bso_batch_id_and_filtered_row_value(check_digit)
     ScreenshotTool(page).take_screenshot("batch_parameters_TC_5.1")

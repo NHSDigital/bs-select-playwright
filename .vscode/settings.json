@@ -10,15 +10,19 @@
     "codegen",
     "customisable",
     "customised",
+    "datname",
+    "dotenv",
     "initialise",
     "Licence",
     "organisation",
     "pytest",
     "pytestmark",
     "pythonpath",
+    "raise",
     "recognise",
     "retcode",
     "ruleset",
+    "SUPERPASS",
     "utilise",
     "utilised",
     "Utilising",
@@ -32,5 +36,22 @@
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
-  }
+  },
+  "cSpell.ignoreWords": [
+    "Aldi",
+    "Bakerstreet",
+    "Caldecott",
+    "Eastcliffe",
+    "Hadley",
+    "Poundland",
+    "ZZZLED",
+    "cancelButton",
+    "dblclick",
+    "domcontentloaded",
+    "glyphicon",
+    "nhais",
+    "organisations",
+    "outcodes",
+    "txtbox"
+  ]
 }
