@@ -40,7 +40,7 @@ LIST_OF_PAGES = [
 ]
 
 
-@pytest.mark.branch(serial='BSS2-2403')
+@pytest.mark.branch(serial='bss2-2403')
 @pytest.mark.specific_requirement
 @pytest.mark.accessibility
 def test_accessibility_sweep(page: Page, user_tools: UserTools) -> None:
