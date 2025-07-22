@@ -14,7 +14,7 @@ def test_check_and_create_unit_test_data(
 ) -> None:
     """creating unit test data for User2 BS2"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_names = ["Batman", "Captain"]
     for unit_name in unit_names:
@@ -27,7 +27,7 @@ def test_try_amend_cohort_by_dbl_click_and_invoke_pencil_icon(
 ) -> None:
     """User invokes the Edit Cohort functionality by Double click list entry and Invoke Pencil Icon"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     # creating cohort using method with hardcoded attendance and screening unit values
@@ -55,7 +55,7 @@ def test_amend_cohort_name_with_valid_data(
 ) -> None:
     """User amends data in the Screening Cohort field with valid data"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -89,7 +89,7 @@ def test_amend_screening_cohort_with_invalid_data(
 ) -> None:
     """Negative test - User amends data in the Screening Cohort field with invalid data"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -113,7 +113,7 @@ def test_amend_expected_attendance_rate_valid_data(
 ) -> None:
     """Positive test - The User is able to select and commit a change to Expected Attendance Rate - integer values 0.00 - 100.0"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     cohort_name = f"amend_attendance-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
@@ -146,7 +146,7 @@ def test_amend_expected_attendance_rate_invalid_data(
 ) -> None:
     """Negative test - User amends data in the Expected Attendance Rate (%) field - Non integer value and Null"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     cohort_name = f"amend_attendance-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
@@ -168,7 +168,7 @@ def test_amend_cohort_location(
     The User is able to select and commit a change to Location"""
     # Logged into BSS_SO1 location_list to create location data
 
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     location_name = f"cohort_location-{datetime.now()}"
     ScreeningLocationListPage(page).create_screening_location(location_name)
@@ -202,7 +202,7 @@ def test_amend_cohort_unit_list(
     """The correct list of Active only Units available to this user in this BSO, are displayed correctly,
     The User is able to select and commit a change to Default Unit"""
     # Logged into BSS_SO1 unit_list to create unit data
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"cohort_unit-{datetime.now()}"
     rlp_cohort_list_page.create_unit_for_test_data(unit_name)
@@ -299,7 +299,7 @@ def test_amend_cancel_adding_gp_practices(
     User is returned to the 'Screening Cohort List' Screen
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -321,7 +321,7 @@ def test_amend_cohort_name_available_for_user2(
 ) -> None:
     """BSO specific GP Practice Cohort amendments are available to the other Users within the same BSO"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     # creating cohort using method with hardcoded attendance
@@ -349,7 +349,7 @@ def test_amend_cohort_name_available_for_user2(
 def create_cohort_and_add_gp_practices(
     page, rlp_cohort_list_page, cohort_name, location_name, gp_codes, expected_count
 ):
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)

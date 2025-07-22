@@ -17,7 +17,7 @@ def test_all_data_loaded(
 ) -> None:
     """test to verify the correct number of 'Screening units' are displayed on the DB and UI"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     expect(page.get_by_text("Screening unit list", exact=True)).to_be_visible()
     db_row_count = rlp_unit_list_page.screening_unit_list_count_in_db(db_util)
@@ -39,7 +39,7 @@ def test_screening_unit_creation(
     and the test will use unit_type and unit_status in all 4 variations
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
 
     count_before = rlp_unit_list_page.screening_unit_list_count_in_db(db_util)
@@ -69,7 +69,7 @@ def test_screening_unit_cancellation(
 ) -> None:
     """Previously saved units = x, cancels adding 1 unit, returns back to list view of x"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     count_before = rlp_unit_list_page.screening_unit_list_count_in_db(db_util)
 
@@ -94,7 +94,7 @@ def test_defaults_are_set_correctly(
 ) -> None:
     """All defaults are set & displayed correctly"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     rlp_unit_list_page.click_add_screening_unit_btn()
     expect(page.locator("input#unitNameText")).to_be_empty()
@@ -123,7 +123,7 @@ def test_validate_add_new_unit_list_name_field(
 ) -> None:
     """Enters data into Screening Unit Name field on the 'Add a new unit' screen using input name lengths are 3 and 50"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
 
     unit_name = test_helpers.generate_random_string(
@@ -144,7 +144,7 @@ def test_negative_non_integer_values_and_empty_unit_type(
 ) -> None:
     """Null unit_name, unit_type and days are null & non integer"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_data = {
         "unit_name": "",
@@ -174,7 +174,7 @@ def test_negative_non_integer_values_and_empty_unit_type(
 ) -> None:
     """Negative test with invalid data for unit_name filed"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
 
     unit_name = invalid_name
@@ -200,7 +200,7 @@ def test_notes_shows_err_msg_for_invalid_chars(
 ) -> None:
     """Negative test with invalid data for notes filed"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
 
     unitname = f"ZZZZZZ-notes-{datetime.now()}"
@@ -221,7 +221,7 @@ def test_add_screening_unit_with_defaults(
 ) -> None:
     """Creating screening unit with defaults and mandatory fields(unit_name, unit_type and days)"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"Unit_name-{datetime.now()}"
     rlp_unit_list_page.create_unit(unit_name)
@@ -240,7 +240,7 @@ def test_another_user_from_another_bso_creates_the_unit(
 ) -> None:
     """Added screening unit is not available for another user from different BSO, and creates the unit with the same data"""
     # Logged into BSS_SO1 user1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"user1-{datetime.now()}"
     rlp_unit_list_page.create_unit(unit_name)
@@ -263,7 +263,7 @@ def test_user2_from_same_bso_can_access_the_user1_data(
 ) -> None:
     """Added screening unit is available for another user from same BSO, and tried to create the unit with the same data, it'll throw an error"""
     # Logged into BSS_SO1 user1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"user1-{datetime.now()}"
     rlp_unit_list_page.create_unit(unit_name)

@@ -15,7 +15,7 @@ def test_check_and_create_unit_test_data(
 ):
     """creating unit test data for User2 BS2"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_names = ["Batman", "Captain"]
     for unit_name in unit_names:
@@ -30,7 +30,7 @@ def test_check_and_create_location_test_data_for_outcode(
     Random test to generate location test data for User2 BS2
     """
     # Logged into BSS_SO2 User2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     locations = [
         "Aldi - Caldecott County Retail Park",
@@ -49,7 +49,7 @@ def test_to_verify_gp_practice_and_outcode_buttons_are_enable(
     add By Outcode pushbutton is enabled
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     assert page.locator(
         "button:has-text('Create screening cohort by GP practice')"
@@ -66,7 +66,7 @@ def test_for_outcode_defaults_are_set_and_displayed_correctly(
     """test 'Create Screening Cohort' screen is displayed correctly
     all defaults are set & displayed correctly"""
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     # Create Screening Cohort screen is displayed
@@ -94,7 +94,7 @@ def test_for_outcode_cancel_function(page: Page, rlp_cohort_list_page: CohortLis
     User is able to cancel Cohort without saving and able to retuen to cohort home page
     """
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     rlp_cohort_list_page.click_create_screening_cohort_by_outcode_btn()
     page.wait_for_timeout(3000)
@@ -113,7 +113,7 @@ def test_create_screening_cohort_outcode_valid_data(
     asserting created value and the actual value
     """
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # Test data
     cohort_name = generate_random_string(
@@ -130,7 +130,7 @@ def test_create_screening_cohort_outcode_valid_data(
     rlp_cohort_list_page.create_cohort_outcode_without_gp(
         cohort_name, str(attendance_rate), location_name, unit_name
     )
-    # filtering name and storing in filterd_name
+    # filtering name and storing in filtered_name
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     filterd_name = page.locator("//tr//td[2]").text_content()
     assert cohort_name == filterd_name
@@ -144,7 +144,7 @@ def test_create_screening_cohort_outcode_test_data(
     Test to create a test data
     """
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # Test data
     cohort_name = "Hadley"
@@ -175,7 +175,7 @@ def test_try_to_create_screening_cohort_outcode_with_invalid_data(
     capturing the error messages
     """
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # Test data
     attendance_rate = "25"
@@ -196,7 +196,7 @@ def test_outcode_expected_attendance_rate_valid_data(
 ) -> None:
     """User enters valid data into Expected Attendance Rate (%) field"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
@@ -204,7 +204,7 @@ def test_outcode_expected_attendance_rate_valid_data(
     rlp_cohort_list_page.create_cohort_outcode_without_gp(
         cohort_name, str(attendance_rate), location_name, unit_name
     )
-    # filtering name and storing in filterd_name
+    # filtering name and storing in filtered_name
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
     assert (
@@ -223,9 +223,9 @@ def test_outcode_expected_attendance_rate_valid_data(
 def test_outcode_expected_attendance_rate_invalid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, attendance_rate, expected_message
 ):
-    """Negative test - User enters inalid data into Expected Attendance Rate (%) field"""
+    """Negative test - User enters invalid data into Expected Attendance Rate (%) field"""
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # try to create cohort using invalid attendance rate
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -244,12 +244,12 @@ def test_outcode_default_location_dropdown(
 ):
     """The correct list of Locations available to this user in this BSO are displayed correctly"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     rlp_cohort_list_page.click_create_screening_cohort_by_outcode_btn()
     page.wait_for_timeout(3000)
-    # extracting the drop down location count
+    # extracting the drop_down location count
     rlp_cohort_list_page.select_default_screening_location_dropdown(None)
     dropdown_count = rlp_cohort_list_page.number_of_location_dropdown_count()
 
@@ -265,7 +265,7 @@ def test_outcode_default_unit_dropdown(
 ):
     """Test the correct list of Active only Units available to this user in this BSO are displayed correctly"""
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     rlp_cohort_list_page.click_create_screening_cohort_by_outcode_btn()
@@ -287,7 +287,7 @@ def test_outcode_added_gp_practices_are_visible(
     """1. Selects Outcode from the 'All available Outcodes' List, the correct Outcodes details are now visible in the Included Outcodes List
     Negative test - 2. Attempt to add same Outcode"""
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     rlp_cohort_list_page.click_create_screening_cohort_by_outcode_btn()
@@ -315,7 +315,7 @@ def test_outcode_added_gp_practices_are_visible(
 def test_selects_to_remove_outcodes(page: Page, rlp_cohort_list_page: CohortListPage):
     """User selects to Remove Outcodes - Removes 1 Outcode, Removes 2 Outcode, Removes all Outcodes"""
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
 
     rlp_cohort_list_page.click_create_screening_cohort_by_outcode_btn()
@@ -363,19 +363,15 @@ def test_outcode_click_save_without_filling_all_mandatory_fields(
 ):
     """Invoke add button without filling out all the mandatory fiels and validate the error messages"""
     # Logged into BSS_SO2 user2
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     rlp_cohort_list_page.click_create_screening_cohort_by_outcode_btn()
     page.wait_for_timeout(3000)
     rlp_cohort_list_page.click_create_screening_cohort_save_btn()
     # expected error messages to be visible
     expect(page.get_by_text("Screening Cohort Name must be populated")).to_be_visible
-    expect(
-        page.get_by_text("Expected Attendance Rate must be between 0 and 100")
-    ).to_be_visible
-    expect(
-        page.get_by_text("Default Screening Location must be populated")
-    ).to_be_visible
+    expect(page.get_by_text("Expected Attendance Rate must be between 0 and 100")).to_be_visible
+    expect(page.get_by_text("Default Screening Location must be populated")).to_be_visible
     expect(page.get_by_text("Default Screening Unit must be populated")).to_be_visible
 
 
@@ -388,7 +384,7 @@ def test_outcode_search_feature_using_description(
     Test to validate the search feature using description
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # search by description
     rlp_cohort_list_page.enter_screening_cohort_name_filter(search_term)
@@ -409,7 +405,7 @@ def test_outcode_search_feature_using_location(
     Test to validate the search feature using location
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # search by description
     rlp_cohort_list_page.enter_screening_location_filter(search_term)
@@ -430,7 +426,7 @@ def test_outcode_search_feature_using_unit_name(
     Test to validate the search feature using unit name
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # search by description
     rlp_cohort_list_page.enter_screening_unit_filter(search_term)
@@ -451,7 +447,7 @@ def test_outcode_search_feature_using_cohort_type(
     Test to validate the search feature using cohort type
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     # search by description
     ui_row_count_before = rlp_cohort_list_page.extract_cohort_paging_info()
@@ -500,7 +496,7 @@ def test_gp_practice_does_not_exist_outcode_exist(
     Test to verify when outcode exists the GP practice will be disabled
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
+    UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     assert page.locator(
         "button:has-text('Create screening cohort by GP practice')"
