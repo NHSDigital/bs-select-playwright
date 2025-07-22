@@ -1,7 +1,5 @@
-import logging
-import pytest
 from pages.main_menu import MainMenuPage
-from playwright.sync_api import expect, Page, Playwright
+from playwright.sync_api import Page, Playwright
 from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
 from utils import test_helpers
 from utils.CheckDigitGenerator import CheckDigitGenerator
