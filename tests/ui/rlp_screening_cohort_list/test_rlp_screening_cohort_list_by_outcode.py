@@ -91,7 +91,7 @@ def test_for_outcode_defaults_are_set_and_displayed_correctly(
 # Test_25
 def test_for_outcode_cancel_function(page: Page, rlp_cohort_list_page: CohortListPage):
     """
-    User is able to cancel Cohort without saving and able to retuen to cohort home page
+    User is able to cancel Cohort without saving and able to return to cohort home page
     """
     # Logged into BSS_SO2 user2
     UserTools().user_login(page, "Read Only BSO User - BS2")
@@ -361,7 +361,7 @@ def test_selects_to_remove_outcodes(page: Page, rlp_cohort_list_page: CohortList
 def test_outcode_click_save_without_filling_all_mandatory_fields(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
-    """Invoke add button without filling out all the mandatory fiels and validate the error messages"""
+    """Invoke add button without filling out all the mandatory fields and validate the error messages"""
     # Logged into BSS_SO2 user2
     UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
@@ -369,10 +369,10 @@ def test_outcode_click_save_without_filling_all_mandatory_fields(
     page.wait_for_timeout(3000)
     rlp_cohort_list_page.click_create_screening_cohort_save_btn()
     # expected error messages to be visible
-    expect(page.get_by_text("Screening Cohort Name must be populated")).to_be_visible
-    expect(page.get_by_text("Expected Attendance Rate must be between 0 and 100")).to_be_visible
-    expect(page.get_by_text("Default Screening Location must be populated")).to_be_visible
-    expect(page.get_by_text("Default Screening Unit must be populated")).to_be_visible
+    expect(page.get_by_text("Screening Cohort Name must be populated")).to_be_visible()
+    expect(page.get_by_text("Expected Attendance Rate must be between 0 and 100")).to_be_visible()
+    expect(page.get_by_text("Default Screening Location must be populated")).to_be_visible()
+    expect(page.get_by_text("Default Screening Unit must be populated")).to_be_visible()
 
 
 #### Test_44.1.1
@@ -454,7 +454,7 @@ def test_outcode_search_feature_using_cohort_type(
     rlp_cohort_list_page.select_cohort_type_dropdown(search_term)
     filtered_values = page.locator("//tbody/tr/td[6]").all_text_contents()
     # Assert that each value contains "cohort"
-    if search_term is "All":
+    if search_term == "All":
         ui_row_count_after = rlp_cohort_list_page.extract_cohort_paging_info()
         assert ui_row_count_before == ui_row_count_after
     else:
