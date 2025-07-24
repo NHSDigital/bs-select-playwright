@@ -16,7 +16,7 @@ def test_count_display_for_ri_sp_batch_with_blank_selected_date_selected_and_rej
 ) -> None:
     """verify RI/SP Batch by Year of Birth has been counted and counted is not selected assert Select Date, Selected, and Rejected fields are blank"""
     # Logged into BSO3 as user3(PMA) and select 'Create RI/SP Batch' from the 'batch management' dropdown
-    UserTools().user_login(page, "Ni Only BSO User3 - BS3")
+    UserTools().user_login(page, "Ni Only BSO User - BS3")
     MainMenuPage(page).select_menu_option("Batch Management", "Create RI/SP Batch")
     ni_ri_sp_batch_page.assert_page_header("Create RI/SP Batch by Year of Birth")
     batch_title = test_helpers.generate_random_string(10)
@@ -42,7 +42,7 @@ def test_count_display_for_ri_sp_batch_with_selected_date_selected_and_rejected_
 ) -> None:
     """verify RI/SP Batch by Year of Birth has been counted and counted is selected assert Select Date, Selected, and Rejected fields has a value"""
     # Logged into BSO3 as user3(PMA) and select 'Create RI/SP Batch' from the 'batch management' dropdown and 'No' from Failsafe Flag drop down
-    UserTools().user_login(page, "Ni Only BSO User3 - BS3")
+    UserTools().user_login(page, "Ni Only BSO User - BS3")
     MainMenuPage(page).select_menu_option("Batch Management", "Create RI/SP Batch")
     ni_ri_sp_batch_page.assert_page_header("Create RI/SP Batch by Year of Birth")
     batch_title = test_helpers.generate_random_string(10)
@@ -74,7 +74,7 @@ def test_count_display_for_ri_sp_batch_with_selected_date_selected_and_rejected_
     search by bso batch id and batch title
     """
     # Logged into BSO3 as user3(PMA) and select 'Create RI/SP Batch' from the 'batch management' dropdown
-    UserTools().user_login(page, "Ni Only BSO User3 - BS3")
+    UserTools().user_login(page, "Ni Only BSO User - BS3")
     MainMenuPage(page).select_menu_option("Batch Management", "Create RI/SP Batch")
     ni_ri_sp_batch_page.assert_page_header("Create RI/SP Batch by Year of Birth")
     batch_title = test_helpers.generate_random_string(10)

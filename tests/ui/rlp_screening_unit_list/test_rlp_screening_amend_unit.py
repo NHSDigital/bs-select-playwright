@@ -19,7 +19,7 @@ def test_amend_screening_unit_name_verify_the_paging_count(
     Amend screening unit name and assert the unit list count on the UI and DB
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     rlp_unit_list_page.select_status_dropdown("All")
     page.wait_for_timeout(3000)
@@ -50,7 +50,7 @@ def test_amend_screening_unit_name_using_min_max_char_length(
 ) -> None:
     """Amend screening unit name, unit_status and unt_type and assert the values in the table"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     rlp_unit_list_page.select_status_dropdown("All")
     page.wait_for_timeout(3000)
@@ -81,7 +81,7 @@ def test_cancel_amend_screening_unit(
 ) -> None:
     """Cancel amend screening unit  and assert the unit list count on the UI and DB should be the same"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     rlp_unit_list_page.select_status_dropdown("All")
     page.wait_for_timeout(3000)
@@ -110,7 +110,7 @@ def test_amend_screening_unit_days_and_notes(
 ) -> None:
     """Amend screening unit name and usual no of appointments and notes"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"unit_name-{datetime.now()}"
     rlp_unit_list_page.create_unit(unit_name)
@@ -156,7 +156,7 @@ def test_negative_amend_screening_unit_name(
     Amend screening unit name using invalid data and capturing the error messages
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"unit_name-{datetime.now()}"
     rlp_unit_list_page.create_unit(unit_name)
@@ -199,7 +199,7 @@ def test_negative_amend_screening_unit_weekly_slot(
     Amend screening unit name using invalid data and capturing the error messages
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"unit_name-{datetime.now()}"
     rlp_unit_list_page.create_unit(unit_name)
@@ -240,7 +240,7 @@ def test_user2_from_same_bso_can_access_the_user1_amended_data(
     Amended screening unit is available for another user from same BSO
     """
     # Logged into BSS_SO1 user1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
     unit_name = f"user1-{datetime.now()}"
     rlp_unit_list_page.create_unit(unit_name)

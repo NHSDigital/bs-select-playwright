@@ -19,7 +19,7 @@ def test_paging_of_screening_location_list(
     Test to check the paging of the location list
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
+    UserTools().user_login(page, "BSO User - BS1")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     # Expected to see the screening location page
     expect(page.get_by_text("Screening location list", exact=True)).to_be_visible()
