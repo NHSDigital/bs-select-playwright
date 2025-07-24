@@ -465,49 +465,67 @@ def test_outcode_search_feature_using_cohort_type(
             ), f"Value '{text}' does not contain '{search_term}'."
 
 
-## Test_47
+def verify_cohort_creation_buttons(
+    page: Page,
+    expected_gp_button_state: str,
+    expected_outcode_button_state: str,
+    tooltip_selector: str,
+    expected_tooltip_text: str,
+):
+    gp_button = page.locator("button:has-text('Create screening cohort by GP practice')")
+    outcode_button = page.locator("button:has-text('Create screening cohort by outcode')")
+
+    assert getattr(gp_button, f"is_{expected_gp_button_state}")(), \
+        f"'Create screening cohort by GP practice' button is not {expected_gp_button_state}"
+
+    assert getattr(outcode_button, f"is_{expected_outcode_button_state}")(), \
+        f"'Create screening cohort by outcode' button is not {expected_outcode_button_state}"
+
+    info_icon = page.locator(tooltip_selector)
+    assert info_icon.get_attribute("data-toggle") == "tooltip"
+    assert info_icon.get_attribute("data-original-title") == expected_tooltip_text
+
+
 def test_gp_practice_exist_outcode_does_not_exist(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
     """
     Test to verify when GP practice exists the outcode will be disabled
     """
-    # Logged into BSS_SO1
     login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
 
-    assert page.locator(
-        "button:has-text('Create screening cohort by GP practice')"
-    ).is_enabled(), "'Create screening cohort by GP practice' button is not enabled"
-    assert page.locator(
-        "button:has-text('Create screening cohort by outcode')"
-    ).is_disabled(), "'Create screening cohort by outcode' button is enabled"
+    expected_text = (
+        "Cohorts have already been defined by GP practice/Sub practice, "
+        "defining more cohorts by outcode is not permitted.<br>"
+        "This is to prevent subjects from being included in the demand figures for multiple cohort types."
+    )
 
-    info_icon = page.locator("button#addCohortByOutcodeButton + span")
-    assert info_icon.get_attribute("data-toggle") == "tooltip"
-    tooltip_text = info_icon.get_attribute("data-original-title")
-    expected_text = "Cohorts have already been defined by GP practice/Sub practice, defining more cohorts by outcode is not permitted.<br>This is to prevent subjects from being included in the demand figures for multiple cohort types."
-    assert tooltip_text == expected_text
+    verify_cohort_creation_buttons(
+        page,
+        expected_gp_button_state="enabled",
+        expected_outcode_button_state="disabled",
+        tooltip_selector="button#addCohortByOutcodeButton + span",
+        expected_tooltip_text=expected_text,
+    )
 
 
-#### Test_48
 def test_gp_practice_does_not_exist_outcode_exist(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
     """
     Test to verify when outcode exists the GP practice will be disabled
     """
-    # Logged into BSS_SO1
     login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
-    assert page.locator(
-        "button:has-text('Create screening cohort by GP practice')"
-    ).is_disabled(), "'Create screening cohort by GP practice' button is enabled"
-    assert page.locator(
-        "button:has-text('Create screening cohort by outcode')"
-    ).is_enabled(), "'Create screening cohort by outcode' button is not enabled"
+    expected_text = (
+        "Cohorts have already been defined by outcode, defining more cohorts by GP practice/sub practice is not permitted.<br>"
+        "This is to prevent subjects from being included in the demand figures for multiple cohort types."
+    )
 
-    info_icon = page.locator("button#addCohortByPracticeButton + span")
-    assert info_icon.get_attribute("data-toggle") == "tooltip"
-    tooltip_text = info_icon.get_attribute("data-original-title")
-    expected_text = "Cohorts have already been defined by outcode, defining more cohorts by GP practice/sub practice is not permitted.<br>This is to prevent subjects from being included in the demand figures for multiple cohort types."
-    assert tooltip_text == expected_text
+    verify_cohort_creation_buttons(
+        page,
+        expected_gp_button_state="disabled",
+        expected_outcode_button_state="enabled",
+        tooltip_selector="button#addCohortByPracticeButton + span",
+        expected_tooltip_text=expected_text,
+    )
