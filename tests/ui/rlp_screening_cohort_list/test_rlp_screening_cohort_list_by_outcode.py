@@ -137,8 +137,8 @@ def test_create_screening_cohort_outcode_valid_data(
     )
     # filtering name and storing in filtered_name
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    filterd_name = page.locator("//tr//td[2]").text_content()
-    assert cohort_name == filterd_name
+    filtered_name = page.locator("//tr//td[2]").text_content()
+    assert cohort_name == filtered_name
 
 
 # creating cohort for below test

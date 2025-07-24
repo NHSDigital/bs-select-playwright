@@ -35,7 +35,6 @@ def test_check_and_create_location_test_data_for_outcode(
     Random test to generate location test data for User2 BS2
     """
     # Logged into BSS_SO2 User2
-
     login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     locations = [
@@ -91,7 +90,7 @@ def test_outcode_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
     expect(page.get_by_text("Amend Screening Cohort")).to_be_visible()
-    # cancelling the amend
+    # cancelling to amend
     rlp_cohort_list_page.click_amend_cohort_cancel_button()
 
     # Filter the newly created cohort and clicking on the cohort pencil to amend(testing pencil icon)
@@ -127,8 +126,8 @@ def test_outcode_amend_cohort_name_with_valid_data(
     rlp_cohort_list_page.enter_amend_screening_cohort_name(amend_cohort_name)
     rlp_cohort_list_page.click_amend_save_btn()
     rlp_cohort_list_page.enter_screening_cohort_name_filter(amend_cohort_name)
-    filterd_amend_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
-    assert amend_cohort_name == filterd_amend_name
+    filtered_amend_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
+    assert amend_cohort_name == filtered_amend_name
 
 
 ## Test_36 negative field data validation
