@@ -8,6 +8,11 @@ from utils.test_helpers import generate_random_string
 from utils.user_tools import UserTools
 
 
+def login_and_navigate_to_cohort_list(page) -> None:
+    UserTools().user_login(page, "BSO User - BS1")
+    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+
+
 # test to create the unit test data
 def test_check_and_create_unit_test_data(
     page: Page, rlp_cohort_list_page: CohortListPage
@@ -45,11 +50,11 @@ def test_only_default_bso_cohort_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
     """
-    User Selects 'Screening Cohorts' from the drop down list,
+    User Selects 'Screening Cohorts' from the drop-down list,
     User has no saved Cohorts,
     'Screening Cohort List' Screen is displayed correctly, with only the default BSO Cohort visible
     """
-    # Logged into BSS_SO2_User2 and select screening cohort list from the roundplanning drop down
+    # Logged into BSS_SO2_User2 and select screening cohort list from the round planning drop down
     UserTools().user_login(page, "Read Only BSO User - BS2")
     MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
     expect(page.get_by_text("Screening cohort list", exact=True)).to_be_visible()
@@ -67,8 +72,8 @@ def test_paging_of_cohort_list(
     Test to compare the UI cohort row count and db row count
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     # Checking the paging info
     ui_row_count = rlp_cohort_list_page.extract_cohort_paging_info()
     db_row_count = rlp_cohort_list_page.screening_cohorts_count_in_db(db_util)
@@ -83,8 +88,7 @@ def test_defaults_are_set_and_displayed_correctly(
     Test to verify the cohort defaults are displayed correctly
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
 
     # Create Screening Cohort screen is displayed
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
@@ -110,11 +114,10 @@ def test_invoke_cancel_btn_return_to_screening_cohort_list(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
     """
-    Test to invoke cancel cohort button and retuen to the screening cohort list page
+    Test to invoke cancel cohort button and return to the screening cohort list page
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
 
     # Create Screening Cohort screen is displayed
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
@@ -132,8 +135,8 @@ def test_create_screening_cohort_valid_data(
 ) -> None:
     """User enters valid data into Screening Cohort field"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     # Test data
     cohort_name = generate_random_string(
         input_length
@@ -144,10 +147,10 @@ def test_create_screening_cohort_valid_data(
     expect(page.locator("td.dataTables_empty")).to_be_visible()
     # creating cohort using create cohort method
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
-    # filtering name and storing in filterd_name
+    # filtering name and storing in filtered_name
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    filterd_name = page.locator("//tr//td[2]").text_content()
-    assert cohort_name == filterd_name
+    filtered_name = page.locator("//tr//td[2]").text_content()
+    assert cohort_name == filtered_name
 
 
 ## Test_06 negative field data validation
@@ -167,8 +170,8 @@ def test_try_to_create_screening_cohort_with_invalid_data(
     Negative test - User enters invalid data into Screening Cohort field
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     # try to create cohort using create cohort method with invalid data
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
@@ -193,8 +196,8 @@ def test_expected_attendance_rate_valid_data(
     User enters valid data in the Expected Attendance Rate (%) field
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     cohort_name = f"cohort_name-{datetime.now()}"
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
@@ -225,8 +228,7 @@ def test_expected_attendance_rate_invalid_data(
 ):
     """Negative test - User enters data in the Expected Attendance Rate (%) field - Non integer value and Null"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
 
     # try to create cohort using invalid attendance rate
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -249,8 +251,8 @@ def test_default_location_dropdown(page: Page, rlp_cohort_list_page: CohortListP
     The correct list of Locations available to this user in this BSO, are displayed correctly
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
     # extracting the drop-down location count
@@ -269,8 +271,8 @@ def test_default_unit_dropdown(page: Page, rlp_cohort_list_page: CohortListPage)
     The correct list of units available to this user in this BSO, are displayed correctly
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
     # extracting the drop-down location count
@@ -292,8 +294,8 @@ def test_added_gp_practices_are_visible(
     Test to add gp practices and covers negative test of adding the same gp practice
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
     # including gp practice
@@ -323,8 +325,8 @@ def test_gp_practices_removed_from_included_gp_practices(
     User add and remove the gp practices
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
     # including gp practice
@@ -370,21 +372,20 @@ def test_click_save_without_filling_all_mandatory_fields(
 ):
     """User invoke save button without filling all the mandatory fields and validate the response"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
-
+    login_and_navigate_to_cohort_list(page)
+    # Create Screening Cohort screen is displayed
     rlp_cohort_list_page.click_create_screening_cohort_by_gp_practice_btn()
     page.wait_for_timeout(3000)
     rlp_cohort_list_page.click_create_screening_cohort_save_btn()
     # expected error messages to be visible
-    expect(page.get_by_text("Screening Cohort Name must be populated")).to_be_visible
+    expect(page.get_by_text("Screening Cohort Name must be populated")).to_be_visible()
     expect(
         page.get_by_text("Expected Attendance Rate must be between 0 and 100")
-    ).to_be_visible
+    ).to_be_visible()
     expect(
         page.get_by_text("Default Screening Location must be populated")
-    ).to_be_visible
-    expect(page.get_by_text("Default Screening Unit must be populated")).to_be_visible
+    ).to_be_visible()
+    expect(page.get_by_text("Default Screening Unit must be populated")).to_be_visible()
 
 
 #### Test_13
@@ -393,8 +394,8 @@ def test_another_user_logs_into_bs_select(
 ):
     """Other Users are not able to create Cohort with same details of other existing Cohort within the same BSO, failing validation"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     # creating cohort using method with hardcoded attendance and screening unit
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
@@ -423,8 +424,8 @@ def test_gp_practice_exist_outcode_does_not_exist(
     Test to verify when GP practice exists the outcode will be disabled
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    login_and_navigate_to_cohort_list(page)
+
     assert page.locator(
         "button:has-text('Create screening cohort by GP practice')"
     ).is_enabled(), "'Create screening cohort by GP practice' button is not enabled"

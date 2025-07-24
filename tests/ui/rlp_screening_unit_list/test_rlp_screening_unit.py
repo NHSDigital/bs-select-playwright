@@ -190,7 +190,7 @@ def test_negative_non_integer_values_and_empty_unit_type(
             page.get_by_text("Name is already in use by another unit")
         ).to_be_visible()
     elif unit_name == "    ":
-        expect(page.get_by_text("Unit Type must be populated")).to_be_visible
+        expect(page.get_by_text("Unit Type must be populated")).to_be_visible()
     ScreenshotTool(page).take_screenshot("rlp_unit_tc_6_14_15")
 
 
