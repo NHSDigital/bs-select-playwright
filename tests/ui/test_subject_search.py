@@ -87,7 +87,7 @@ def test_search_by_date_of_birth(page: Page) -> None:
     login_as_bso_user(page)
 
     eligible_subject_dob = "01-Jun-1987"
-    # Search by family_name
+    # Search by born field
     page.fill("#bornFilter > input", eligible_subject_dob)
     page.click("body")
 
@@ -96,12 +96,12 @@ def test_search_by_date_of_birth(page: Page) -> None:
     search_value = page.locator("//tbody/tr/td[5]").text_content()
     ScreenshotTool(page).take_screenshot("search_by_dob")
 
-    # asserting the eligible_subject_family_name and search_value
+    # asserting the eligible_subject_dob and search_value
     assert eligible_subject_dob == search_value
     # Assert only 1 result is returned
     assert page.locator("tbody > tr").count() == 1
 
-##TODO: Implement search by date_of_death
+
 def test_search_by_date_of_death(page: Page) -> None:
     """
     This test verifies that searching for a specific date_of_death in the subject search returns exactly one unique result corresponding to the eligible subject.
@@ -110,9 +110,20 @@ def test_search_by_date_of_death(page: Page) -> None:
     # Logged into BSS_SO1
     login_as_bso_user(page)
 
-    eligible_subject_nhs_number = ""
-    current_date = datetime.now().strftime("%d-%b-%Y")
-    print(current_date)
+    eligible_subject_date_of_death = "05-May-2017"
+    # Search by died field
+    page.fill("#diedFilter > input", eligible_subject_date_of_death)
+    page.click("body")
+
+    # Assert dob appears in results
+    page.wait_for_selector("//tbody/tr/td[6]")
+    search_value = page.locator("//tbody/tr/td[6]").text_content()
+    ScreenshotTool(page).take_screenshot("search_by_date_of_death")
+
+    # asserting the eligible_subject_date_of_death and search_value
+    assert eligible_subject_date_of_death == search_value
+    # Assert only 1 result is returned
+    assert page.locator("tbody > tr").count() == 1
 
 
 def test_too_many_subjects_message(page: Page) -> None:
@@ -282,7 +293,8 @@ def test_sort_subject_list_by_nhs_number(page: Page) -> None:
 
     # Get all NHS Numbers from the table
     nhs_numbers = page.locator("//tbody/tr/td[2]").all_text_contents()
+    nhs_numbers_int = [int(nhs.replace(" ", "")) for nhs in nhs_numbers]
 
     # Assert NHS Numbers are sorted (ascending)
-    assert nhs_numbers == sorted(nhs_numbers), f"NHS Numbers are not sorted correctly: {nhs_numbers}"
+    assert nhs_numbers_int == sorted(nhs_numbers_int), f"NHS Numbers are not sorted correctly: {nhs_numbers}"
     ScreenshotTool(page).take_screenshot("sorted_by_nhs_number")
