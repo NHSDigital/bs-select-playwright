@@ -41,6 +41,7 @@ LIST_OF_PAGES = [
 
 
 @pytest.mark.specific_requirement
+@pytest.mark.branch(serial='bss2-2402')
 @pytest.mark.accessibility
 def test_accessibility_sweep(page: Page, user_tools: UserTools) -> None:
     """This test will loop through each page on the list of pages, and run Axe to generate an accessibility report."""
