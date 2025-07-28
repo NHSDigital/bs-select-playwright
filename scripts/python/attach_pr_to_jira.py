@@ -13,8 +13,8 @@ branch_name = "feature/bss2-2309_current"  # os.environ["BRANCH_NAME"]
 branch_url = os.environ["BRANCH_URL"]
 
 jira_ticket_id = (
-    re.search(r"[a-zA-Z]{3,5}-\d+", branch_name, re.IGNORECASE).group(0)
-    if re.search(r"[a-zA-Z]{3,5}-\d+", branch_name, re.IGNORECASE)
+    re.search(r"[a-zA-Z0-9]{3,5}-\d+", branch_name, re.IGNORECASE).group(0)
+    if re.search(r"[a-zA-Z0-9]{3,5}-\d+", branch_name, re.IGNORECASE)
     else None
 )
 
