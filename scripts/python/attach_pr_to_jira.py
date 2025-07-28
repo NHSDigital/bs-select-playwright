@@ -19,7 +19,7 @@ jira_ticket_id = (
 )
 
 if not jira_ticket_id:
-    print("No JIRA ticket ID found in the branch name.")
+    print("ERROR: No JIRA ticket ID found in the branch name.")
     exit(1)
 
 print(f"JIRA Ticket ID: {jira_ticket_id}")
@@ -31,22 +31,22 @@ try:
     # Fetch the issue using the JIRA ticket ID
     issue = jira.issue(jira_ticket_id)
 
-    print(f"Issue ID: {issue.id}")
-    print(f"Summary: {issue.fields.summary}")
-    print(f"Status: {issue.fields.status.name}")
+    print(f"DEBUG: Issue ID: {issue.id}")
+    print(f"DEBUG: Summary: {issue.fields.summary}")
+    print(f"DEBUG: Status: {issue.fields.status.name}")
 
     # Check if a pull request comment already exists
     existing_comments = jira.comments(issue)
     comment_exists = any(pr_url in comment.body for comment in existing_comments)
 
     if comment_exists:
-        print("Pull request comment already exists.")
+        print("DEBUG: Pull request comment already exists.")
     else:
-        print("Adding new pull request comment.")
+        print("DEBUG: Adding new pull request comment.")
         comment = f"Pull request linked: {pr_url} for branch {branch_name} ({branch_url}) from GitHub Actions"
         jira.add_comment(issue, comment)
 except JIRAError as e:
     if e.status_code == 404:
-        print(f"Issue {jira_ticket_id} not found.")
+        print(f"ERROR: Issue {jira_ticket_id} not found.")
     else:
-        print(f"An error occurred: {e.text}")
+        print(f"ERROR: An error occurred: {e.text}")
