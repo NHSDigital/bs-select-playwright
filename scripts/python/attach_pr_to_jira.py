@@ -9,7 +9,7 @@ import re
 jira_server = os.environ["JIRA_SERVER"]
 jira_token = os.environ["JIRA_TOKEN"]
 pr_url = os.environ["PR_URL"]
-branch_name = "feature/bss2-2309_current"  # os.environ["BRANCH_NAME"]
+branch_name = os.environ["BRANCH_NAME"]
 branch_url = os.environ["BRANCH_URL"]
 
 jira_ticket_id = (
