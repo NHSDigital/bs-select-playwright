@@ -13,11 +13,14 @@ branch_name = os.environ["BRANCH_NAME"]
 branch_url = os.environ["BRANCH_URL"]
 
 
-jira_ticket_id = (
-    re.search(r"bss2-\d+", branch_name, re.IGNORECASE).group(0)
-    if re.search(r"bss2-\d+", branch_name, re.IGNORECASE)
-    else None
-)
+# jira_ticket_id = (
+#     re.search(r"bss2-\d+", branch_name, re.IGNORECASE).group(0)
+#     if re.search(r"bss2-\d+", branch_name, re.IGNORECASE)
+#     else None
+# )
+
+jira_ticket_id = "SCM-2213"
+
 if not jira_ticket_id:
     print("No JIRA ticket ID found in the branch name.")
     exit(1)
