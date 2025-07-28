@@ -9,17 +9,14 @@ import re
 jira_server = os.environ["JIRA_SERVER"]
 jira_token = os.environ["JIRA_TOKEN"]
 pr_url = os.environ["PR_URL"]
-branch_name = os.environ["BRANCH_NAME"]
+branch_name = "feature/SCM-2213_current"  # os.environ["BRANCH_NAME"]
 branch_url = os.environ["BRANCH_URL"]
 
-
-# jira_ticket_id = (
-#     re.search(r"bss2-\d+", branch_name, re.IGNORECASE).group(0)
-#     if re.search(r"bss2-\d+", branch_name, re.IGNORECASE)
-#     else None
-# )
-
-jira_ticket_id = "SCM-2213"
+jira_ticket_id = (
+    re.search(r"[a-zA-Z]{3,5}-\d+", branch_name, re.IGNORECASE).group(0)
+    if re.search(r"[a-zA-Z]{3,5}-\d+", branch_name, re.IGNORECASE)
+    else None
+)
 
 if not jira_ticket_id:
     print("No JIRA ticket ID found in the branch name.")
