@@ -50,13 +50,16 @@ jobs:
           aws ecr list-images --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} \
             --filter tagStatus=TAGGED --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
 
-          aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG}
-          result=$?
-          if [ $result -ne 0 ]; then
-            echo "Failed to delete image with tag ${IMAGE_TAG}. Failure code: $result"
-            exit $result
+          output=$(aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG} 2>&1)
+          echo "$output"
+          if [ -z "$output" ]; then
+            echo "No images found to delete with tag ${IMAGE_TAG}."
+            exit 0
+          fi
+          if echo "$output" | grep -q "failure"; then
+            echo "Error deleting image with tag ${IMAGE_TAG}: $output"
+            exit 1
           fi
 
-          # ||  echo "No images found to delete"
           echo "Image with tag ${IMAGE_TAG} deleted successfully."
 
