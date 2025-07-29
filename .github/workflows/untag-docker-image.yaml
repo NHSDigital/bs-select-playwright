@@ -51,7 +51,7 @@ jobs:
             filter "tagStatus=TAGGED" --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
 
 
-          aws ecr untag-resource --resource-arn arn:aws:ecr:eu-west-2:461183108257:repository/bs-select-playwright-test --tag-keys ${IMAGE_TAG} || echo "No tags found for the image"
+          # aws ecr untag-resource --resource-arn arn:aws:ecr:eu-west-2:461183108257:repository/bs-select-playwright-test --tag-keys ${IMAGE_TAG} || echo "No tags found for the image"
 
-          #aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG} || echo "No images found to delete"
+          # aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG} || echo "No images found to delete"
 
