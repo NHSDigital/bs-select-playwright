@@ -5,13 +5,7 @@ from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
 from pages.rlp_location_list_page import ScreeningLocationListPage
 from utils.test_helpers import generate_random_string
-from utils.user_tools import UserTools
-
-
-def login_and_navigate(page: Page, user: str, main_menu: str, sub_menu: str):
-    """Helper function to log in and navigate to the desired menu."""
-    UserTools().user_login(page, user)
-    MainMenuPage(page).select_menu_option(main_menu, sub_menu)
+from utils.user_tools import UserTools, login_and_navigate
 
 
 def test_check_and_create_unit_test_data(

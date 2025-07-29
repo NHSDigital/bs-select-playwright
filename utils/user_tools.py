@@ -5,6 +5,7 @@ from pathlib import Path
 from playwright.sync_api import Page
 from pages.login.cognito_authentication import CognitoAuthenticationPage
 from pages.login.org_selection import OrgSelectionPage
+from pages.main_menu import MainMenuPage
 
 logger = logging.getLogger(__name__)
 USERS_FILE = Path(os.getcwd()) / "users.json"
@@ -62,3 +63,8 @@ class UserTools:
 
 class UserToolsException(Exception):
     pass
+
+def login_and_navigate(page: Page, user: str, main_menu: str, sub_menu: str):
+    """Helper function to log in and navigate to the desired menu."""
+    UserTools().user_login(page, user)
+    MainMenuPage(page).select_menu_option(main_menu, sub_menu)
