@@ -1,19 +1,16 @@
 name: Delete Docker Image
 
 on:
-  push:
-    branches:
-      - 'feature/**'
   workflow_dispatch:
 
-  # pull_request:
-  #   types: [closed]
-  #   branches:
-  #     - main
-  #   if: github.event.pull_request.merged == true
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 jobs:
   remove-image:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       ECR_REPOSITORY: ${{secrets.TEXAS_MANAGEMENT_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com
