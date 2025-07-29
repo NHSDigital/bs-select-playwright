@@ -37,7 +37,7 @@ jobs:
         with:
           registry: ${{ env.ECR_REPOSITORY }}
 
-      - name: Remove Docker Image
+      - name: Delete Docker Image
         run: |
           # Extract the ticket from the branch name
 
