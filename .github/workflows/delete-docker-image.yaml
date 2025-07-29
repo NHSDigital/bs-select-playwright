@@ -51,14 +51,11 @@ jobs:
             --filter tagStatus=TAGGED --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
 
           output=$(aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG} 2>&1)
-          echo "$output"
-          if [ -z "$output" ]; then
-            echo "No images found to delete with tag ${IMAGE_TAG}."
+          echo "DEBUG: $output"
+
+          if echo "$output" | grep -q "ImageNotFound"; then
+            echo "No image found with tag ${IMAGE_TAG}"
             exit 0
-          fi
-          if echo "$output" | grep -q "failure"; then
-            echo "Error deleting image with tag ${IMAGE_TAG}: $output"
-            exit 1
           fi
 
           echo "Image with tag ${IMAGE_TAG} deleted successfully."
