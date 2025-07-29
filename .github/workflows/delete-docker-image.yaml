@@ -17,7 +17,7 @@ jobs:
       IMAGE_NAME: bs-select-playwright-test
     permissions:
       contents: read
-      id-token: write  # Re
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
