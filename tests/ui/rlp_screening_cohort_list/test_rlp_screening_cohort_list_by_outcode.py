@@ -4,6 +4,8 @@ from pages.main_menu import MainMenuPage
 from pages.rlp_cohort_list_page import CohortListPage
 from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
+
+from utils.table_utils import TableUtils
 from utils.test_helpers import generate_random_string
 from utils.user_tools import UserTools, login_and_navigate
 
@@ -73,7 +75,7 @@ def test_for_outcode_cancel_function(page: Page, rlp_cohort_list_page: CohortLis
 ## Test_26
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_create_screening_cohort_outcode_valid_data(
-    page: Page, rlp_cohort_list_page: CohortListPage, input_length, check_and_create_unit_test_data, check_and_create_location_test_data_for_outcode
+    page: Page, rlp_cohort_list_page: CohortListPage, check_and_create_location_test_data_for_outcode, check_and_create_unit_test_data, input_length
 ) -> None:
     """
     Test for creating screening Cohort outcode using the valid field length of 3 and 100 char,
@@ -99,8 +101,16 @@ def test_create_screening_cohort_outcode_valid_data(
     )
     # filtering name and storing in filtered_name
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
-    filtered_name = page.locator("//tr//td[2]").text_content()
-    assert cohort_name == filtered_name
+
+    # Initialize TableUtils for the cohort list table
+    table = TableUtils(page, "#screeningCohortList")
+    # Assert only one row is visible
+    assert table.get_row_count() == 1, "Expected exactly 1 filtered row"
+    # Get the filtered value from the first row
+    row_data = table.get_row_data_with_headers(0)
+    # Assert that the cohort name matches
+    assert row_data["Screening cohort name"] == cohort_name, \
+    f"Expected cohort name '{cohort_name}', got '{row_data['Screening cohort name']}'"
 
 
 # creating cohort for below test
