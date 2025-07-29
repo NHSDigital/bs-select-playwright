@@ -6,7 +6,7 @@ from playwright.sync_api import Page, expect
 
 class CohortListPage:
     CANCEL_BUTTON = "a#cancelButton"
-    ENTRIES_SHOWN = "Showing (\d+) to (\d+) of (\d+) entries"
+    ENTRIES_SHOWN = r"Showing (\d+) to (\d+) of (\d+) entries"
 
     def __init__(self, page: Page) -> None:
         self.page = page
