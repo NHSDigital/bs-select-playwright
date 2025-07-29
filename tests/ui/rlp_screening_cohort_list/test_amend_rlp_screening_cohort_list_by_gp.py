@@ -8,19 +8,6 @@ from utils.test_helpers import generate_random_string
 from utils.user_tools import UserTools, login_and_navigate
 
 
-# test to create the unit test data
-def test_check_and_create_unit_test_data(
-    page: Page, rlp_cohort_list_page: CohortListPage
-) -> None:
-    """creating unit test data for User2 BS2"""
-    # Logged into BSS_SO1
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Unit List")
-
-    unit_names = ["Batman", "Captain"]
-    for unit_name in unit_names:
-        rlp_cohort_list_page.create_unit_if_not_exists(unit_name)
-
-
 #### Test_15
 def test_try_amend_cohort_by_dbl_click_and_invoke_pencil_icon(
     page: Page, rlp_cohort_list_page: CohortListPage

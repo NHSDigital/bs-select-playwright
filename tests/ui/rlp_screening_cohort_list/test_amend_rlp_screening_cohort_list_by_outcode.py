@@ -1,42 +1,10 @@
 import pytest
-from pages.main_menu import MainMenuPage
 from pages.rlp_cohort_list_page import CohortListPage
 from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
 from pages.rlp_location_list_page import ScreeningLocationListPage
 from utils.test_helpers import generate_random_string
 from utils.user_tools import UserTools, login_and_navigate
-
-
-# test to create the unit test data
-def test_check_and_create_unit_test_data(
-    page: Page, rlp_cohort_list_page: CohortListPage
-):
-    """creating unit test data for User2 BS2"""
-    # Logged into BSS_SO2 User2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Unit List")
-
-    unit_names = ["Batman", "Captain"]
-    for unit_name in unit_names:
-        rlp_cohort_list_page.create_unit_if_not_exists(unit_name)
-
-
-# test to create the location data
-def test_check_and_create_location_test_data_for_outcode(
-    page: Page, rlp_cohort_list_page: CohortListPage
-):
-    """
-    Random test to generate location test data for User2 BS2
-    """
-    # Logged into BSS_SO2 User2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
-
-    locations = [
-        "Aldi - Caldecott County Retail Park",
-        "Poundland Car Park - Alberta Retail Park",
-    ]
-    for location in locations:
-        ScreeningLocationListPage(page).create_location_if_not_exists(location)
 
 
 # creating cohort for below test
@@ -61,7 +29,7 @@ def test_create_screening_cohort_outcode_test_data(
 
 
 ## Test_35
-def test_outcode_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
+def test_outcode_try_amend_cohort_by_dbl_click_and_invoke_pencil_icon(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
     """
@@ -96,7 +64,8 @@ def test_outcode_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
 ## Test_36 positive data validation
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_outcode_amend_cohort_name_with_valid_data(
-    page: Page, rlp_cohort_list_page: CohortListPage, input_length
+    page: Page, rlp_cohort_list_page: CohortListPage, input_length,
+    check_and_create_unit_test_data, check_and_create_location_test_data_for_outcode
 ):
     """
     Creating a cohort using outcode to amend the name field using the min and max length
