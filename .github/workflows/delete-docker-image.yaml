@@ -38,10 +38,12 @@ jobs:
         run: |
           # Extract the ticket from the branch name
 
-          BRANCH_NAME="${{ github.ref_name }}"
+          BRANCH_NAME="${{ github.event.pull_request.base.ref }}"
           TICKET=$(echo "$BRANCH_NAME" | grep -oiE '[a-z]+[0-9]+-[0-9]+')
           IMAGE_TAG="${TICKET}_current"
           IMAGE_TAG="${IMAGE_TAG,,}"  # Convert to lower case
+
+          echo "Branch name: $BRANCH_NAME"
 
           REGISTRY="${{ secrets.TEXAS_MANAGEMENT_ACCOUNT_ID }}"
           aws ecr list-images --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} \
