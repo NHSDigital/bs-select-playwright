@@ -4,7 +4,7 @@ from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
 from pages.rlp_location_list_page import ScreeningLocationListPage
 from utils.test_helpers import generate_random_string
-from utils.user_tools import UserTools, login_and_navigate
+from utils.user_tools import UserTools
 
 
 # creating cohort for below test
@@ -15,7 +15,7 @@ def test_create_screening_cohort_outcode_test_data(
     Test to create a test data
     """
     # Logged into BSS_SO2 user2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # Test data
     cohort_name = "Hadley"
@@ -36,7 +36,7 @@ def test_outcode_try_amend_cohort_by_dbl_click_and_invoke_pencil_icon(
     Trying to amend cohort using the methods - double_clicking on the cohort and invoking the pencil icon
     """
     # Logged into BSS_SO2 user2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # Test data
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -71,7 +71,7 @@ def test_outcode_amend_cohort_name_with_valid_data(
     Creating a cohort using outcode to amend the name field using the min and max length
     """
     # Logged into BSS_SO2 user2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -108,7 +108,7 @@ def test_outcode_amend_screening_cohort_with_invalid_data(
 ):
     """Test to verify error messages for outcode amend cohort with invalid data "$%&@", " "-empty string, Name is already in use, too short"""
     # Logged into BSS_SO2 user2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -135,7 +135,7 @@ def test_outcode_amend_expected_attendance_rate_valid_data(
 ) -> None:
     """outcode amend expected attendance rate valid data"""
     # Logged into BSS_SO2 user2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -174,7 +174,7 @@ def test_outcode_amend_expected_attendance_rate_invalid_data(
 ):
     """Test to verify error messages for outcode amend cohort with invalid data "$%&@", " "-empty string, Name is already in use, too short"""
     # Logged into BSS_SO2 user2
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -200,7 +200,7 @@ def test_outcode_amend_included_outcodes_are_visible(
 ):
     """created a cohort, amened the cohort by including the outcodes"""
     # Logged into BSS_SO1
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -241,7 +241,7 @@ def test_outcode_amend_remove_added_outcodes(
     created a cohort, amened the cohort by including the outcodes, and removed the outcodes
     """
     # Logged into BSS_SO1
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Cohort List")
 
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"

@@ -22,8 +22,6 @@ def test_search_by_first_name(page: Page) -> None:
     This test verifies that searching for a specific first_given_name in the subject search returns exactly one unique result corresponding to the eligible subject.
     It ensures the search functionality correctly identifies and displays the subject based on their first_given_name
     """
-    # Logged into BSS_SO1
-
     eligible_subject_first_name = "Kierra"
 
     # Search by first_given_name
@@ -46,7 +44,6 @@ def test_search_by_family_name(page: Page) -> None:
     This test verifies that searching for a specific family_name in the subject search returns exactly one unique result corresponding to the eligible subject.
     It ensures the search functionality correctly identifies and displays the subject based on their family_name
     """
-    # Logged into BSS_SO1
     eligible_subject_family_name = "BETA"
     page.fill("#familyNameFilter > input", eligible_subject_family_name)
     page.wait_for_selector("#subjectList tbody > tr")
@@ -67,7 +64,6 @@ def test_search_by_date_of_birth(page: Page) -> None:
     This test verifies that searching for a specific DOB in the subject search returns exactly one unique result corresponding to the eligible subject.
     It ensures the search functionality correctly identifies and displays the subject based on their DOB
     """
-    # Logged into BSS_SO1
     eligible_subject_dob = "01-Jun-1987"
 
     # Search by born field
@@ -91,7 +87,6 @@ def test_search_by_date_of_death(page: Page) -> None:
     This test verifies that searching for a specific date_of_death in the subject search returns exactly one unique result corresponding to the eligible subject.
     It ensures the search functionality correctly identifies and displays the subject based on their date_of_death
     """
-    # Logged into BSS_SO1
 
     eligible_subject_date_of_death = "05-May-2017"
     # Search by died field

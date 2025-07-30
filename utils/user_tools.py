@@ -40,6 +40,19 @@ class UserTools:
             page.locator("//button[@class='nhsuk-button']").click()
         OrgSelectionPage(page).org_selection(user["role_to_select"])
 
+    def login_and_navigate(self, page: Page, user: str, main_menu: str, sub_menu: str):
+        """
+       Logs in as the specified user and navigates to a specific section of the app.
+
+       Args:
+           page (Page): The Playwright page object.
+           user (str): The user login identifier.
+           main_menu (str): The top-level menu to select.
+           sub_menu (str): The sub-menu to navigate to.
+       """
+        self.user_login(page, user)
+        MainMenuPage(page).select_menu_option(main_menu, sub_menu)
+
     @staticmethod
     def retrieve_user(user: str) -> dict:
         """
@@ -63,8 +76,3 @@ class UserTools:
 
 class UserToolsException(Exception):
     pass
-
-def login_and_navigate(page: Page, user: str, main_menu: str, sub_menu: str):
-    """Helper function to log in and navigate to the desired menu."""
-    UserTools().user_login(page, user)
-    MainMenuPage(page).select_menu_option(main_menu, sub_menu)
