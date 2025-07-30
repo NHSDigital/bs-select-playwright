@@ -42,14 +42,14 @@ class UserTools:
 
     def login_and_navigate(self, page: Page, user: str, main_menu: str, sub_menu: str):
         """
-       Logs in as the specified user and navigates to a specific section of the app.
+        Logs in as the specified user and navigates to a specific section of the app.
 
-       Args:
-           page (Page): The Playwright page object.
-           user (str): The user login identifier.
-           main_menu (str): The top-level menu to select.
-           sub_menu (str): The sub-menu to navigate to.
-       """
+        Args:
+            page (Page): The Playwright page object.
+            user (str): The user login identifier.
+            main_menu (str): The top-level menu to select.
+            sub_menu (str): The sub-menu to navigate to.
+        """
         self.user_login(page, user)
         MainMenuPage(page).select_menu_option(main_menu, sub_menu)
 
