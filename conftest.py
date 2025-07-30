@@ -22,8 +22,6 @@ from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
 
 from utils.db_util import DbUtil
 from utils.db_restore import DbRestore
-from utils.user_tools import UserTools, login_and_navigate
-
 from pages.rlp_cohort_list_page import CohortListPage
 from pages.rlp_location_list_page import ScreeningLocationListPage
 from pages.rlp_unit_list_page import ScreeningUnitListPage
@@ -182,7 +180,7 @@ def check_and_create_unit_test_data(
     page: Page, rlp_cohort_list_page: CohortListPage, context
 ):
     """Create unit test data for User2 BS2. Fixture to log in and ensure specific unit test data is created."""
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Unit List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Unit List")
     unit_names = ["Batman", "Captain"]
     for unit_name in unit_names:
         rlp_cohort_list_page.create_unit_if_not_exists(unit_name)
@@ -193,7 +191,7 @@ def check_and_create_location_test_data_for_outcode(
     page: Page, rlp_cohort_list_page: CohortListPage, context
 ):
     """Generate location test data for User2 BS2. Fixture to log in and ensure specific location test data is created."""
-    login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Location List")
+    UserTools().login_and_navigate(page, "Read Only BSO User - BS2", "Round Planning", "Screening Location List")
     locations = [
         "Aldi - Caldecott County Retail Park",
         "Poundland Car Park - Alberta Retail Park",
