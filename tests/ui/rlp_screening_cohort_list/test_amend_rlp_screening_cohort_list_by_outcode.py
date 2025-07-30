@@ -1,19 +1,14 @@
-import playwright
 import pytest
-
 from pages.main_menu import MainMenuPage
 from pages.rlp_cohort_list_page import CohortListPage
 from playwright.sync_api import expect, Page, Playwright
 from datetime import datetime
 from pages.rlp_location_list_page import ScreeningLocationListPage
-from pages.rlp_unit_list_page import ScreeningUnitListPage
 from utils.test_helpers import generate_random_string
-from utils import test_helpers
 from utils.user_tools import UserTools
 
 
 # test to create the unit test data
-@pytest.mark.amendcohortoutcode
 def test_check_and_create_unit_test_data(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -27,7 +22,6 @@ def test_check_and_create_unit_test_data(
 
 
 # test to create the location data
-@pytest.mark.amendcohortoutcode
 def test_check_and_create_location_test_data_for_outcode(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -46,7 +40,6 @@ def test_check_and_create_location_test_data_for_outcode(
 
 
 # creating cohort for below test
-@pytest.mark.amendcohortoutcode
 def test_create_screening_cohort_outcode_test_data(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
@@ -68,7 +61,6 @@ def test_create_screening_cohort_outcode_test_data(
 
 
 ## Test_35
-@pytest.mark.amendcohortoutcode
 def test_outcode_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -102,7 +94,6 @@ def test_outcode_try_amend_cohort_by_dblclick_and_invoke_pencil_icon(
 
 
 ## Test_36 positive data validation
-@pytest.mark.amendcohortoutcode
 @pytest.mark.parametrize("input_length", [3, 100])
 def test_outcode_amend_cohort_name_with_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, input_length
@@ -134,7 +125,6 @@ def test_outcode_amend_cohort_name_with_valid_data(
 
 
 ## Test_36 negative field data validation
-@pytest.mark.amendcohortoutcode
 @pytest.mark.parametrize(
     "amend_name, expected_message",
     [
@@ -170,7 +160,6 @@ def test_outcode_amend_screening_cohort_with_invalid_data(
 
 
 ## Test_37 positive field data validation for amend Expected Attendance Rate
-@pytest.mark.amendcohortoutcode
 @pytest.mark.parametrize("input_value", ["0.0", "100.0"])
 def test_outcode_amend_expected_attendance_rate_valid_data(
     page: Page, rlp_cohort_list_page: CohortListPage, input_value
@@ -201,7 +190,6 @@ def test_outcode_amend_expected_attendance_rate_valid_data(
 
 
 #### Test_37 negative test for amend Expected Attendance Rate field
-@pytest.mark.amendcohortoutcode
 @pytest.mark.parametrize(
     "amend_attendance_rate, expected_message",
     [
@@ -238,7 +226,6 @@ def test_outcode_amend_expected_attendance_rate_invalid_data(
 
 
 #### Test_40
-@pytest.mark.amendcohortoutcode
 def test_outcode_amend_included_outcodes_are_visible(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
@@ -278,7 +265,6 @@ def test_outcode_amend_included_outcodes_are_visible(
 
 
 ## Test_41
-@pytest.mark.amendcohortoutcode
 def test_outcode_amend_remove_added_outcodes(
     page: Page, rlp_cohort_list_page: CohortListPage
 ):
