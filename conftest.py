@@ -8,6 +8,8 @@ import logging
 import os
 from pathlib import Path
 import typing
+from collections.abc import MutableMapping
+from typing import Any
 
 import pytest
 from dotenv import load_dotenv
@@ -17,6 +19,11 @@ from playwright.sync_api import Page, sync_playwright
 
 from pages.main_menu import MainMenuPage
 from pages.ni_ri_sp_batch_page import NiRiSpBatchPage
+
+from utils.db_util import DbUtil
+from utils.db_restore import DbRestore
+from utils.user_tools import UserTools
+
 from pages.rlp_cohort_list_page import CohortListPage
 from pages.rlp_location_list_page import ScreeningLocationListPage
 from pages.rlp_unit_list_page import ScreeningUnitListPage
@@ -69,8 +76,19 @@ def rlp_unit_list_page(page: Page) -> ScreeningUnitListPage:
 def ni_ri_sp_batch_page(page: Page) -> NiRiSpBatchPage:
     return NiRiSpBatchPage(page)
 
+
+## Fixture for ci-infra
+@pytest.fixture
+def db_util():
+    db = DbUtil(host = os.getenv("CI_INFRA_DB_HOST"),
+                port=os.getenv("CI_INFRA_DB_PORT"),
+                dbname=os.getenv("CI_INFRA_DBNAME"),
+                user=os.getenv("CI_INFRA_DB_USER"),
+                password=os.getenv("CI_INFRA_DB_PASSWORD"))
+    return db
+
 # This variable is used for JSON reporting only
-ENVIRONMENT_DATA = {}
+ENVIRONMENT_DATA = None
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -129,7 +147,7 @@ def pytest_json_runtest_metadata(item: object) -> dict:
 
 
 @pytest.hookimpl(optionalhook=True)
-def pytest_json_modifyreport(json_report: object) -> None:
+def pytest_json_modifyreport(json_report: MutableMapping[str, Any]) -> None:
     # Add env data to json report if present
     if ENVIRONMENT_DATA != None:
         json_report["environment_data"] = ENVIRONMENT_DATA

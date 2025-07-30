@@ -11,8 +11,6 @@ from utils.screenshot_tool import ScreenshotTool
 
 
 # TC-1
-@pytest.mark.tc1
-@pytest.mark.ni3
 def test_count_display_for_ri_sp_batch_with_blank_selected_date_selected_and_rejected_fields(
     page: Page, ni_ri_sp_batch_page: NiRiSpBatchPage
 ) -> None:
@@ -39,8 +37,6 @@ def test_count_display_for_ri_sp_batch_with_blank_selected_date_selected_and_rej
 
 
 # TC-2, TC-3
-@pytest.mark.tc2
-@pytest.mark.ni3
 def test_count_display_for_ri_sp_batch_with_selected_date_selected_and_rejected_fields(
     page: Page, ni_ri_sp_batch_page: NiRiSpBatchPage
 ) -> None:
@@ -71,8 +67,6 @@ def test_count_display_for_ri_sp_batch_with_selected_date_selected_and_rejected_
 
 
 # TC-4
-@pytest.mark.tc4
-@pytest.mark.ni3
 def test_count_display_for_ri_sp_batch_with_selected_date_selected_and_rejected_fields_search_by_bso_batch_id_and_batch_title(
     page: Page, ni_ri_sp_batch_page: NiRiSpBatchPage
 ) -> None:

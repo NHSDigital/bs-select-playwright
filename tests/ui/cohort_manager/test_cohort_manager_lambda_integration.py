@@ -1,11 +1,8 @@
-import logging
-import boto3
 import json
-
-from pandas import DataFrame
-import pytest
+import logging
 import time
-from dateutil.parser import parse
+import boto3
+from pandas import DataFrame
 from playwright.sync_api import expect, Page
 from tests.ui.cohort_manager.cohort_manager_util import (
     fetch_subject_column_value,
@@ -14,7 +11,6 @@ from tests.ui.cohort_manager.cohort_manager_util import (
 from utils.db_util import DbUtil
 from utils.user_tools import UserTools
 
-
 logging.getLogger("botocore").setLevel(logging.WARNING)
 
 ## Run this cmd before running these tests - aws sso login --profile bs-select-rw-user-730319765130
@@ -22,7 +18,6 @@ logging.getLogger("botocore").setLevel(logging.WARNING)
 
 ################ CM Lambda Positive tests ####################
 # TC-9
-@pytest.mark.cm1
 def test_status_204(db_util: DbUtil) -> None:
     """
     trigger_lambda_with_python and assert the status of 204
@@ -32,8 +27,7 @@ def test_status_204(db_util: DbUtil) -> None:
     trigger_lambda_and_verify_success(0)
 
 
-# TC-2,  this test covers TC-4 as well
-@pytest.mark.cm2
+# TC-2, TC-4
 def test_validate_max_field_length_in_db_pi_changes(db_util: DbUtil) -> None:
     """
     Test to validate cohort_manager max field length in db pi_changes table
@@ -85,7 +79,7 @@ def test_validate_max_field_length_in_db_pi_changes(db_util: DbUtil) -> None:
     nhs_number = "9470082060"
     wait_for_assertion(
         lambda: fetch_pi_changes_column_value(db_util, nhs_number, "state")
-        == "PROCESSED"
+                == "PROCESSED"
     )
     assert inserted["nhs_number"] == stub_data["nhs_number"]
     assert inserted["name_prefix"] == stub_data["name_prefix"]
@@ -139,7 +133,6 @@ def test_validate_max_field_length_in_db_pi_changes(db_util: DbUtil) -> None:
 
 
 # TC-3
-@pytest.mark.cm3
 def test_validate_greater_than_max_field_length_of_nhs_number_in_db_pi_changes(
     db_util: DbUtil,
 ) -> None:
@@ -181,8 +174,7 @@ def test_validate_greater_than_max_field_length_of_family_name_in_db_pi_changes(
     assert len(db_result) == 0
 
 
-# TC-8 test covers TC-6 & TC-7
-@pytest.mark.tc8
+# TC-8, TC-6 & TC-7
 def test_to_add_and_update_participant_in_the_pi_changes(db_util: DbUtil) -> None:
     """
     Test to add and update the participant and assert the added and updaded values
@@ -236,7 +228,7 @@ def test_to_add_and_update_participant_in_the_pi_changes(db_util: DbUtil) -> Non
     ), "field not matched: request_id"
     wait_for_assertion(
         lambda: fetch_pi_changes_column_value(db_util, nhs_number, "state")
-        == "PROCESSED"
+                == "PROCESSED"
     )
     assert inserted["address_line_1"] == stub_data["address_line_1"]
     assert inserted["telephone_number_home"] == stub_data.get("telephone_number_home")
@@ -323,7 +315,7 @@ def test_to_add_and_update_participant_in_the_pi_changes(db_util: DbUtil) -> Non
     ), "field not matched: request_id"
     wait_for_assertion(
         lambda: fetch_pi_changes_column_value(db_util, nhs_number, "state")
-        == "PROCESSED"
+                == "PROCESSED"
     )
     assert updated["address_line_1"] == expected["address_line_1"]
     assert updated["telephone_number_home"] == expected.get("telephone_number_home")
@@ -331,7 +323,6 @@ def test_to_add_and_update_participant_in_the_pi_changes(db_util: DbUtil) -> Non
 
 
 # TC-11
-@pytest.mark.tc11
 def test_where_nhs_num_exists_superseded_nhs_num_does_not_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
@@ -341,6 +332,9 @@ def test_where_nhs_num_exists_superseded_nhs_num_does_not_exists(
     """
     nhs_number_before = "9007007228"
     superseded_nhs_number = "9011100042"
+    message_id = "ffffffff-ffff-ffff-ffff-ffffffffff11"
+    request_id = "33ccaa03-9e8e-4aad-a14d-f25d697dcb3a"
+
     assert subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 1
     assert subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects") == 0
     prev_subject_audit_count = subject_count_by_nhs_number(
@@ -348,83 +342,23 @@ def test_where_nhs_num_exists_superseded_nhs_num_does_not_exists(
     )
 
     # Insert data
-    message_id = "ffffffff-ffff-ffff-ffff-ffffffffff11"
     insert_data(db_util, message_id)
-
     trigger_lambda_and_verify_success(1)
 
-    stub_data = {
-        "request_id": "33ccaa03-9e8e-4aad-a14d-f25d697dcb3a",
-        "participant_id": 11,
-        "nhs_number": "9007007228",
-        "superseded_by_nhs_number": "9011100042",
-        "primary_care_provider": "A00020",
-        "primary_care_provider_eff_from_date": "",
-        "name_prefix": "Mrs",
-        "given_name": "Harriet",
-        "other_given_names": "",
-        "family_name": "COLE",
-        "previous_family_name": "",
-        "birth_date": "19491003",
-        "gender_code": 2,
-        "address_line_1": "56",
-        "address_line_2": "Eastcliffe Road",
-        "address_line_3": "Eastcliffe Crescent",
-        "address_line_4": "Bristol",
-        "address_line_5": "Avon",
-        "postcode": "BR20 4RD",
-        "usual_address_eff_from_date": "20070723",
-        "death_date": "",
-        "telephone_number_home": "",
-        "telephone_number_home_eff_from_date": "",
-        "telephone_number_mobile": "",
-        "telephone_number_mobile_eff_from_date": "",
-        "email_address_home": "",
-        "email_address_home_eff_from_date": "",
-        "preferred_language": "",
-        "interpreter_required": 0,
-        "reason_for_removal": "",
-        "reason_removal_eff_from_date": "",
-    }
+    verify_subject_and_audit_counts(
+        db_util,
+        request_id,
+        nhs_number_before,
+        superseded_nhs_number,
+        prev_subject_audit_count + 1,
+    )
 
-    db_result = get_latest_record_by_request_id(db_util, stub_data["request_id"])
-    inserted = db_result.to_dict("records")[0]
-    # Perform the assertion to compare stub data and DB data
-    assert (
-        str(inserted["message_id"]) == stub_data["request_id"]
-    ), "field not matched: request_id"
-    wait_for_assertion(
-        lambda: fetch_pi_changes_column_value(db_util, nhs_number_before, "state")
-        == "PROCESSED"
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects")
-        == 1
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(
-            db_util, superseded_nhs_number, "audit_subjects"
-        )
-        == prev_subject_audit_count + 1
-    )
     # UI assertions
     # Logged into BSS_SO1
-    user_tools.user_login(page, "BSO User1 - BS1")
-    page.goto("/bss/subjects", wait_until="domcontentloaded")
-    page.locator("//a[text()='Subject Search']").click()
-    page.locator("#nhsNumberFilter input").fill(nhs_number_before)
-    page.locator("#nhsNumberFilter input").press("Enter")
-    expect(page.locator("text=No matching records found")).to_be_visible()
-    page.locator("#nhsNumberFilter input").fill(superseded_nhs_number)
-    page.locator("#nhsNumberFilter input").press("Enter")
-    expect(page.locator("//td[text()='901 110 0042']")).to_be_visible()
+    perform_ui_subject_search_assertions(page, user_tools, nhs_number_before, superseded_nhs_number)
 
 
 # TC-12
-# @pytest.mark.tc12
 def test_where_nhs_num_and_superseded_nhs_num_both_does_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
@@ -490,30 +424,30 @@ def test_where_nhs_num_and_superseded_nhs_num_both_does_exists(
     ), "field not matched: request_id"
     wait_for_assertion(
         lambda: fetch_pi_changes_column_value(db_util, nhs_number_before, "state")
-        == "PROCESSED"
+                == "PROCESSED"
     )
     wait_for_assertion(
         lambda: subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 1
     )
     wait_for_assertion(
         lambda: fetch_latest_removal_reason(db_util, nhs_number_before, "subjects")
-        == "NOT_PROVIDED"
+                == "NOT_PROVIDED"
     )
     wait_for_assertion(
         lambda: fetch_latest_removal_reason(db_util, superseded_nhs_number, "subjects")
-        is None
+                is None
     )
     wait_for_assertion(
         lambda: subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects")
-        == 1
+                == 1
     )
     wait_for_assertion(
         lambda: subject_count_by_nhs_number(
             db_util, superseded_nhs_number, "audit_subjects"
         )
-        == prev_subject_audit_count
+                == prev_subject_audit_count
     )
-    # Assering no change in the superseded_nhs participant data
+    # Asserting no change in the superseded_nhs participant data
     after_subject = fetch_latest_record_by_nhs_number(
         db_util, superseded_nhs_number, "subjects", "transaction_db_date_time"
     )
@@ -533,99 +467,40 @@ def test_where_nhs_num_and_superseded_nhs_num_both_does_exists(
 
 
 # TC-13
-@pytest.mark.tc13
 def test_where_nhs_num_and_superseded_nhs_num_both_does_not_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
     """
-    Test for when nhs_number and superseded_by_nhs number both does NOT exists in the Subjects table
+    Test for when nhs_number and superseded_by_nhs number both does NOT exist in the Subjects table
     """
     nhs_number_before = "9007117227"
-    assert subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
-
     superseded_nhs_number = "9006116227"
+    message_id = "ffffffff-ffff-ffff-ffff-ffffffffff13"
+    request_id = "33ccaa03-9e8e-4bbd-a14d-f25d697dbb3c"
+
+    assert subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
     assert subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects") == 0
     prev_subject_audit_count = subject_count_by_nhs_number(
         db_util, superseded_nhs_number, "audit_subjects"
     )
 
     # Insert data
-    message_id = "ffffffff-ffff-ffff-ffff-ffffffffff13"
     insert_data(db_util, message_id)
     trigger_lambda_and_verify_success(1)
 
-    stub_data = {
-        "request_id": "33ccaa03-9e8e-4bbd-a14d-f25d697dbb3c",
-        "participant_id": 13,
-        "nhs_number": "9007117227",
-        "superseded_by_nhs_number": "9006116227",
-        "primary_care_provider": "A00002",
-        "primary_care_provider_eff_from_date": "",
-        "name_prefix": "Mrs",
-        "given_name": "Tina",
-        "other_given_names": "",
-        "family_name": "Test",
-        "previous_family_name": "",
-        "birth_date": "19701201",
-        "gender_code": 2,
-        "address_line_1": "The House",
-        "address_line_2": "Bakerstreet",
-        "address_line_3": "London",
-        "address_line_4": "UK",
-        "address_line_5": "",
-        "postcode": "EX8 1AA",
-        "usual_address_eff_from_date": "20070723",
-        "death_date": "",
-        "telephone_number_home": "",
-        "telephone_number_home_eff_from_date": "",
-        "telephone_number_mobile": "",
-        "telephone_number_mobile_eff_from_date": "",
-        "email_address_home": "",
-        "email_address_home_eff_from_date": "",
-        "preferred_language": "",
-        "interpreter_required": 0,
-        "reason_for_removal": "",
-        "reason_removal_eff_from_date": "",
-    }
-
-    db_result = get_latest_record_by_request_id(db_util, stub_data["request_id"])
-    inserted = db_result.to_dict("records")[0]
-    # Perform the assertion to compare stub data and DB data
-    assert (
-        str(inserted["message_id"]) == stub_data["request_id"]
-    ), "field not matched: request_id"
-    wait_for_assertion(
-        lambda: fetch_pi_changes_column_value(db_util, nhs_number_before, "state")
-        == "PROCESSED"
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects")
-        == 1
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(
-            db_util, superseded_nhs_number, "audit_subjects"
-        )
-        == prev_subject_audit_count + 1
+    verify_subject_and_audit_counts(
+        db_util,
+        request_id,
+        nhs_number_before,
+        superseded_nhs_number,
+        prev_subject_audit_count + 1,
     )
     # UI assertions
     # Logged into BSS_SO1
-    user_tools.user_login(page, "BSO User1 - BS1")
-    page.goto("/bss/subjects", wait_until="domcontentloaded")
-    page.locator("//a[text()='Subject Search']").click()
-    page.locator("#nhsNumberFilter input").fill(nhs_number_before)
-    page.locator("#nhsNumberFilter input").press("Enter")
-    expect(page.locator("text=No matching records found")).to_be_visible()
-    page.locator("#nhsNumberFilter input").fill(superseded_nhs_number)
-    page.locator("#nhsNumberFilter input").press("Enter")
-    expect(page.locator("//td[text()='900 611 6227']")).to_be_visible()
+    perform_ui_subject_search_assertions(page, user_tools, nhs_number_before, superseded_nhs_number)
 
 
 # TC-14
-# @pytest.mark.tc14
 def test_where_nhs_num_does_not_exists_superseded_nhs_num_exists(
     db_util: DbUtil, page: Page, user_tools: UserTools
 ) -> None:
@@ -633,96 +508,43 @@ def test_where_nhs_num_does_not_exists_superseded_nhs_num_exists(
     Test for when nhs_number does NOT and superseded_by_nhs number both exists in the Subjects table
     """
     nhs_number_before = "9005114227"
-    assert subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
-
     superseded_nhs_number = "9007007226"
+    message_id = "ffffffff-ffff-ffff-ffff-ffffffffff14"
+    request_id = "33ccaa03-9e8e-4aad-a14d-f25d697dbb3d"
+
+    assert subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
     assert subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects") == 1
     prev_subject_audit_count = subject_count_by_nhs_number(
         db_util, superseded_nhs_number, "audit_subjects"
     )
 
     # Insert data
-    message_id = "ffffffff-ffff-ffff-ffff-ffffffffff14"
     insert_data(db_util, message_id)
     trigger_lambda_and_verify_success(1)
 
-    stub_data = {
-        "request_id": "33ccaa03-9e8e-4aad-a14d-f25d697dbb3d",
-        "participant_id": 14,
-        "nhs_number": "9005114227",
-        "superseded_by_nhs_number": "9007007226",
-        "primary_care_provider": "A00002",
-        "primary_care_provider_eff_from_date": "",
-        "name_prefix": "Mrs",
-        "given_name": "Emily",
-        "other_given_names": "",
-        "family_name": "Test",
-        "previous_family_name": "",
-        "birth_date": "19771111",
-        "gender_code": 2,
-        "address_line_1": "Emily's House",
-        "address_line_2": "Bakerstreet",
-        "address_line_3": "London",
-        "address_line_4": "UK",
-        "address_line_5": "",
-        "postcode": "EX8 1AA",
-        "usual_address_eff_from_date": "20070723",
-        "death_date": "",
-        "telephone_number_home": "",
-        "telephone_number_home_eff_from_date": "",
-        "telephone_number_mobile": "",
-        "telephone_number_mobile_eff_from_date": "",
-        "email_address_home": "",
-        "email_address_home_eff_from_date": "",
-        "preferred_language": "",
-        "interpreter_required": 0,
-        "reason_for_removal": "",
-        "reason_removal_eff_from_date": "",
-    }
-
-    db_result = get_latest_record_by_request_id(db_util, stub_data["request_id"])
-    inserted = db_result.to_dict("records")[0]
-    # Perform the assertion to compare stub data and DB data
-    assert (
-        str(inserted["message_id"]) == stub_data["request_id"]
-    ), "field not matched: request_id"
-    wait_for_assertion(
-        lambda: fetch_pi_changes_column_value(db_util, nhs_number_before, "state")
-        == "PROCESSED"
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects")
-        == 1
-    )
-    wait_for_assertion(
-        lambda: subject_count_by_nhs_number(
-            db_util, superseded_nhs_number, "audit_subjects"
-        )
-        == prev_subject_audit_count
+    verify_subject_and_audit_counts(
+        db_util,
+        request_id,
+        nhs_number_before,
+        superseded_nhs_number,
+        prev_subject_audit_count,
     )
     # UI assertions
     # Logged into BSS_SO1
-    user_tools.user_login(page, "BSO User1 - BS1")
-    page.goto("/bss/subjects", wait_until="domcontentloaded")
-    page.locator("//a[text()='Subject Search']").click()
-    page.locator("#nhsNumberFilter input").fill(nhs_number_before)
-    page.locator("#nhsNumberFilter input").press("Enter")
-    expect(page.locator("text=No matching records found")).to_be_visible()
-    page.locator("#nhsNumberFilter input").fill(superseded_nhs_number)
-    page.locator("#nhsNumberFilter input").press("Enter")
-    expect(page.locator("//td[text()='900 700 7226']")).to_be_visible()
+    perform_ui_subject_search_assertions(
+        page,
+        user_tools,
+        nhs_number_before,
+        superseded_nhs_number,
+    )
 
 
 # TC-15, 16, 17
-@pytest.mark.tc15
 def test_death_date_and_reason_for_removal_populated_using_dummy_gp_practice_code_pi_changes_gp_practice_code_is_null_with_reason_for_removal(
     db_util: DbUtil,
 ) -> None:
     """
-    15 = Test to verify death_date and reason_for_reamoval is populated
+    15 = Test to verify death_date and reason_for_removal is populated
     16 = Test using dummy GP_practice_code = ZZZLED
     17 = Test with where pi_changes.gp_practice_code = Null and with a reason_for_removal
     """
@@ -772,15 +594,15 @@ def test_death_date_and_reason_for_removal_populated_using_dummy_gp_practice_cod
     ), "field not matched: request_id"
     wait_for_assertion(
         lambda: fetch_pi_changes_column_value(db_util, nhs_number_15, "state")
-        == "PROCESSED"
+                == "PROCESSED"
     )
     wait_for_assertion(
         lambda: fetch_pi_changes_column_value(db_util, nhs_number_16, "state")
-        == "PROCESSED"
+                == "PROCESSED"
     )
     wait_for_assertion(
         lambda: fetch_pi_changes_column_value(db_util, nhs_number_17, "state")
-        == "PROCESSED"
+                == "PROCESSED"
     )
 
     assert (
@@ -788,7 +610,7 @@ def test_death_date_and_reason_for_removal_populated_using_dummy_gp_practice_cod
     )
     assert (
         fetch_subject_column_value(db_util, nhs_number_16, "gp_practice_id") == 100032
-    )  # todo add UI assertions
+    )
     assert (
         fetch_subject_column_value(db_util, nhs_number_17, "removal_reason")
         == "REMOVAL"
@@ -796,7 +618,7 @@ def test_death_date_and_reason_for_removal_populated_using_dummy_gp_practice_cod
     assert fetch_subject_column_value(db_util, nhs_number_17, "gp_practice_id") is None
 
 
-#################### CM Lambda Neagtive/NFR tests ####################
+#################### CM Lambda Negative/NFR tests ####################
 # TC-16
 def test_status_401(db_util: DbUtil) -> None:
     """
@@ -924,9 +746,7 @@ def get_latest_records_by_nhs_number(db_conn, nhs_number, limit) -> DataFrame | 
 def wait_for_assertion(assert_func, timeout=90, interval=3):
     end_time = time.time() + timeout
 
-    counter = 0
     while time.time() < end_time:
-        counter += 1
         if assert_func():
             return
         time.sleep(interval)
@@ -955,3 +775,62 @@ def fetch_pi_changes_column_value(db_util, nhs_number, table_column):
     # Extract the column value
     column_value = df[table_column][0]
     return column_value
+
+
+def verify_subject_and_audit_counts(
+    db_util,
+    request_id,
+    nhs_number_before,
+    superseded_nhs_number,
+    expected_subject_audit_count,
+):
+    db_result = get_latest_record_by_request_id(db_util, request_id)
+    inserted = db_result.to_dict("records")[0]
+    assert (
+        str(inserted["message_id"]) == request_id
+    ), "field not matched: request_id"
+    wait_for_assertion(
+        lambda: fetch_pi_changes_column_value(db_util, nhs_number_before, "state")
+                == "PROCESSED"
+    )
+    wait_for_assertion(
+        lambda: subject_count_by_nhs_number(db_util, nhs_number_before, "subjects") == 0
+    )
+    wait_for_assertion(
+        lambda: subject_count_by_nhs_number(db_util, superseded_nhs_number, "subjects")
+                == 1
+    )
+    wait_for_assertion(
+        lambda: subject_count_by_nhs_number(
+            db_util, superseded_nhs_number, "audit_subjects"
+        )
+                == expected_subject_audit_count
+    )
+
+
+def perform_ui_subject_search_assertions(
+    page: Page,
+    user_tools: UserTools,
+    nhs_number_before: str,
+    superseded_nhs_number: str
+) -> None:
+    """
+    Performs UI assertions for subject search after lambda integration.
+    """
+    # Logged into BSS_SO1
+    user_tools.user_login(page, "BSO User1 - BS1")
+    page.goto("/bss/subjects", wait_until="domcontentloaded")
+    page.locator("//a[text()='Subject Search']").click()
+    page.locator("#nhsNumberFilter input").fill(nhs_number_before)
+    page.locator("#nhsNumberFilter input").press("Enter")
+    expect(page.locator("text=No matching records found")).to_be_visible()
+    page.locator("#nhsNumberFilter input").fill(superseded_nhs_number)
+    page.locator("#nhsNumberFilter input").press("Enter")
+    expected_superseded_text = format_nhs_number_for_ui(superseded_nhs_number)
+    page.wait_for_timeout(3000)  # Wait for the page to load
+    expect(page.locator(f"//td[text()='{expected_superseded_text}']")).to_be_visible()
+
+def format_nhs_number_for_ui(nhs_number: str) -> str:
+        """Format NHS number as 'XXX XXX XXXX' for UI display."""
+        return f"{nhs_number[:3]} {nhs_number[3:6]} {nhs_number[6:]}"
+
