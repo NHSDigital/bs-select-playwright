@@ -8,27 +8,13 @@ from utils.test_helpers import generate_random_string
 from utils.user_tools import UserTools
 
 
-# test to create the unit test data
-def test_check_and_create_unit_test_data(
-    page: Page, rlp_cohort_list_page: CohortListPage
-) -> None:
-    """creating unit test data for User2 BS2"""
-    # Logged into BSS_SO1
-    UserTools().user_login(page, "Read Only BSO User2 - BS2")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
-    unit_names = ["Batman", "Captain"]
-    for unit_name in unit_names:
-        rlp_cohort_list_page.create_unit_if_not_exists(unit_name)
-
-
 #### Test_15
 def test_try_amend_cohort_by_dbl_click_and_invoke_pencil_icon(
     page: Page, rlp_cohort_list_page: CohortListPage
 ) -> None:
     """User invokes the Edit Cohort functionality by Double click list entry and Invoke Pencil Icon"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
 
     # creating cohort using method with hardcoded attendance and screening unit values
     cohort_name = f"cohort_name-{datetime.now()}"
@@ -55,14 +41,14 @@ def test_amend_cohort_name_with_valid_data(
 ) -> None:
     """User amends data in the Screening Cohort field with valid data"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
+
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
     unit_name = "Batman"
     rlp_cohort_list_page.create_cohort_without_gp(cohort_name, location_name, unit_name)
-    # Filter the newly created cohort and double clicking on the cohort to amend(testing double click)
+    # Filter the newly created cohort and double_clicking on the cohort to amend(testing double click)
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
     # Amending cohort name field
@@ -89,8 +75,8 @@ def test_amend_screening_cohort_with_invalid_data(
 ) -> None:
     """Negative test - User amends data in the Screening Cohort field with invalid data"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
+
     # creating cohort
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
@@ -113,12 +99,12 @@ def test_amend_expected_attendance_rate_valid_data(
 ) -> None:
     """Positive test - The User is able to select and commit a change to Expected Attendance Rate - integer values 0.00 - 100.0"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
+
     cohort_name = f"amend_attendance-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
-    # Filter the newly created cohort and double clicking on the cohort to amend(testing double click)
+    # Filter the newly created cohort and double_clicking on the cohort to amend(testing double click)
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
     # Test data
@@ -146,12 +132,12 @@ def test_amend_expected_attendance_rate_invalid_data(
 ) -> None:
     """Negative test - User amends data in the Expected Attendance Rate (%) field - Non integer value and Null"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
+
     cohort_name = f"amend_attendance-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
-    # Filter the newly created cohort and double clicking on the cohort to amend(testing double click)
+    # Filter the newly created cohort and double_clicking on the cohort to amend(testing double click)
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
     rlp_cohort_list_page.enter_amend_expected_attendance_rate(amend_attendance_rate)
@@ -167,9 +153,8 @@ def test_amend_cohort_location(
     """The correct list of Locations available to this user in this BSO, are displayed correctly,
     The User is able to select and commit a change to Location"""
     # Logged into BSS_SO1 location_list to create location data
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Location List")
 
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Location List")
     location_name = f"cohort_location-{datetime.now()}"
     ScreeningLocationListPage(page).create_screening_location(location_name)
 
@@ -185,7 +170,7 @@ def test_amend_cohort_location(
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
 
-    # extracting the drop down location count
+    # extracting the drop_down location count
     dropdown_count = rlp_cohort_list_page.number_of_location_dropdown_count()
     assert location_list_count == dropdown_count
     amend_location_name = "Aldi - Caldecott County Retail Park"
@@ -202,8 +187,8 @@ def test_amend_cohort_unit_list(
     """The correct list of Active only Units available to this user in this BSO, are displayed correctly,
     The User is able to select and commit a change to Default Unit"""
     # Logged into BSS_SO1 unit_list to create unit data
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Unit List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Unit List")
+
     unit_name = f"cohort_unit-{datetime.now()}"
     rlp_cohort_list_page.create_unit_for_test_data(unit_name)
     # extracting the unit count
@@ -218,7 +203,7 @@ def test_amend_cohort_unit_list(
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
 
-    # extracting the drop down location count
+    # extracting the drop-down location count
     dropdown_count = rlp_cohort_list_page.number_of_unit_dropdown_count()
     assert unit_list_count == dropdown_count
     amend_unit_name = "Batman"
@@ -234,6 +219,8 @@ def test_amend_added_gp_practices_are_visible(
 ) -> None:
     """Amend test - User Selects another GP Practice from the 'All available GP Practices' List by invoking the 'Add' PB"""
     # Logged into BSS_SO1
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
+
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Aldi - Caldecott County Retail Park"
     create_cohort_and_add_gp_practices(page, rlp_cohort_list_page, cohort_name, location_name, ["A00002", "A00003"], 3)
@@ -263,6 +250,8 @@ def test_amend_remove_gp_practices(
     User then selects to Remove GP Practices by invoking the 'Remove' button
     """
     # Logged into BSS_SO1
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
+
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Aldi - Caldecott County Retail Park"
     create_cohort_and_add_gp_practices(page, rlp_cohort_list_page, cohort_name, location_name, ["A00002", "A00003"], 3)
@@ -299,8 +288,7 @@ def test_amend_cancel_adding_gp_practices(
     User is returned to the 'Screening Cohort List' Screen
     """
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
 
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Aldi - Caldecott County Retail Park"
@@ -321,15 +309,14 @@ def test_amend_cohort_name_available_for_user2(
 ) -> None:
     """BSO specific GP Practice Cohort amendments are available to the other Users within the same BSO"""
     # Logged into BSS_SO1
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
 
     # creating cohort using method with hardcoded attendance
     cohort_name = f"cohort_name-{datetime.now()}"
     location_name = "Poundland Car Park - Alberta Retail Park"
     unit_name = "Batman"
     rlp_cohort_list_page.create_cohort_without_gp(cohort_name, location_name, unit_name)
-    # Filter the newly created cohort and double clicking on the cohort to amend(testing double click)
+    # Filter the newly created cohort and double_clicking on the cohort to amend(testing double click)
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()
 
@@ -338,9 +325,10 @@ def test_amend_cohort_name_available_for_user2(
     rlp_cohort_list_page.enter_amend_screening_cohort_name(amend_cohort_name)
     rlp_cohort_list_page.click_amend_save_btn()
     context.clear_cookies()
+
     # Logged into BSS_SO1 as user2
-    UserTools().user_login(page, "BSO User2 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User2 - BS1", "Round Planning", "Screening Cohort List")
+
     rlp_cohort_list_page.enter_screening_cohort_name_filter(amend_cohort_name)
     filtered_amend_name = rlp_cohort_list_page.value_of_filtered_cohort_name()
     assert amend_cohort_name == filtered_amend_name
@@ -349,8 +337,8 @@ def test_amend_cohort_name_available_for_user2(
 def create_cohort_and_add_gp_practices(
     page, rlp_cohort_list_page, cohort_name, location_name, gp_codes, expected_count
 ):
-    UserTools().user_login(page, "BSO User1 - BS1")
-    MainMenuPage(page).select_menu_option("Round Planning", "Screening Cohort List")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Round Planning", "Screening Cohort List")
+
     rlp_cohort_list_page.create_cohort(cohort_name, location_name)
     rlp_cohort_list_page.enter_screening_cohort_name_filter(cohort_name)
     rlp_cohort_list_page.dbl_click_on_filtered_cohort()

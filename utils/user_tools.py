@@ -5,6 +5,7 @@ from pathlib import Path
 from playwright.sync_api import Page
 from pages.login.cognito_authentication import CognitoAuthenticationPage
 from pages.login.org_selection import OrgSelectionPage
+from pages.main_menu import MainMenuPage
 
 logger = logging.getLogger(__name__)
 USERS_FILE = Path(os.getcwd()) / "users.json"
@@ -38,6 +39,19 @@ class UserTools:
             )
             page.locator("//button[@class='nhsuk-button']").click()
         OrgSelectionPage(page).org_selection(user["role_to_select"])
+
+    def login_and_navigate(self, page: Page, user: str, main_menu: str, sub_menu: str):
+        """
+        Logs in as the specified user and navigates to a specific section of the app.
+
+        Args:
+            page (Page): The Playwright page object.
+            user (str): The user login identifier.
+            main_menu (str): The top-level menu to select.
+            sub_menu (str): The sub-menu to navigate to.
+        """
+        self.user_login(page, user)
+        MainMenuPage(page).select_menu_option(main_menu, sub_menu)
 
     @staticmethod
     def retrieve_user(user: str) -> dict:
