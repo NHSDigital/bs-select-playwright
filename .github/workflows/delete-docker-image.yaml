@@ -1,0 +1,62 @@
+name: Delete Docker Image
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  remove-image:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      ECR_REPOSITORY: ${{secrets.TEXAS_MANAGEMENT_ACCOUNT_ID}}.dkr.ecr.eu-west-2.amazonaws.com
+      IMAGE_NAME: bs-select-playwright-test
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{secrets.TEXAS_NONPROD_ACCOUNT_ID}}:role/bs-select-jenkins-assume-role
+          aws-region: eu-west-2
+          output-credentials: true
+
+      - name: Login to ECR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ECR_REPOSITORY }}
+
+      - name: Delete Docker Image
+        run: |
+          # Extract the ticket from the branch name
+
+          BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+
+          TICKET=$(echo "$BRANCH_NAME" | grep -oiE '[a-z]+[0-9]+-[0-9]+')
+          IMAGE_TAG="${TICKET}_current"
+          IMAGE_TAG="${IMAGE_TAG,,}"  # Convert to lower case
+
+          echo "Branch name: $BRANCH_NAME"
+
+          REGISTRY="${{ secrets.TEXAS_MANAGEMENT_ACCOUNT_ID }}"
+          aws ecr list-images --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} \
+            --filter tagStatus=TAGGED --query "imageIds[?contains(imageTag, \`${IMAGE_TAG}\`)]" --output table || echo "No images found in ECR"
+
+          output=$(aws ecr batch-delete-image --registry-id $REGISTRY --repository-name ${{env.IMAGE_NAME}} --image-ids imageTag=${IMAGE_TAG} 2>&1)
+          echo "DEBUG: $output"
+
+          if echo "$output" | grep -q "ImageNotFound"; then
+            echo "No image found with tag ${IMAGE_TAG}"
+            exit 0
+          fi
+
+          echo "Image with tag ${IMAGE_TAG} deleted successfully."
+

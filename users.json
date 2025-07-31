@@ -32,7 +32,7 @@
         "role_type": "Helpdesk User",
         "uuid":"555033740107"
     },
-    "BSO User1 - BS1": {
+    "BSO User2 - BS1": {
         "username": "BSS_USER2",
         "role_to_select": "BSS_SO1",
         "role_type": "BSO User",
