@@ -75,10 +75,10 @@ def test_count_ntdd_batch(page: Page) -> None:
     # Assert BSO BatchID is correctly recorded
     expect(page.locator("#bsoBatchId")).to_have_text(batch_id)
 
-    # Assert NTD End Date is in correct format
     actual_date = page.locator("#ntdEndDate")
     # Get the value from the input field
     date_value = actual_date.input_value()
+    # Assert NTD End Date is in correct format
     assert datetime.strptime(date_value, "%d-%b-%Y")
     # Assert subject count is correctly recorded
     count_locator = page.locator(".col-md-2.data-field.control-label.number")
