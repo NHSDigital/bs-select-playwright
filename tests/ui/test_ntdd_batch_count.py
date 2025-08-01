@@ -4,19 +4,14 @@ import pytest
 from playwright.sync_api import Page, expect
 from pages.main_menu import MainMenuPage
 from utils.screenshot_tool import ScreenshotTool
+from utils.table_utils import TableUtils
 from utils.user_tools import UserTools
 from datetime import datetime, timedelta
 
 
-def login_and_navigate(page: Page, user: str, main_menu: str, sub_menu: str) -> None:
-    """Helper function to log in and navigate to the desired menu."""
-    UserTools().user_login(page, user)
-    MainMenuPage(page).select_menu_option(main_menu, sub_menu)
-
-
 def test_ntdd_end_date_warning_for_past_date(page: Page):
     # Navigate to the NTDD batch creation page
-    login_and_navigate(page, "BSO User - BS1", "Batch Management", "Create NTDD Batch")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Batch Management", "Create NTDD Batch")
 
     # Fill in BSO Batch ID and Title
     page.fill("#bsoBatchId", "LAV979245E")
@@ -50,7 +45,7 @@ def test_ntdd_end_date_warning_for_past_date(page: Page):
 
 def test_count_ntdd_batch(page: Page) -> None:
     # Navigate to the NTDD batch creation page
-    login_and_navigate(page, "BSO User - BS1", "Batch Management", "Create NTDD Batch")
+    UserTools().login_and_navigate(page, "BSO User - BS1", "Batch Management", "Create NTDD Batch")
 
     # Prepare batch with standard parameters
     batch_id = "LAV979245E"
@@ -68,30 +63,38 @@ def test_count_ntdd_batch(page: Page) -> None:
     # Click the "Count" button
     page.click("#countButtonText")
 
-    # Wait for the page to load and assert the header
-    expect(page.locator("h1")).to_have_text("Amend NTDD Batch")
-    # Assert Batch Title is correctly displayed
-    expect(page.locator("#title")).to_have_value(batch_title)
-    # Assert BSO BatchID is correctly recorded
-    expect(page.locator("#bsoBatchId")).to_have_text(batch_id)
+    MainMenuPage(page).select_menu_option("Batch Management", "Batch List")
+    expect(page.locator("h1.bss-page-title")).to_have_text("Batch List")
 
-    actual_date = page.locator("#ntdEndDate")
-    # Get the value from the input field
-    date_value = actual_date.input_value()
-    # Assert NTD End Date is in correct format
-    assert datetime.strptime(date_value, "%d-%b-%Y")
-    # Assert subject count is correctly recorded
-    count_locator = page.locator(".col-md-2.data-field.control-label.number")
-    # Assert the locator is visible
-    expect(count_locator).to_be_visible()
-    # Get the inner text and extract the numeric part
-    subject_count_text = count_locator.text_content().strip()
-    # Use regex to get the first number
-    match = re.search(r"\d+", subject_count_text)
-    assert match, f"Could not find a valid number in: '{subject_count_text}'"
-    # Convert to int and assert value > 0
-    count_value = int(match.group())
-    assert count_value > 0, f"Expected count to be > 0, but got {count_value}"
+    page.locator("th#batchIdFilter > input").fill(batch_id)
+    # Wait for the table to update — ensure only 1 row is visible
+    expect(page.locator("#batchList tbody tr")).to_have_count(1)
+
+    table = TableUtils(page, "#batchList")
+    row_count = table.get_row_count()
+    assert row_count == 1, f"Expected 1 row, found {row_count}"
+
+    row_data = table.get_row_data_with_headers(0)
+    ScreenshotTool(page).take_screenshot("test_count_ntdd_batch")
+
+    assert row_data["BSO Batch ID"] == batch_id, \
+        f"Expected batch_id '{batch_id}', got '{row_data['BSO Batch ID']}'"
+
+    assert row_data["Batch Type"] == "NTDD", \
+        f"Expected batch_type '{"NTDD"}', got '{row_data['Batch Type']}'"
+
+    assert row_data["Batch Title"] == batch_title, \
+        f"Expected batch_title '{batch_title}', got '{row_data['Batch Title']}'"
+
+    today = datetime.today().strftime("%d-%b-%Y")  # e.g., "01-Aug-2025"
+    assert row_data["Count Date"] == today, \
+        f"Expected Count Date '{today}', got '{row_data['Count Date']}'"
+
+    assert int(row_data["Count"]) > 0, \
+        f"Expected Count to be greater than 0, got '{row_data['Count']}'"
+
+    # Double-click on the filtered row
+    page.locator("#batchList tbody tr").first.dblclick()
 
     # Delete the batch
     page.locator("#deleteButton").click()
