@@ -1,5 +1,8 @@
 # Playwright Python Blueprint
 
+> [!WARNING]
+> This repository has now been archived as the tests and additional functionality provided by this repository have been merged into the [bs-select](https://github.com/NHSDigital/bs-select) project.
+
 [![CI/CD Pull Request](https://github.com/nhs-england-tools/playwright-python-blueprint/actions/workflows/cicd-1-pull-request.yaml/badge.svg)](https://github.com/nhs-england-tools/playwright-python-blueprint/actions/workflows/cicd-1-pull-request.yaml)
 
 This project is designed to provide a blueprint to allow for development teams to start quickly developing UI tests using [Playwright Python](https://playwright.dev/python/), providing the base framework and utilities to allow for initial focus on writing tests, rather than configuration of the framework itself. Playwright is the current mainstream UI testing tool for NHS England, as outlined on the [NHS England Tech Radar](https://radar.engineering.england.nhs.uk/).
